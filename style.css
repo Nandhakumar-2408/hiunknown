@@ -338,6 +338,40 @@ body {
   background: conic-gradient(from 180deg, #e2a3b8, #cbab7c, #93b7dc, #c9a2e0, #e2a3b8);
 }
 
+.harder-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.harder-option {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, white 65%, transparent);
+  border: 1.5px solid var(--card-border);
+  border-radius: 14px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.15s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.harder-option:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-soft);
+}
+
+.harder-option.selected {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 12%, white);
+  box-shadow: 0 4px 12px -4px var(--shadow-tint);
+}
+
 .continue-btn { align-self: center; margin-top: 0.25rem; }
 
 /* ---------------------------------------------------------

@@ -16,6 +16,8 @@
   const noMessage = document.getElementById('noMessage');
 
   const singerInput = document.getElementById('singerInput');
+  const harderOptions = document.getElementById('harderOptions');
+  const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
   const colorOptions = document.getElementById('colorOptions');
   const swatches = colorOptions.querySelectorAll('.color-swatch');
   const customColorInput = document.getElementById('customColorInput');
@@ -33,6 +35,12 @@
       return customColorInput.value.trim() || 'Custom (unspecified)';
     }
     return key;
+  }
+
+  function getSelectedHarderOption() {
+    if (!harderOptions) return 'Not specified';
+    const selected = harderOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : 'Not specified';
   }
 
   const floatiesLayer = document.getElementById('floaties');
@@ -110,8 +118,15 @@
   btnNo.addEventListener('animationend', () => btnNo.classList.remove('shake'));
 
   /* ------------------------------------------------------
-     Page 2 — favourite colour → live theme
+     Page 2 — What's harder & favourite colour
   ------------------------------------------------------ */
+  harderOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      harderOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
   const presetColors = {
     pink: '#e2a3b8',
     blue: '#93b7dc',
@@ -178,6 +193,7 @@
     const message = replyInput.value.trim();
     const singer = singerInput ? singerInput.value.trim() : '';
     const colour = getSelectedColor();
+    const harderChoice = getSelectedHarderOption();
 
     btnSend.disabled = true;
     btnSend.textContent = 'Sending...';
@@ -194,6 +210,7 @@
           _template: 'table',
           _captcha: 'false',
           'Favourite Singer': singer || 'Not specified',
+          'What’s Harder': harderChoice,
           'Favourite Colour': colour,
           'Message': message || '(No text message written)'
         })
