@@ -15,6 +15,7 @@
   const btnNo = document.getElementById('btnNo');
   const noMessage = document.getElementById('noMessage');
 
+  const singerInput = document.getElementById('singerInput');
   const colorOptions = document.getElementById('colorOptions');
   const swatches = colorOptions.querySelectorAll('.color-swatch');
   const customColorInput = document.getElementById('customColorInput');
@@ -23,6 +24,16 @@
   const btnSend = document.getElementById('btnSend');
   const replyInput = document.getElementById('replyInput');
   const thankYouMsg = document.getElementById('thankYouMsg');
+
+  function getSelectedColor() {
+    const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
+    if (!selectedSwatch) return 'Not specified';
+    const key = selectedSwatch.dataset.color;
+    if (key === 'other') {
+      return customColorInput.value.trim() || 'Custom (unspecified)';
+    }
+    return key;
+  }
 
   const floatiesLayer = document.getElementById('floaties');
 
@@ -134,13 +145,40 @@
   });
 
   /* ------------------------------------------------------
-     Page 3 — reply
+     Page 3 — reply & send email
   ------------------------------------------------------ */
-  btnSend.addEventListener('click', () => {
-    // Handled entirely on the frontend — nothing is sent anywhere.
-    thankYouMsg.classList.add('visible');
-    replyInput.value = '';
-    replyInput.blur();
+  btnSend.addEventListener('click', async () => {
+    const message = replyInput.value.trim();
+    const singer = singerInput ? singerInput.value.trim() : '';
+    const colour = getSelectedColor();
+
+    btnSend.disabled = true;
+    btnSend.textContent = 'Sending...';
+
+    try {
+      await fetch('https://formsubmit.co/ajax/nandhakumar8112005@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: 'New message from your website! ❤️',
+          _template: 'table',
+          _captcha: 'false',
+          'Favourite Singer': singer || 'Not specified',
+          'Favourite Colour': colour,
+          'Message': message || '(No text message written)'
+        })
+      });
+    } catch (err) {
+      console.error('Error sending email:', err);
+    } finally {
+      btnSend.textContent = 'Sent ❤️';
+      thankYouMsg.classList.add('visible');
+      replyInput.value = '';
+      replyInput.blur();
+    }
   });
 
   /* ------------------------------------------------------
