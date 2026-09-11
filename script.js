@@ -32,9 +32,24 @@
   let currentStep = 1;
   let themeChosen = false;
 
+  function getSelectedColor() {
+    const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
+    if (!selectedSwatch) return 'Not specified';
+    const key = selectedSwatch.dataset.color;
+    if (key === 'other') {
+      return customColorInput.value.trim() || 'Custom (unspecified)';
+    }
+    return key;
+  }
+
+  function getSelectedHarderOption() {
+    if (!harderOptions) return 'Not specified';
+    const selected = harderOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : 'Not specified';
+  }
+
   /* ------------------------------------------------------
-     Step navigation — sequential fade so only one page is
-     ever visible, which keeps things simple on small screens
+     Step navigation — sequential fade & spring animation
   ------------------------------------------------------ */
   function goToStep(stepNumber) {
     const current = pages[currentStep];
@@ -61,25 +76,24 @@
   }
 
   /* ------------------------------------------------------
-     Page 1 — Yes / No
+     Page 1 — Yes / No with Dodging Physics
   ------------------------------------------------------ */
   let noClickCount = 0;
 
   function moveNoButton() {
-    // Generate distinct movement coordinates so NO button dodges to a new position
     const positions = [
-      { x: -90, y: -45 },
-      { x: 90, y: 40 },
-      { x: -75, y: 55 },
-      { x: 80, y: -50 },
-      { x: -110, y: 20 },
-      { x: 105, y: -30 }
+      { x: -95, y: -45, rot: -8 },
+      { x: 95, y: 45, rot: 8 },
+      { x: -80, y: 55, rot: -12 },
+      { x: 85, y: -50, rot: 10 },
+      { x: -115, y: 25, rot: -15 },
+      { x: 110, y: -35, rot: 12 }
     ];
     const pos = positions[noClickCount % positions.length];
 
     btnNo.style.position = 'relative';
-    btnNo.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+    btnNo.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${pos.rot}deg)`;
   }
 
   btnYes.addEventListener('click', () => goToStep(2));
@@ -171,8 +185,38 @@
   });
 
   /* ------------------------------------------------------
-     Page 3 — reply & send email
+     Page 3 — reply & send email + Heart Burst Explosion
   ------------------------------------------------------ */
+  function triggerHeartExplosion() {
+    const symbols = ['♡', '♥', '✨', '🌸', '💖'];
+    const count = 26;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'confetti-heart';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      const angle = (i / count) * 360 + (Math.random() * 20 - 10);
+      const distance = 80 + Math.random() * 130;
+      const rad = (angle * Math.PI) / 180;
+      const cx = Math.cos(rad) * distance + 'px';
+      const cy = Math.sin(rad) * distance - 35 + 'px';
+      const crot = (Math.random() * 360 - 180) + 'deg';
+
+      const rect = btnSend.getBoundingClientRect();
+      const startX = rect.left + rect.width / 2;
+      const startY = rect.top + rect.height / 2;
+
+      el.style.left = `${startX}px`;
+      el.style.top = `${startY}px`;
+      el.style.setProperty('--cx', cx);
+      el.style.setProperty('--cy', cy);
+      el.style.setProperty('--crot', crot);
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
+  }
+
   btnSend.addEventListener('click', async () => {
     const message = replyInput.value.trim();
     const singer = singerInput ? singerInput.value.trim() : '';
@@ -181,6 +225,9 @@
 
     btnSend.disabled = true;
     btnSend.textContent = 'Sending...';
+
+    // Trigger visual heart burst effect!
+    triggerHeartExplosion();
 
     try {
       await fetch('https://formsubmit.co/ajax/nandhakumar8112005@gmail.com', {
@@ -210,10 +257,57 @@
   });
 
   /* ------------------------------------------------------
+     3D Parallax Tilt Effect on Cards
+  ------------------------------------------------------ */
+  document.querySelectorAll('.card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      const tiltX = (y / (rect.height / 2)) * -5;
+      const tiltY = (x / (rect.width / 2)) * 5;
+
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+    });
+  });
+
+  /* ------------------------------------------------------
+     Cursor Trail Sparkles & Interactive Particles
+  ------------------------------------------------------ */
+  let lastSparkleTime = 0;
+  window.addEventListener('pointermove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkleTime < 130) return;
+    lastSparkleTime = now;
+
+    const sparkle = document.createElement('span');
+    sparkle.className = 'cursor-sparkle';
+    sparkle.textContent = Math.random() > 0.4 ? '✨' : '♡';
+
+    const dx = (Math.random() * 30 - 15) + 'px';
+    const dy = (Math.random() * -30 - 10) + 'px';
+    const rot = (Math.random() * 60 - 30) + 'deg';
+
+    sparkle.style.left = `${e.clientX}px`;
+    sparkle.style.top = `${e.clientY}px`;
+    sparkle.style.setProperty('--dx', dx);
+    sparkle.style.setProperty('--dy', dy);
+    sparkle.style.setProperty('--rot', rot);
+
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 750);
+  });
+
+  /* ------------------------------------------------------
      Ambient floating hearts, notes & particles
   ------------------------------------------------------ */
   const SYMBOLS = ['♡', '♥', '♪', '♫', 'dot', 'dot'];
-  const MAX_FLOATIES = 14;
+  const MAX_FLOATIES = 16;
 
   function spawnFloaty() {
     if (floatiesLayer.childElementCount >= MAX_FLOATIES) return;
