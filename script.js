@@ -25,22 +25,151 @@
 
   const btnSend = document.getElementById('btnSend');
   const replyInput = document.getElementById('replyInput');
-  const thankYouMsg = document.getElementById('thankYouMsg');
+  const musicToggle = document.getElementById('musicToggle');
+  const bgMusic = document.getElementById('bgMusic');
+  let audioCtx = null;
+  let isPlayingMusic = false;
+  let melodyTimer = null;
 
-  function getSelectedColor() {
-    const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
-    if (!selectedSwatch) return 'Not specified';
-    const key = selectedSwatch.dataset.color;
-    if (key === 'other') {
-      return customColorInput.value.trim() || 'Custom (unspecified)';
+  const NOTES = {
+    E4: 329.63,
+    FSharp4: 369.99,
+    A4: 440.00,
+    B4: 493.88,
+    CSharp5: 554.37,
+    E5: 659.25,
+    FSharp5: 739.99,
+    GSharp5: 830.61,
+    A5: 880.00,
+  };
+
+  // Melody sequence for "I Like Me Better" by Lauv
+  const LAUV_MELODY = [
+    // Chorus: "I like me better when I'm with you"
+    [NOTES.A4, 0.35], [NOTES.A4, 0.35], [NOTES.B4, 0.35], [NOTES.CSharp5, 0.45],
+    [NOTES.CSharp5, 0.3], [NOTES.B4, 0.35], [NOTES.A4, 0.35], [NOTES.FSharp4, 0.35], [NOTES.A4, 0.75],
+    [null, 0.25],
+
+    // "I like me better when I'm with you"
+    [NOTES.A4, 0.35], [NOTES.A4, 0.35], [NOTES.B4, 0.35], [NOTES.CSharp5, 0.45],
+    [NOTES.CSharp5, 0.3], [NOTES.B4, 0.35], [NOTES.A4, 0.35], [NOTES.FSharp4, 0.35], [NOTES.E4, 0.75],
+    [null, 0.25],
+
+    // "I knew from the first time, I stayed for a long time, 'cause..."
+    [NOTES.CSharp5, 0.35], [NOTES.CSharp5, 0.35], [NOTES.CSharp5, 0.35], [NOTES.E5, 0.35],
+    [NOTES.CSharp5, 0.35], [NOTES.B4, 0.35], [NOTES.A4, 0.35], [NOTES.B4, 0.4],
+    [null, 0.25],
+
+    // "I like me better when I'm with you"
+    [NOTES.A4, 0.35], [NOTES.A4, 0.35], [NOTES.B4, 0.35], [NOTES.CSharp5, 0.45],
+    [NOTES.CSharp5, 0.3], [NOTES.B4, 0.35], [NOTES.A4, 0.35], [NOTES.FSharp4, 0.35], [NOTES.A4, 0.85],
+    [null, 0.4],
+
+    // Iconic Lauv Pluck Hook Riff:
+    [NOTES.CSharp5, 0.25], [NOTES.E5, 0.25], [NOTES.A5, 0.3], [NOTES.GSharp5, 0.3],
+    [NOTES.FSharp5, 0.3], [NOTES.E5, 0.3], [NOTES.CSharp5, 0.3], [NOTES.B4, 0.3], [NOTES.A4, 0.6],
+    [null, 0.5]
+  ];
+
+  function playNote(freq, duration) {
+    if (!audioCtx || audioCtx.state === 'closed' || !freq) return;
+
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration + 0.1);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + duration + 0.15);
+    } catch (e) {
+      console.error(e);
     }
-    return key;
   }
 
-  function getSelectedHarderOption() {
-    if (!harderOptions) return 'Not specified';
-    const selected = harderOptions.querySelector('.harder-option.selected');
-    return selected ? selected.dataset.option : 'Not specified';
+  function startMelodyLoop() {
+    let noteIndex = 0;
+
+    function nextNote() {
+      if (!isPlayingMusic) return;
+
+      const [freq, duration] = LAUV_MELODY[noteIndex];
+      if (freq) {
+        playNote(freq, duration);
+      }
+
+      noteIndex = (noteIndex + 1) % LAUV_MELODY.length;
+      melodyTimer = window.setTimeout(nextNote, duration * 1000);
+    }
+
+    nextNote();
+  }
+
+  function initWebAudio() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    startMelodyLoop();
+  }
+
+  function startMusic() {
+    if (isPlayingMusic) return;
+    isPlayingMusic = true;
+    if (musicToggle) {
+      musicToggle.classList.add('playing');
+      musicToggle.textContent = '🎵';
+    }
+
+    if (bgMusic) {
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          return;
+        }).catch(() => {
+          initWebAudio();
+        });
+      } else {
+        initWebAudio();
+      }
+    } else {
+      initWebAudio();
+    }
+  }
+
+  function stopMusic() {
+    isPlayingMusic = false;
+    if (musicToggle) {
+      musicToggle.classList.remove('playing');
+      musicToggle.textContent = '🔇';
+    }
+    if (melodyTimer) clearTimeout(melodyTimer);
+    if (bgMusic) bgMusic.pause();
+  }
+
+  function toggleMusic() {
+    if (isPlayingMusic) {
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  }
+
+  if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic);
   }
 
   const floatiesLayer = document.getElementById('floaties');
@@ -98,7 +227,10 @@
     btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
   }
 
-  btnYes.addEventListener('click', () => goToStep(2));
+  btnYes.addEventListener('click', () => {
+    startMusic();
+    goToStep(2);
+  });
 
   btnNo.addEventListener('click', () => {
     noClickCount++;
