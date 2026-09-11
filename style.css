@@ -1,0 +1,406 @@
+/* ---------------------------------------------------------
+   Tokens — the accent is the only thing JS ever touches.
+   Every other tint is derived from it with color-mix().
+--------------------------------------------------------- */
+:root {
+  --accent: #c98fa5;                 /* dusty rose default, before a colour is chosen */
+  --accent-soft: color-mix(in srgb, var(--accent) 35%, white);
+  --accent-softer: color-mix(in srgb, var(--accent) 14%, white);
+  --accent-deep: color-mix(in srgb, var(--accent) 62%, black);
+  --bg-a: color-mix(in srgb, var(--accent) 16%, #fffaf6);
+  --bg-b: color-mix(in srgb, var(--accent) 5%, #fdf7f2);
+  --card-bg: color-mix(in srgb, white 78%, var(--accent) 6%);
+  --card-border: color-mix(in srgb, white 60%, var(--accent) 25%);
+  --shadow-tint: color-mix(in srgb, var(--accent) 35%, transparent);
+  --ink: #3a2e35;
+  --ink-soft: #6b5c63;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: linear-gradient(160deg, var(--bg-a), var(--bg-b) 60%, var(--bg-a));
+  background-size: 200% 200%;
+  animation: driftGradient 18s ease-in-out infinite;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.8s ease;
+}
+
+@keyframes driftGradient {
+  0%, 100% { background-position: 0% 30%; }
+  50% { background-position: 100% 70%; }
+}
+
+/* ---------------------------------------------------------
+   Ambient layer — hearts, notes, soft particles
+--------------------------------------------------------- */
+.floaties {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floaty {
+  position: absolute;
+  bottom: -10vh;
+  will-change: transform, opacity;
+  animation-name: floatUp;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  color: var(--accent-soft);
+  user-select: none;
+}
+
+.floaty.note { color: color-mix(in srgb, var(--accent) 55%, #8a8fa3); }
+.floaty.particle {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: transparent;
+}
+
+@keyframes floatUp {
+  0%   { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.55; }
+  85%  { opacity: 0.35; }
+  100% { transform: translate(var(--drift, 20px), -110vh) rotate(var(--spin, 25deg)); opacity: 0; }
+}
+
+/* ---------------------------------------------------------
+   Layout
+--------------------------------------------------------- */
+.stage {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 440px;
+  position: relative;
+}
+
+.progress {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 25%, white);
+  border: 1px solid var(--accent-soft);
+  transition: all 0.45s ease;
+}
+
+.dot.active {
+  width: 20px;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   Cards — soft glassmorphism
+--------------------------------------------------------- */
+.card {
+  background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--card-border);
+  border-radius: 28px;
+  padding: clamp(1.75rem, 5vw, 2.75rem) clamp(1.5rem, 6vw, 2.5rem);
+  box-shadow: 0 25px 60px -20px var(--shadow-tint), 0 2px 8px rgba(0, 0, 0, 0.03);
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   Page transitions — one visible at a time, sequential crossfade
+--------------------------------------------------------- */
+.page {
+  display: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.page.active { display: flex; }
+.page.show { opacity: 1; transform: translateY(0); }
+
+/* ---------------------------------------------------------
+   Page 1 — Introduction
+--------------------------------------------------------- */
+.intro-card { display: flex; flex-direction: column; align-items: center; }
+
+.eyebrow-heart {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  color: var(--accent);
+  animation: gentlePulse 2.6s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+
+.question {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.6rem, 6vw, 2.15rem);
+  line-height: 1.3;
+  margin: 0 0 1.75rem;
+  color: var(--ink);
+}
+
+.button-row {
+  display: flex;
+  gap: 0.85rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.9rem;
+  min-height: 48px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, opacity 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 10px 24px -8px var(--shadow-tint);
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -8px var(--shadow-tint); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1.5px solid var(--card-border);
+}
+
+.btn-ghost:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+.btn-ghost.shake { animation: shake 0.5s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px) rotate(-2deg); }
+  40% { transform: translateX(7px) rotate(2deg); }
+  60% { transform: translateX(-5px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+
+.playful-message {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 1.25rem 0 0;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+}
+
+.playful-message.visible {
+  max-height: 80px;
+  opacity: 1;
+  margin-top: 1.25rem;
+}
+
+/* ---------------------------------------------------------
+   Page 2 — Questions
+--------------------------------------------------------- */
+.question-card { display: flex; flex-direction: column; text-align: left; }
+
+.question-block { margin-bottom: 1.75rem; }
+.question-block:last-of-type { margin-bottom: 1.5rem; }
+
+.question-card h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 4vw, 1.25rem);
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.question-card label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.5rem;
+}
+
+.text-input,
+.reply-textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: color-mix(in srgb, white 70%, transparent);
+  border: 1.5px solid var(--card-border);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.text-input:focus,
+.reply-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.custom-color-input { margin-top: 0.75rem; }
+
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.color-swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  background: color-mix(in srgb, white 65%, transparent);
+  border: 1.5px solid var(--card-border);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+.color-swatch:hover { transform: translateY(-1px); }
+
+.color-swatch.selected {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 12%, white);
+}
+
+.swatch-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.swatch-pink { background: #e2a3b8; }
+.swatch-blue { background: #93b7dc; }
+.swatch-sandal { background: #cbab7c; }
+.swatch-other {
+  background: conic-gradient(from 180deg, #e2a3b8, #cbab7c, #93b7dc, #c9a2e0, #e2a3b8);
+}
+
+.continue-btn { align-self: center; margin-top: 0.25rem; }
+
+/* ---------------------------------------------------------
+   Page 3 — Message
+--------------------------------------------------------- */
+.message-card { text-align: left; }
+
+.message-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 3.6vw, 1.12rem);
+  line-height: 1.75;
+  color: var(--ink);
+  max-width: 62ch;
+  margin: 0 0 1.75rem;
+}
+
+.reply-label {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  margin: 0 0 0.6rem;
+}
+
+.reply-textarea {
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 1rem;
+}
+
+.reply-block .btn-primary { width: 100%; }
+
+.thank-you {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 700;
+  color: var(--accent-deep);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.thank-you.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------------------------------------------------------
+   Utility
+--------------------------------------------------------- */
+.hidden { display: none !important; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-deep);
+  outline-offset: 2px;
+}
+
+@media (max-width: 380px) {
+  .button-row { flex-direction: column; }
+  .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  body { animation: none; }
+}

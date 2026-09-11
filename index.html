@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>A little something for Rudhra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient floating layer: hearts, notes, soft particles -->
+  <div class="floaties" id="floaties" aria-hidden="true"></div>
+
+  <div class="stage">
+    <div class="app-shell">
+
+      <!-- Progress indicator -->
+      <div class="progress" id="progress" aria-hidden="true">
+        <span class="dot active" data-step="1"></span>
+        <span class="dot" data-step="2"></span>
+        <span class="dot" data-step="3"></span>
+      </div>
+
+      <!-- PAGE 1 : INTRODUCTION -->
+      <section class="page active show" id="page1">
+        <div class="card intro-card">
+          <p class="eyebrow-heart">♡</p>
+          <h1 class="question">This is Rudhra Devaraj?</h1>
+          <div class="button-row">
+            <button class="btn btn-primary" id="btnYes" type="button">YES</button>
+            <button class="btn btn-ghost" id="btnNo" type="button">NO</button>
+          </div>
+          <p class="playful-message" id="noMessage">
+            Try again 😌<br />There is only one way... YES 😂
+          </p>
+        </div>
+      </section>
+
+      <!-- PAGE 2 : QUESTIONS -->
+      <section class="page" id="page2">
+        <div class="card question-card">
+
+          <div class="question-block">
+            <h2>You like to hear English songs, right? 🎵</h2>
+            <label for="singerInput">Which singer do you like most?</label>
+            <input
+              type="text"
+              id="singerInput"
+              class="text-input"
+              placeholder="Type your favourite singer..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="question-block">
+            <h2>What is your favourite colour? 🎨</h2>
+            <div class="color-options" id="colorOptions" role="group" aria-label="Favourite colour">
+              <button class="color-swatch" data-color="pink" type="button">
+                <span class="swatch-dot swatch-pink"></span>Pink
+              </button>
+              <button class="color-swatch" data-color="blue" type="button">
+                <span class="swatch-dot swatch-blue"></span>Blue
+              </button>
+              <button class="color-swatch" data-color="sandal" type="button">
+                <span class="swatch-dot swatch-sandal"></span>Sandal
+              </button>
+              <button class="color-swatch" data-color="other" type="button">
+                <span class="swatch-dot swatch-other"></span>Other
+              </button>
+            </div>
+            <input
+              type="text"
+              id="customColorInput"
+              class="text-input custom-color-input hidden"
+              placeholder="Type a colour name or hex, like coral or #7c9a92"
+              autocomplete="off"
+            />
+          </div>
+
+          <button class="btn btn-primary continue-btn" id="btnContinue" type="button" disabled>
+            Continue →
+          </button>
+        </div>
+      </section>
+
+      <!-- PAGE 3 : MESSAGE -->
+      <section class="page" id="page3">
+        <div class="card message-card">
+          <p class="message-text">Hi! I hope you are doing well and that your classes are going well. I guess you know who I am. I really don't want to make this weird or anything, I promise! There is something about you that makes me feel like we've known each other before. One day, I'll come talk to you about it. Thank you, bye! (Sorry if this feels a bit weird!)</p>
+
+          <div class="reply-block">
+            <p class="reply-label">If you want to say anything...</p>
+            <textarea
+              id="replyInput"
+              class="reply-textarea"
+              placeholder="You can write anything here..."
+              rows="4"
+            ></textarea>
+            <button class="btn btn-primary" id="btnSend" type="button">Send ❤️</button>
+            <p class="thank-you hidden" id="thankYouMsg">Thank you for your message ❤️</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
