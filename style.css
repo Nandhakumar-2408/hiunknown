@@ -137,23 +137,8 @@ body {
 }
 
 /* ---------------------------------------------------------
-   Cursor trail sparkles & burst hearts
+   Burst hearts on Send button
 --------------------------------------------------------- */
-.cursor-sparkle {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  font-size: 14px;
-  color: var(--accent);
-  user-select: none;
-  will-change: transform, opacity;
-  animation: fadeSparkle 0.75s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
-}
-
-@keyframes fadeSparkle {
-  0% { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 1; }
-  100% { transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--rot)); opacity: 0; }
-}
 
 .confetti-heart {
   position: fixed;
@@ -284,15 +269,6 @@ body {
   font-size: 1.6rem;
   color: var(--accent);
   display: inline-block;
-  animation: heartBeat 1.8s infinite ease-in-out;
-}
-
-@keyframes heartBeat {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--accent)); }
-  14% { transform: scale(1.28); filter: drop-shadow(0 4px 14px var(--shadow-tint)); }
-  28% { transform: scale(1.06); }
-  42% { transform: scale(1.2); filter: drop-shadow(0 4px 12px var(--shadow-tint)); }
-  70% { transform: scale(1); }
 }
 
 .question {

@@ -276,32 +276,7 @@
     });
   });
 
-  /* ------------------------------------------------------
-     Cursor Trail Sparkles & Interactive Particles
-  ------------------------------------------------------ */
-  let lastSparkleTime = 0;
-  window.addEventListener('pointermove', (e) => {
-    const now = Date.now();
-    if (now - lastSparkleTime < 130) return;
-    lastSparkleTime = now;
 
-    const sparkle = document.createElement('span');
-    sparkle.className = 'cursor-sparkle';
-    sparkle.textContent = Math.random() > 0.4 ? '✨' : '♡';
-
-    const dx = (Math.random() * 30 - 15) + 'px';
-    const dy = (Math.random() * -30 - 10) + 'px';
-    const rot = (Math.random() * 60 - 30) + 'deg';
-
-    sparkle.style.left = `${e.clientX}px`;
-    sparkle.style.top = `${e.clientY}px`;
-    sparkle.style.setProperty('--dx', dx);
-    sparkle.style.setProperty('--dy', dy);
-    sparkle.style.setProperty('--rot', rot);
-
-    document.body.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 750);
-  });
 
   /* ------------------------------------------------------
      Ambient floating hearts, notes & particles
