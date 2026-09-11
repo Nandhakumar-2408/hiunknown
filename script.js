@@ -71,13 +71,40 @@
   /* ------------------------------------------------------
      Page 1 — Yes / No
   ------------------------------------------------------ */
+  let noClickCount = 0;
+
+  function moveNoButton() {
+    // Generate distinct movement coordinates so NO button dodges to a new position
+    const positions = [
+      { x: -90, y: -45 },
+      { x: 90, y: 40 },
+      { x: -75, y: 55 },
+      { x: 80, y: -50 },
+      { x: -110, y: 20 },
+      { x: 105, y: -30 }
+    ];
+    const pos = positions[noClickCount % positions.length];
+
+    btnNo.style.position = 'relative';
+    btnNo.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+  }
+
   btnYes.addEventListener('click', () => goToStep(2));
 
   btnNo.addEventListener('click', () => {
+    noClickCount++;
+
     btnNo.classList.remove('shake');
     void btnNo.offsetWidth;
     btnNo.classList.add('shake');
-    noMessage.classList.add('visible');
+
+    moveNoButton();
+
+    if (noClickCount >= 2) {
+      noMessage.textContent = 'try again, you are not rudhra please pass it to her 🫡';
+      noMessage.classList.add('visible');
+    }
   });
 
   btnNo.addEventListener('animationend', () => btnNo.classList.remove('shake'));
