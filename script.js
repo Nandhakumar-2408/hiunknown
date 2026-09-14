@@ -8,6 +8,7 @@
     1: document.getElementById('page1'),
     2: document.getElementById('page2'),
     3: document.getElementById('page3'),
+    4: document.getElementById('page4'),
   };
   const dots = document.querySelectorAll('.dot');
 
@@ -32,6 +33,13 @@
   const thankYouMsg = document.getElementById('thankYouMsg');
 
   const floatiesLayer = document.getElementById('floaties');
+
+  const btnEnjoyYes   = document.getElementById('btnEnjoyYes');
+  const btnEnjoyWeird = document.getElementById('btnEnjoyWeird');
+  const popupYes      = document.getElementById('popupYes');
+  const popupWeird    = document.getElementById('popupWeird');
+  const popupYesNext  = document.getElementById('popupYesNext');
+  const popupWeirdNext= document.getElementById('popupWeirdNext');
 
   let currentStep = 1;
   let themeChosen = false;
@@ -270,6 +278,37 @@
 
   btnContinue.addEventListener('click', () => {
     if (!btnContinue.disabled) goToStep(3);
+  });
+
+  /* ------------------------------------------------------
+     Page 3 — Enjoyment question popups
+  ------------------------------------------------------ */
+  function showPopup(popup) {
+    popup.classList.remove('hidden');
+    // slight delay so CSS transition fires
+    requestAnimationFrame(() => popup.classList.add('popup-visible'));
+  }
+
+  btnEnjoyYes.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupYes);
+  });
+
+  btnEnjoyWeird.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupWeird);
+  });
+
+  popupYesNext.addEventListener('click', () => {
+    popupYes.classList.remove('popup-visible');
+    setTimeout(() => { popupYes.classList.add('hidden'); goToStep(4); }, 300);
+  });
+
+  popupWeirdNext.addEventListener('click', () => {
+    popupWeird.classList.remove('popup-visible');
+    setTimeout(() => { popupWeird.classList.add('hidden'); goToStep(4); }, 300);
   });
 
   /* ------------------------------------------------------

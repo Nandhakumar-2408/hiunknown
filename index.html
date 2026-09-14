@@ -29,6 +29,7 @@
         <span class="dot active" data-step="1"></span>
         <span class="dot" data-step="2"></span>
         <span class="dot" data-step="3"></span>
+        <span class="dot" data-step="4"></span>
       </div>
 
       <!-- PAGE 1 : INTRODUCTION -->
@@ -176,8 +177,39 @@
         </div>
       </section>
 
-      <!-- PAGE 3 : MESSAGE -->
+      <!-- PAGE 3 : ENJOYMENT QUESTION -->
       <section class="page" id="page3">
+        <div class="card enjoy-card">
+          <p class="eyebrow-text">Okay… you've answered enough questions.</p>
+          <h2 class="enjoy-question">I have one last one.</h2>
+          <p class="enjoy-sub">&ldquo;Did you enjoy this little quiz?&rdquo;</p>
+          <div class="enjoy-options">
+            <button class="btn btn-primary enjoy-btn" id="btnEnjoyYes" type="button">✨ Yes</button>
+            <button class="btn btn-ghost enjoy-btn" id="btnEnjoyWeird" type="button">🙈 It was weird</button>
+          </div>
+        </div>
+
+        <!-- Popup: Yes response -->
+        <div class="enjoy-popup hidden" id="popupYes">
+          <div class="popup-box">
+            <span class="popup-icon">🥹</span>
+            <p class="popup-msg">Good. That&rsquo;s all I wanted. :)</p>
+            <button class="btn btn-primary popup-next-btn" id="popupYesNext" type="button">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Popup: Weird response -->
+        <div class="enjoy-popup hidden" id="popupWeird">
+          <div class="popup-box">
+            <span class="popup-icon">😂</span>
+            <p class="popup-msg">I'll accept that.<br>Maybe a little weird was necessary to make it memorable.</p>
+            <button class="btn btn-primary popup-next-btn" id="popupWeirdNext" type="button">Continue →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 4 : MESSAGE -->
+      <section class="page" id="page4">
         <div class="card message-card">
           <p class="message-text">Hi! I hope you are doing well and that your classes are going well. I guess you know who I am. I really don't want to make this weird or anything, I promise! There is something about you that makes me feel like we've known each other before. One day, I'll come talk to you about it. Thank you, bye! (Sorry if this feels a bit weird!)</p>
 
