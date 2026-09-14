@@ -38,30 +38,45 @@
 
   function getSelectedColor() {
     const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
-    if (!selectedSwatch) return 'Not specified';
+    if (!selectedSwatch) return null;
     const key = selectedSwatch.dataset.color;
     if (key === 'other') {
-      return customColorInput.value.trim() || 'Custom (unspecified)';
+      const val = customColorInput.value.trim();
+      return val || null;
     }
     return key;
   }
 
   function getSelectedHarderOption() {
-    if (!harderOptions) return 'Not specified';
+    if (!harderOptions) return null;
     const selected = harderOptions.querySelector('.harder-option.selected');
-    return selected ? selected.dataset.option : 'Not specified';
+    return selected ? selected.dataset.option : null;
   }
 
   function getSelectedSnoozeOption() {
-    if (!snoozeOptions) return 'Not specified';
+    if (!snoozeOptions) return null;
     const selected = snoozeOptions.querySelector('.harder-option.selected');
-    return selected ? selected.dataset.option : 'Not specified';
+    return selected ? selected.dataset.option : null;
   }
 
   function getSelectedSkillOption() {
-    if (!skillOptions) return 'Not specified';
+    if (!skillOptions) return null;
     const selected = skillOptions.querySelector('.harder-option.selected');
-    return selected ? selected.dataset.option : 'Not specified';
+    return selected ? selected.dataset.option : null;
+  }
+
+  /* Check that every question on page 2 has been answered */
+  function allAnswered() {
+    const colour   = getSelectedColor();
+    const singer   = singerInput ? singerInput.value.trim() : null;
+    const harder   = getSelectedHarderOption();
+    const snooze   = getSelectedSnoozeOption();
+    const skill    = getSelectedSkillOption();
+    return Boolean(colour && singer && harder && snooze && skill);
+  }
+
+  function refreshContinueBtn() {
+    btnContinue.disabled = !allAnswered();
   }
 
   /* ------------------------------------------------------
@@ -184,6 +199,7 @@
     btn.addEventListener('click', () => {
       harderOptionBtns.forEach((b) => b.classList.remove('selected'));
       btn.classList.add('selected');
+      refreshContinueBtn();
     });
   });
 
@@ -191,6 +207,7 @@
     btn.addEventListener('click', () => {
       snoozeOptionBtns.forEach((b) => b.classList.remove('selected'));
       btn.classList.add('selected');
+      refreshContinueBtn();
     });
   });
 
@@ -198,8 +215,14 @@
     btn.addEventListener('click', () => {
       skillOptionBtns.forEach((b) => b.classList.remove('selected'));
       btn.classList.add('selected');
+      refreshContinueBtn();
     });
   });
+
+  // Also re-check when singer text changes
+  if (singerInput) {
+    singerInput.addEventListener('input', refreshContinueBtn);
+  }
 
   const presetColors = {
     pink: '#e2a3b8',
@@ -229,31 +252,20 @@
         customColorInput.classList.remove('hidden');
         customColorInput.focus();
         const typed = customColorInput.value.trim();
-        if (isValidColor(typed)) {
-          setAccent(typed);
-          themeChosen = true;
-        } else {
-          themeChosen = false;
-        }
+        if (isValidColor(typed)) setAccent(typed);
       } else {
         customColorInput.classList.add('hidden');
         setAccent(presetColors[key]);
-        themeChosen = true;
       }
 
-      btnContinue.disabled = !themeChosen;
+      refreshContinueBtn();
     });
   });
 
   customColorInput.addEventListener('input', () => {
     const value = customColorInput.value.trim();
-    if (isValidColor(value)) {
-      setAccent(value);
-      themeChosen = true;
-    } else {
-      themeChosen = false;
-    }
-    btnContinue.disabled = !themeChosen;
+    if (isValidColor(value)) setAccent(value);
+    refreshContinueBtn();
   });
 
   btnContinue.addEventListener('click', () => {
