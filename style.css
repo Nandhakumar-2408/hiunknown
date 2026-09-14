@@ -668,16 +668,20 @@ body {
 /* ---------------------------------------------------------
    Sticky Note — lite dark pink, handwritten feel
 --------------------------------------------------------- */
+#page3 {
+  position: relative;
+  flex-direction: column;
+  align-items: stretch;
+}
 
 .sticky-note {
   position: absolute;
-  top: -14px;
-  right: 18px;
+  bottom: -38px;
+  right: -18px;
   width: 112px;
   min-height: 90px;
-  background: #e8799a;
   background: linear-gradient(145deg, #e8799a 0%, #d45e82 100%);
-  border-radius: 3px 3px 3px 3px;
+  border-radius: 3px;
   padding: 10px 10px 14px 10px;
   box-shadow:
     2px 4px 12px rgba(180, 60, 100, 0.38),
