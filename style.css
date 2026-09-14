@@ -753,6 +753,7 @@ body {
   font-size: 0.88rem;
   color: var(--ink-soft);
   margin: 0 0 0.6rem;
+  line-height: 1.5;
 }
 
 .reply-textarea {
