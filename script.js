@@ -20,6 +20,8 @@
   const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
   const snoozeOptions = document.getElementById('snoozeOptions');
   const snoozeOptionBtns = snoozeOptions ? snoozeOptions.querySelectorAll('.harder-option') : [];
+  const skillOptions = document.getElementById('skillOptions');
+  const skillOptionBtns = skillOptions ? skillOptions.querySelectorAll('.harder-option') : [];
   const colorOptions = document.getElementById('colorOptions');
   const swatches = colorOptions.querySelectorAll('.color-swatch');
   const customColorInput = document.getElementById('customColorInput');
@@ -53,6 +55,12 @@
   function getSelectedSnoozeOption() {
     if (!snoozeOptions) return 'Not specified';
     const selected = snoozeOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : 'Not specified';
+  }
+
+  function getSelectedSkillOption() {
+    if (!skillOptions) return 'Not specified';
+    const selected = skillOptions.querySelector('.harder-option.selected');
     return selected ? selected.dataset.option : 'Not specified';
   }
 
@@ -186,6 +194,13 @@
     });
   });
 
+  skillOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      skillOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
   const presetColors = {
     pink: '#e2a3b8',
     blue: '#93b7dc',
@@ -284,6 +299,7 @@
     const colour = getSelectedColor();
     const harderChoice = getSelectedHarderOption();
     const snoozeChoice = getSelectedSnoozeOption();
+    const skillChoice = getSelectedSkillOption();
 
     btnSend.disabled = true;
     btnSend.textContent = 'Sending...';
