@@ -18,6 +18,8 @@
   const singerInput = document.getElementById('singerInput');
   const harderOptions = document.getElementById('harderOptions');
   const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
+  const snoozeOptions = document.getElementById('snoozeOptions');
+  const snoozeOptionBtns = snoozeOptions ? snoozeOptions.querySelectorAll('.harder-option') : [];
   const colorOptions = document.getElementById('colorOptions');
   const swatches = colorOptions.querySelectorAll('.color-swatch');
   const customColorInput = document.getElementById('customColorInput');
@@ -47,6 +49,58 @@
     const selected = harderOptions.querySelector('.harder-option.selected');
     return selected ? selected.dataset.option : 'Not specified';
   }
+
+  function getSelectedSnoozeOption() {
+    if (!snoozeOptions) return 'Not specified';
+    const selected = snoozeOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : 'Not specified';
+  }
+
+  /* ------------------------------------------------------
+     Birthday Countdown — counts down to March 24
+  ------------------------------------------------------ */
+  const bdayDaysEl = document.getElementById('bdayDays');
+  const bdayHoursEl = document.getElementById('bdayHours');
+  const bdayMinsEl = document.getElementById('bdayMins');
+  const bdaySecsEl = document.getElementById('bdaySecs');
+
+  function getNextBirthday() {
+    const now = new Date();
+    let year = now.getFullYear();
+    // March is month 2 (0-indexed)
+    let bday = new Date(year, 2, 24, 0, 0, 0);
+    if (now >= bday) {
+      bday = new Date(year + 1, 2, 24, 0, 0, 0);
+    }
+    return bday;
+  }
+
+  function updateBdayCountdown() {
+    const now = new Date();
+    const target = getNextBirthday();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      if (bdayDaysEl) bdayDaysEl.textContent = '🎉';
+      if (bdayHoursEl) bdayHoursEl.textContent = '00';
+      if (bdayMinsEl) bdayMinsEl.textContent = '00';
+      if (bdaySecsEl) bdaySecsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    if (bdayDaysEl) bdayDaysEl.textContent = String(days).padStart(2, '0');
+    if (bdayHoursEl) bdayHoursEl.textContent = String(hours).padStart(2, '0');
+    if (bdayMinsEl) bdayMinsEl.textContent = String(mins).padStart(2, '0');
+    if (bdaySecsEl) bdaySecsEl.textContent = String(secs).padStart(2, '0');
+  }
+
+  updateBdayCountdown();
+  setInterval(updateBdayCountdown, 1000);
 
   /* ------------------------------------------------------
      Step navigation — sequential fade & spring animation
@@ -121,6 +175,13 @@
   harderOptionBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       harderOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  snoozeOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      snoozeOptionBtns.forEach((b) => b.classList.remove('selected'));
       btn.classList.add('selected');
     });
   });
@@ -222,6 +283,7 @@
     const singer = singerInput ? singerInput.value.trim() : '';
     const colour = getSelectedColor();
     const harderChoice = getSelectedHarderOption();
+    const snoozeChoice = getSelectedSnoozeOption();
 
     btnSend.disabled = true;
     btnSend.textContent = 'Sending...';

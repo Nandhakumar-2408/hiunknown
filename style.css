@@ -538,6 +538,127 @@ body {
 .continue-btn { align-self: center; margin-top: 0.25rem; }
 
 /* ---------------------------------------------------------
+   Page 2 Layout — side-by-side with countdown on left
+--------------------------------------------------------- */
+#page2 {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+#page2 .card {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------
+   Birthday Countdown Widget — left side floating box
+--------------------------------------------------------- */
+.bday-countdown {
+  width: 120px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--card-bg) 90%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  padding: 1.1rem 0.75rem;
+  text-align: center;
+  box-shadow: 0 16px 40px -12px var(--shadow-tint), 0 2px 8px rgba(0,0,0,0.03);
+  position: sticky;
+  top: 2rem;
+}
+
+.bday-countdown .bday-icon {
+  font-size: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.bday-countdown .bday-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-bottom: 0.15rem;
+}
+
+.bday-countdown .bday-date {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--accent-deep);
+  margin-bottom: 0.85rem;
+}
+
+.bday-timer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-value {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ink);
+  line-height: 1;
+  min-width: 2ch;
+}
+
+.timer-label {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  margin-top: 0.1rem;
+}
+
+@media (max-width: 600px) {
+  #page2 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bday-countdown {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    position: static;
+  }
+
+  .bday-countdown .bday-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  .bday-countdown .bday-title,
+  .bday-countdown .bday-date {
+    margin-bottom: 0;
+  }
+
+  .bday-timer {
+    flex-direction: row;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+}
+
+/* ---------------------------------------------------------
    Page 3 — Message
 --------------------------------------------------------- */
 .message-card { text-align: left; }

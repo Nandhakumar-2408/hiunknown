@@ -48,6 +48,32 @@
 
       <!-- PAGE 2 : QUESTIONS -->
       <section class="page" id="page2">
+
+        <!-- Birthday Countdown — floating left side widget -->
+        <div class="bday-countdown" id="bdayCountdown">
+          <div class="bday-icon">🎂</div>
+          <div class="bday-title">Her Birthday</div>
+          <div class="bday-date">24th March</div>
+          <div class="bday-timer">
+            <div class="timer-unit">
+              <span class="timer-value" id="bdayDays">00</span>
+              <span class="timer-label">Days</span>
+            </div>
+            <div class="timer-unit">
+              <span class="timer-value" id="bdayHours">00</span>
+              <span class="timer-label">Hours</span>
+            </div>
+            <div class="timer-unit">
+              <span class="timer-value" id="bdayMins">00</span>
+              <span class="timer-label">Mins</span>
+            </div>
+            <div class="timer-unit">
+              <span class="timer-value" id="bdaySecs">00</span>
+              <span class="timer-label">Secs</span>
+            </div>
+          </div>
+        </div>
+
         <div class="card question-card">
 
           <div class="question-block">
@@ -88,7 +114,7 @@
           </div>
 
           <div class="question-block">
-            <h2>What’s harder?</h2>
+            <h2>What's harder?</h2>
             <div class="harder-options" id="harderOptions" role="group" aria-label="What's harder">
               <button class="harder-option" data-option="Studying" type="button">
                 📚 Studying
@@ -100,7 +126,25 @@
                 📱 Leaving the phone
               </button>
               <button class="harder-option" data-option="Saying 'no' to snacks" type="button">
-                😂 Saying ‘no’ to snacks
+                😂 Saying 'no' to snacks
+              </button>
+            </div>
+          </div>
+
+          <div class="question-block">
+            <h2>Be honest… how often do you say '5 more minutes' and then sleep for 2 hours? 😂</h2>
+            <div class="harder-options" id="snoozeOptions" role="group" aria-label="Snooze habit">
+              <button class="harder-option" data-option="Never 😇" type="button">
+                😇 Never
+              </button>
+              <button class="harder-option" data-option="Sometimes" type="button">
+                🙈 Sometimes
+              </button>
+              <button class="harder-option" data-option="Frequently" type="button">
+                😅 Frequently
+              </button>
+              <button class="harder-option" data-option="It's a lifestyle 😴" type="button">
+                😴 It's a lifestyle
               </button>
             </div>
           </div>
