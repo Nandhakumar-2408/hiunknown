@@ -330,10 +330,12 @@
           _subject: 'New message from your website! ❤️',
           _template: 'table',
           _captcha: 'false',
+          'Favourite Colour': colour || 'Not specified',
           'Favourite Singer': singer || 'Not specified',
-          'What’s Harder': harderChoice,
-          'Favourite Colour': colour,
-          'Message': message || '(No text message written)'
+          'Whats Harder': harderChoice || 'Not specified',
+          'Snooze Habit': snoozeChoice || 'Not specified',
+          'Instant Skill Pick': skillChoice || 'Not specified',
+          'Her Message': message || '(No message written)'
         })
       });
     } catch (err) {
