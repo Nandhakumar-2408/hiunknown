@@ -1,716 +1,545 @@
-/**
- * APPLE IPHONE 16 PRO FLAGSHIP INTERACTIVE EXPERIENCE
- * - Procedural 3D Canvas Phone Engine with Physics & Lighting
- * - Dynamic Island State Machine
- * - Camera Control Interactive Viewfinder
- * - Bento Grid Mouse Spotlight
- * - Spatial Audio Waveform Visualizer
- * - Real-time Configuration & Trade-In Simulator
- */
+(() => {
+  'use strict';
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  /* ==========================================================================
-     1. FINISH COLOR PALETTES & STATE
-     ========================================================================== */
-  const FINISHES = {
-    desert: {
-      name: "Desert Titanium",
-      bodyColor: "#a38269",
-      rimLight: "#e2bca0",
-      darkRim: "#473426",
-      ambientGlow: "rgba(195, 150, 115, 0.2)",
-      specular: "#fff2e8"
-    },
-    natural: {
-      name: "Natural Titanium",
-      bodyColor: "#7e7c77",
-      rimLight: "#bfbcb5",
-      darkRim: "#383734",
-      ambientGlow: "rgba(146, 143, 137, 0.2)",
-      specular: "#ffffff"
-    },
-    white: {
-      name: "White Titanium",
-      bodyColor: "#d2d3d6",
-      rimLight: "#ffffff",
-      darkRim: "#5e6066",
-      ambientGlow: "rgba(224, 225, 227, 0.25)",
-      specular: "#ffffff"
-    },
-    black: {
-      name: "Black Titanium",
-      bodyColor: "#2a292d",
-      rimLight: "#545358",
-      darkRim: "#111113",
-      ambientGlow: "rgba(50, 49, 52, 0.3)",
-      specular: "#b0afb5"
-    }
+  /* ------------------------------------------------------
+     Elements
+  ------------------------------------------------------ */
+  const pages = {
+    1: document.getElementById('page1'),
+    2: document.getElementById('page2'),
+    3: document.getElementById('page3'),
+    4: document.getElementById('page4'),
+    5: document.getElementById('page5'),
   };
+  const dots = document.querySelectorAll('.dot');
 
-  let currentFinish = FINISHES.desert;
+  const btnYes = document.getElementById('btnYes');
+  const btnNo = document.getElementById('btnNo');
+  const noMessage = document.getElementById('noMessage');
 
-  /* ==========================================================================
-     2. 3D PROCEDURAL CANVAS ENGINE (iPhone 16 Pro)
-     ========================================================================== */
-  const canvas = document.getElementById("phoneCanvas");
-  const ctx = canvas.getContext("2d");
+  const singerInput = document.getElementById('singerInput');
+  const harderOptions = document.getElementById('harderOptions');
+  const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
+  const snoozeOptions = document.getElementById('snoozeOptions');
+  const snoozeOptionBtns = snoozeOptions ? snoozeOptions.querySelectorAll('.harder-option') : [];
+  const skillOptions = document.getElementById('skillOptions');
+  const skillOptionBtns = skillOptions ? skillOptions.querySelectorAll('.harder-option') : [];
+  const colorOptions = document.getElementById('colorOptions');
+  const swatches = colorOptions.querySelectorAll('.color-swatch');
+  const customColorInput = document.getElementById('customColorInput');
+  const btnContinue = document.getElementById('btnContinue');
 
-  // Phone 3D Rotation state
-  let rotY = 0.45;       // Initial angle showing side/rear
-  let rotX = 0.05;
-  let targetRotY = 0.45;
-  let targetRotX = 0.05;
-  let isDragging = false;
-  let startMouseX = 0;
-  let startMouseY = 0;
-  let lastMouseX = 0;
-  let velocityY = 0;
-  let isHovered = false;
+  const btnSend = document.getElementById('btnSend');
+  const replyInput = document.getElementById('replyInput');
+  const thankYouMsg = document.getElementById('thankYouMsg');
+  const btnGoToGift = document.getElementById('btnGoToGift');
 
-  // Set high-DPI canvas
-  function setupCanvasDPI() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = canvas.getBoundingClientRect();
-    const size = Math.min(rect.width || 700, 750);
-    canvas.width = size * dpr;
-    canvas.height = size * dpr;
-    ctx.scale(dpr, dpr);
+  const giftBox = document.getElementById('giftBox');
+  const luxuryBox = document.getElementById('luxuryBox');
+  const giftPopup = document.getElementById('giftPopup');
+  const giftPopupClose = document.getElementById('giftPopupClose');
+  const giftPopupBackdrop = document.getElementById('giftPopupBackdrop');
+
+  const floatiesLayer = document.getElementById('floaties');
+
+  const btnEnjoyYes   = document.getElementById('btnEnjoyYes');
+  const btnEnjoyWeird = document.getElementById('btnEnjoyWeird');
+  const popupYes      = document.getElementById('popupYes');
+  const popupWeird    = document.getElementById('popupWeird');
+  const popupYesNext  = document.getElementById('popupYesNext');
+  const popupWeirdNext= document.getElementById('popupWeirdNext');
+
+  let currentStep = 1;
+  let themeChosen = false;
+
+  function getSelectedColor() {
+    const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
+    if (!selectedSwatch) return null;
+    const key = selectedSwatch.dataset.color;
+    if (key === 'other') {
+      const val = customColorInput.value.trim();
+      return val || null;
+    }
+    return key;
   }
-  setupCanvasDPI();
-  window.addEventListener("resize", setupCanvasDPI);
 
-  // Drag interaction
-  const viewport = document.getElementById("canvasViewport");
+  function getSelectedHarderOption() {
+    if (!harderOptions) return null;
+    const selected = harderOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : null;
+  }
 
-  viewport.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    startMouseX = e.clientX;
-    startMouseY = e.clientY;
-    lastMouseX = e.clientX;
-    velocityY = 0;
-  });
+  function getSelectedSnoozeOption() {
+    if (!snoozeOptions) return null;
+    const selected = snoozeOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : null;
+  }
 
-  window.addEventListener("mousemove", (e) => {
-    if (!isDragging) {
-      // Subtle parallax tilt when hovering
-      const rect = viewport.getBoundingClientRect();
-      if (e.clientX >= rect.left && e.clientX <= rect.right &&
-          e.clientY >= rect.top && e.clientY <= rect.bottom) {
-        const nx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-        const ny = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-        targetRotY = 0.45 + nx * 0.35;
-        targetRotX = 0.05 - ny * 0.15;
-      }
+  function getSelectedSkillOption() {
+    if (!skillOptions) return null;
+    const selected = skillOptions.querySelector('.harder-option.selected');
+    return selected ? selected.dataset.option : null;
+  }
+
+  /* Check that every question on page 2 has been answered */
+  function allAnswered() {
+    const colour   = getSelectedColor();
+    const singer   = singerInput ? singerInput.value.trim() : null;
+    const harder   = getSelectedHarderOption();
+    const snooze   = getSelectedSnoozeOption();
+    const skill    = getSelectedSkillOption();
+    return Boolean(colour && singer && harder && snooze && skill);
+  }
+
+  function refreshContinueBtn() {
+    btnContinue.disabled = !allAnswered();
+  }
+
+  /* ------------------------------------------------------
+     Birthday Countdown — counts down to March 24
+  ------------------------------------------------------ */
+  const bdayDaysEl = document.getElementById('bdayDays');
+  const bdayHoursEl = document.getElementById('bdayHours');
+  const bdayMinsEl = document.getElementById('bdayMins');
+  const bdaySecsEl = document.getElementById('bdaySecs');
+
+  function getNextBirthday() {
+    const now = new Date();
+    let year = now.getFullYear();
+    // March is month 2 (0-indexed)
+    let bday = new Date(year, 2, 24, 0, 0, 0);
+    if (now >= bday) {
+      bday = new Date(year + 1, 2, 24, 0, 0, 0);
+    }
+    return bday;
+  }
+
+  function updateBdayCountdown() {
+    const now = new Date();
+    const target = getNextBirthday();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      if (bdayDaysEl) bdayDaysEl.textContent = '🎉';
+      if (bdayHoursEl) bdayHoursEl.textContent = '00';
+      if (bdayMinsEl) bdayMinsEl.textContent = '00';
+      if (bdaySecsEl) bdaySecsEl.textContent = '00';
       return;
     }
-    const deltaX = e.clientX - lastMouseX;
-    velocityY = deltaX * 0.008;
-    targetRotY += velocityY;
-    lastMouseX = e.clientX;
-  });
 
-  window.addEventListener("mouseup", () => {
-    isDragging = false;
-  });
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
 
-  // Touch controls for mobile
-  viewport.addEventListener("touchstart", (e) => {
-    if (e.touches.length === 1) {
-      isDragging = true;
-      lastMouseX = e.touches[0].clientX;
-      velocityY = 0;
-    }
-  }, { passive: true });
-
-  window.addEventListener("touchmove", (e) => {
-    if (isDragging && e.touches.length === 1) {
-      const deltaX = e.touches[0].clientX - lastMouseX;
-      velocityY = deltaX * 0.01;
-      targetRotY += velocityY;
-      lastMouseX = e.touches[0].clientX;
-    }
-  }, { passive: true });
-
-  window.addEventListener("touchend", () => {
-    isDragging = false;
-  });
-
-  // Render Loop
-  function renderPhone3D() {
-    const w = canvas.clientWidth || 700;
-    const h = canvas.clientHeight || 700;
-
-    ctx.clearRect(0, 0, w, h);
-
-    // Physics smoothing
-    if (!isDragging) {
-      velocityY *= 0.94;
-      targetRotY += velocityY;
-      // Gentle idle oscillation
-      targetRotY += Math.sin(Date.now() * 0.001) * 0.001;
-    }
-    rotY += (targetRotY - rotY) * 0.08;
-    rotX += (targetRotX - rotX) * 0.08;
-
-    const centerX = w / 2;
-    const centerY = h / 2 - 10;
-    const phoneWidth = 240;
-    const phoneHeight = 490;
-    const cornerRadius = 46;
-    const phoneThickness = 26;
-
-    // Projected horizontal scale based on cos(rotY)
-    const cosY = Math.cos(rotY);
-    const sinY = Math.sin(rotY);
-
-    // Floor Shadow
-    ctx.save();
-    ctx.beginPath();
-    ctx.ellipse(centerX, centerY + phoneHeight / 2 + 55, Math.abs(cosY) * 160 + 50, 18, 0, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
-    ctx.filter = "blur(18px)";
-    ctx.fill();
-    ctx.restore();
-
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(rotX);
-
-    // Determine if looking at back or front
-    const isBackFacing = cosY >= 0;
-    const currentScaleX = cosY;
-
-    // Draw Grade 5 Titanium Side Band (Extrusion)
-    const bandStep = sinY * phoneThickness;
-    
-    // Draw titanium rim/band
-    ctx.save();
-    ctx.beginPath();
-    roundRect(ctx, -phoneWidth / 2 * currentScaleX + bandStep, -phoneHeight / 2, phoneWidth * currentScaleX, phoneHeight, cornerRadius);
-    roundRect(ctx, -phoneWidth / 2 * currentScaleX, -phoneHeight / 2, phoneWidth * currentScaleX, phoneHeight, cornerRadius);
-    
-    const bandGrad = ctx.createLinearGradient(-phoneWidth / 2, -phoneHeight / 2, phoneWidth / 2, phoneHeight / 2);
-    bandGrad.addColorStop(0, currentFinish.darkRim);
-    bandGrad.addColorStop(0.3, currentFinish.rimLight);
-    bandGrad.addColorStop(0.7, currentFinish.bodyColor);
-    bandGrad.addColorStop(1, currentFinish.darkRim);
-    ctx.fillStyle = bandGrad;
-    ctx.fill();
-    ctx.restore();
-
-    // Main Phone Body (Rear Matte Glass or Front OLED)
-    ctx.save();
-    ctx.scale(currentScaleX, 1);
-
-    ctx.beginPath();
-    roundRect(ctx, -phoneWidth / 2, -phoneHeight / 2, phoneWidth, phoneHeight, cornerRadius);
-
-    if (isBackFacing) {
-      // REAR: Textured Matte AG Glass
-      const glassGrad = ctx.createRadialGradient(0, -100, 30, 0, 50, 320);
-      glassGrad.addColorStop(0, currentFinish.rimLight);
-      glassGrad.addColorStop(0.4, currentFinish.bodyColor);
-      glassGrad.addColorStop(1, currentFinish.darkRim);
-      ctx.fillStyle = glassGrad;
-      ctx.fill();
-
-      // Frosted specular sheen
-      ctx.save();
-      ctx.clip();
-      const sheenGrad = ctx.createLinearGradient(-phoneWidth, -phoneHeight, phoneWidth, phoneHeight);
-      sheenGrad.addColorStop(0, "rgba(255, 255, 255, 0.15)");
-      sheenGrad.addColorStop(0.5, "transparent");
-      sheenGrad.addColorStop(1, "rgba(255, 255, 255, 0.08)");
-      ctx.fillStyle = sheenGrad;
-      ctx.fillRect(-phoneWidth / 2, -phoneHeight / 2, phoneWidth, phoneHeight);
-      ctx.restore();
-
-      // Subtle Apple Logo
-      ctx.fillStyle = "rgba(255, 255, 255, 0.22)";
-      ctx.font = "32px -apple-system, sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("", 0, 10);
-
-      // Camera Bump Island (Top-Left)
-      const bumpSize = 112;
-      const bumpX = -phoneWidth / 2 + 14;
-      const bumpY = -phoneHeight / 2 + 14;
-      const bumpRadius = 32;
-
-      ctx.save();
-      ctx.beginPath();
-      roundRect(ctx, bumpX, bumpY, bumpSize, bumpSize, bumpRadius);
-      // Bump shadow and glass plateau
-      ctx.fillStyle = currentFinish.darkRim;
-      ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-      ctx.shadowBlur = 12;
-      ctx.fill();
-
-      const bumpPlateauGrad = ctx.createLinearGradient(bumpX, bumpY, bumpX + bumpSize, bumpY + bumpSize);
-      bumpPlateauGrad.addColorStop(0, currentFinish.bodyColor);
-      bumpPlateauGrad.addColorStop(1, currentFinish.darkRim);
-      ctx.fillStyle = bumpPlateauGrad;
-      ctx.fill();
-
-      // Triple Sapphire Camera Lenses
-      drawCameraLens(ctx, bumpX + 32, bumpY + 34, 20); // Main 48MP
-      drawCameraLens(ctx, bumpX + 32, bumpY + 80, 20); // 5x Telephoto
-      drawCameraLens(ctx, bumpX + 78, bumpY + 57, 20); // 48MP Ultra Wide
-
-      // True Tone Flash
-      ctx.beginPath();
-      ctx.arc(bumpX + 80, bumpY + 28, 7, 0, Math.PI * 2);
-      ctx.fillStyle = "#fffae8";
-      ctx.fill();
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
-      ctx.stroke();
-
-      // LiDAR Scanner
-      ctx.beginPath();
-      ctx.arc(bumpX + 80, bumpY + 86, 6, 0, Math.PI * 2);
-      ctx.fillStyle = "#151515";
-      ctx.fill();
-
-      ctx.restore();
-
-    } else {
-      // FRONT: Super Retina XDR OLED Display
-      ctx.fillStyle = "#000000";
-      ctx.fill();
-
-      // Border Reduction Structure (BRS) Ultra-thin bezel
-      ctx.strokeStyle = "#1a1a1c";
-      ctx.lineWidth = 4;
-      ctx.stroke();
-
-      // Lock Screen Ambient Glow Wallpaper
-      ctx.save();
-      ctx.clip();
-
-      const oledGlow = ctx.createRadialGradient(0, -60, 20, 0, 40, 200);
-      oledGlow.addColorStop(0, "#4a2d1d");
-      oledGlow.addColorStop(0.7, "#140c08");
-      oledGlow.addColorStop(1, "#000000");
-      ctx.fillStyle = oledGlow;
-      ctx.fillRect(-phoneWidth / 2, -phoneHeight / 2, phoneWidth, phoneHeight);
-
-      // Lock Screen Clock
-      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.font = "bold 46px -apple-system, Inter, sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("9:41", 0, -phoneHeight / 2 + 120);
-
-      // Dynamic Island Pill
-      ctx.beginPath();
-      roundRect(ctx, -40, -phoneHeight / 2 + 20, 80, 24, 12);
-      ctx.fillStyle = "#000000";
-      ctx.fill();
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    // Outer Edge Rim Highlight
-    ctx.strokeStyle = currentFinish.rimLight;
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.restore();
-    ctx.restore();
-
-    requestAnimationFrame(renderPhone3D);
+    if (bdayDaysEl) bdayDaysEl.textContent = String(days).padStart(2, '0');
+    if (bdayHoursEl) bdayHoursEl.textContent = String(hours).padStart(2, '0');
+    if (bdayMinsEl) bdayMinsEl.textContent = String(mins).padStart(2, '0');
+    if (bdaySecsEl) bdaySecsEl.textContent = String(secs).padStart(2, '0');
   }
 
-  function drawCameraLens(ctx, x, y, radius) {
-    // Metal bezel ring
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#3a3a3c";
-    ctx.fill();
-    ctx.strokeStyle = currentFinish.rimLight;
-    ctx.lineWidth = 2;
-    ctx.stroke();
+  updateBdayCountdown();
+  setInterval(updateBdayCountdown, 1000);
 
-    // Dark sapphire crystal lens
-    ctx.beginPath();
-    ctx.arc(x, y, radius - 3, 0, Math.PI * 2);
-    const lensGrad = ctx.createRadialGradient(x - 2, y - 2, 2, x, y, radius);
-    lensGrad.addColorStop(0, "#1c2438");
-    lensGrad.addColorStop(0.6, "#0a0c10");
-    lensGrad.addColorStop(1, "#020304");
-    ctx.fillStyle = lensGrad;
-    ctx.fill();
+  /* ------------------------------------------------------
+     Step navigation — sequential fade & spring animation
+  ------------------------------------------------------ */
+  function goToStep(stepNumber) {
+    const current = pages[currentStep];
+    const next = pages[stepNumber];
+    if (!next || next === current) return;
 
-    // Blue-violet anti-reflective lens coat reflection
-    ctx.beginPath();
-    ctx.arc(x - 4, y - 4, 4, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(80, 140, 255, 0.6)";
-    ctx.fill();
+    current.classList.remove('show');
 
-    ctx.restore();
+    window.setTimeout(() => {
+      current.classList.remove('active');
+      next.classList.add('active');
+      // force reflow so the transition below actually animates
+      void next.offsetWidth;
+      requestAnimationFrame(() => next.classList.add('show'));
+      currentStep = stepNumber;
+      updateProgress(stepNumber);
+    }, 400);
   }
 
-  function roundRect(ctx, x, y, width, height, radius) {
-    if (width < 2 * radius) radius = width / 2;
-    if (height < 2 * radius) radius = height / 2;
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.arcTo(x + width, y, x + width, y + height, radius);
-    ctx.arcTo(x + width, y + height, x, y + height, radius);
-    ctx.arcTo(x, y + height, x, y, radius);
-    ctx.arcTo(x, y, x + width, y, radius);
-    ctx.closePath();
-  }
-
-  // Start 3D Engine
-  renderPhone3D();
-
-  /* ==========================================================================
-     3. COLOR FINISH SWITCHER
-     ========================================================================== */
-  const finishButtons = document.querySelectorAll(".swatch-btn");
-  const finishNameLabel = document.getElementById("finishName");
-  const heroGlow = document.querySelector(".glow-1");
-
-  finishButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      finishButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const finishKey = btn.dataset.finish;
-      if (FINISHES[finishKey]) {
-        currentFinish = FINISHES[finishKey];
-        finishNameLabel.textContent = currentFinish.name;
-
-        // Animate ambient glow color
-        if (heroGlow) {
-          heroGlow.style.background = `radial-gradient(circle, ${currentFinish.ambientGlow} 0%, transparent 70%)`;
-        }
-
-        // Trigger gentle spin toward rear to show off color
-        targetRotY = 0.45;
-      }
-    });
-  });
-
-  /* ==========================================================================
-     4. DYNAMIC ISLAND STATE MACHINE
-     ========================================================================== */
-  const dynamicIsland = document.getElementById("dynamicIsland");
-  const islandChips = document.querySelectorAll(".ctrl-chip");
-  const islandTimerText = document.getElementById("islandTimerText");
-
-  const ISLAND_STATES = ["music", "timer", "call", "faceid"];
-  let currentIslandIndex = 0;
-
-  function setIslandState(stateName) {
-    dynamicIsland.className = `dynamic-island-pill state-${stateName}`;
-    currentIslandIndex = ISLAND_STATES.indexOf(stateName);
-
-    islandChips.forEach(chip => {
-      if (chip.dataset.state === stateName) {
-        chip.classList.add("active");
-      } else {
-        chip.classList.remove("active");
-      }
+  function updateProgress(stepNumber) {
+    dots.forEach((dot) => {
+      dot.classList.toggle('active', Number(dot.dataset.step) === stepNumber);
     });
   }
 
-  // Click on chips to change state
-  islandChips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      setIslandState(chip.dataset.state);
+  /* ------------------------------------------------------
+     Page 1 — Yes / No with Dodging Physics
+  ------------------------------------------------------ */
+  let noClickCount = 0;
+
+  function moveNoButton() {
+    const positions = [
+      { x: -95, y: -45, rot: -8 },
+      { x: 95, y: 45, rot: 8 },
+      { x: -80, y: 55, rot: -12 },
+      { x: 85, y: -50, rot: 10 },
+      { x: -115, y: 25, rot: -15 },
+      { x: 110, y: -35, rot: 12 }
+    ];
+    const pos = positions[noClickCount % positions.length];
+
+    btnNo.style.position = 'relative';
+    btnNo.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${pos.rot}deg)`;
+  }
+
+  btnYes.addEventListener('click', () => goToStep(2));
+
+  btnNo.addEventListener('click', () => {
+    noClickCount++;
+
+    btnNo.classList.remove('shake');
+    void btnNo.offsetWidth;
+    btnNo.classList.add('shake');
+
+    moveNoButton();
+
+    if (noClickCount >= 2) {
+      noMessage.textContent = 'try again, you are not rudhra please pass it to her 🫡';
+      noMessage.classList.add('visible');
+    }
+  });
+
+  btnNo.addEventListener('animationend', () => btnNo.classList.remove('shake'));
+
+  /* ------------------------------------------------------
+     Page 2 — What's harder & favourite colour
+  ------------------------------------------------------ */
+  harderOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      harderOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      refreshContinueBtn();
     });
   });
 
-  // Tap on the island pill directly to cycle through states
-  dynamicIsland.addEventListener("click", () => {
-    currentIslandIndex = (currentIslandIndex + 1) % ISLAND_STATES.length;
-    setIslandState(ISLAND_STATES[currentIslandIndex]);
+  snoozeOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      snoozeOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      refreshContinueBtn();
+    });
   });
 
-  // Live timer tick for Timer state
-  let timerSeconds = 298; // 4m 58s
-  setInterval(() => {
-    if (timerSeconds > 0) {
-      timerSeconds--;
-      const m = Math.floor(timerSeconds / 60).toString().padStart(2, "0");
-      const s = (timerSeconds % 60).toString().padStart(2, "0");
-      if (islandTimerText) {
-        islandTimerText.textContent = `${m}:${s}`;
-      }
-    }
-  }, 1000);
+  skillOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      skillOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      refreshContinueBtn();
+    });
+  });
 
-  /* ==========================================================================
-     5. CAMERA CONTROL INTERACTIVE PLAYGROUND
-     ========================================================================== */
-  const zoomSlider = document.getElementById("zoomSlider");
-  const zoomValue = document.getElementById("zoomValue");
-  const viewfinderScene = document.getElementById("viewfinderScene");
-  const zoomButtons = document.querySelectorAll(".zoom-btn");
-  const shutterBtn = document.getElementById("shutterBtn");
-  const cameraFlash = document.getElementById("cameraFlash");
-  const styleChips = document.querySelectorAll(".style-chip");
-  const hudStyle = document.getElementById("hudStyle");
+  // Also re-check when singer text changes
+  if (singerInput) {
+    singerInput.addEventListener('input', refreshContinueBtn);
+  }
 
-  const FOCAL_MAP = {
-    0.5: { mm: "13 mm", scale: 0.8 },
-    1.0: { mm: "24 mm", scale: 1.0 },
-    2.0: { mm: "48 mm", scale: 1.45 },
-    5.0: { mm: "120 mm", scale: 2.3 }
+  const presetColors = {
+    pink: '#e2a3b8',
+    blue: '#93b7dc',
+    sandal: '#cbab7c',
   };
 
-  function updateZoom(factor) {
-    const clamped = Math.max(0.5, Math.min(5.0, parseFloat(factor)));
-    zoomSlider.value = clamped;
+  function isValidColor(value) {
+    return Boolean(value) && CSS.supports('color', value);
+  }
 
-    // Determine optical equivalent
-    let mm = "24 mm";
-    if (clamped <= 0.8) mm = "13 mm (Ultra Wide)";
-    else if (clamped <= 1.5) mm = `${Math.round(24 * clamped)} mm (Fusion)`;
-    else if (clamped <= 3.0) mm = `${Math.round(24 * clamped)} mm (Telephoto)`;
-    else mm = "120 mm (5x Tetraprism)";
+  function setAccent(value) {
+    document.documentElement.style.setProperty('--accent', value);
+  }
 
-    zoomValue.textContent = `${clamped.toFixed(1)}x (${mm})`;
+  function selectSwatch(target) {
+    swatches.forEach((s) => s.classList.remove('selected'));
+    target.classList.add('selected');
+  }
 
-    // Scale scene with smooth transform
-    const visualScale = 0.75 + (clamped - 0.5) * 0.4;
-    viewfinderScene.style.transform = `scale(${visualScale})`;
+  swatches.forEach((swatch) => {
+    swatch.addEventListener('click', () => {
+      const key = swatch.dataset.color;
+      selectSwatch(swatch);
 
-    // Sync zoom buttons
-    zoomButtons.forEach(btn => {
-      const bZoom = parseFloat(btn.dataset.zoom);
-      if (Math.abs(bZoom - clamped) < 0.2) {
-        btn.classList.add("active");
+      if (key === 'other') {
+        customColorInput.classList.remove('hidden');
+        customColorInput.focus();
+        const typed = customColorInput.value.trim();
+        if (isValidColor(typed)) setAccent(typed);
       } else {
-        btn.classList.remove("active");
+        customColorInput.classList.add('hidden');
+        setAccent(presetColors[key]);
       }
-    });
-  }
 
-  if (zoomSlider) {
-    zoomSlider.addEventListener("input", (e) => {
-      updateZoom(e.target.value);
-    });
-  }
-
-  zoomButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const zoom = parseFloat(btn.dataset.zoom);
-      updateZoom(zoom);
+      refreshContinueBtn();
     });
   });
 
-  // Photographic Styles switcher
-  const STYLES_FILTERS = {
-    vibrant: { filter: "contrast(1.15) saturate(1.25)", label: "VIBRANT STYLE" },
-    warm: { filter: "sepia(0.25) saturate(1.1) brightness(1.05)", label: "WARM AMBER" },
-    cool: { filter: "hue-rotate(190deg) saturate(1.1)", label: "COOL BLUE" },
-    mono: { filter: "grayscale(1) contrast(1.3)", label: "DRAMATIC B&W" }
-  };
-
-  styleChips.forEach(chip => {
-    chip.addEventListener("click", () => {
-      styleChips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
-      const styleKey = chip.dataset.style;
-      if (STYLES_FILTERS[styleKey]) {
-        viewfinderScene.style.filter = STYLES_FILTERS[styleKey].filter;
-        hudStyle.textContent = STYLES_FILTERS[styleKey].label;
-      }
-    });
+  customColorInput.addEventListener('input', () => {
+    const value = customColorInput.value.trim();
+    if (isValidColor(value)) setAccent(value);
+    refreshContinueBtn();
   });
 
-  // Shutter Flash & Tactile Click
-  if (shutterBtn) {
-    shutterBtn.addEventListener("click", () => {
-      // Flash trigger
-      cameraFlash.classList.add("flash-active");
-      setTimeout(() => {
-        cameraFlash.classList.remove("flash-active");
-      }, 120);
+  btnContinue.addEventListener('click', () => {
+    if (!btnContinue.disabled) goToStep(3);
+  });
 
-      // Synthesize subtle Apple haptic shutter click using Web Audio API
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.05);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.06);
-      } catch (e) {
-        // AudioContext ignored if blocked
-      }
-    });
+  /* ------------------------------------------------------
+     Page 3 — Enjoyment question popups
+  ------------------------------------------------------ */
+  function showPopup(popup) {
+    popup.classList.remove('hidden');
+    // slight delay so CSS transition fires
+    requestAnimationFrame(() => popup.classList.add('popup-visible'));
   }
 
-  /* ==========================================================================
-     6. BENTO GRID SPOTLIGHT EFFECT
-     ========================================================================== */
-  const bentoGrid = document.getElementById("bentoGrid");
-  const bentoCards = document.querySelectorAll(".bento-card");
+  btnEnjoyYes.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupYes);
+  });
 
-  if (bentoGrid) {
-    bentoGrid.addEventListener("mousemove", (e) => {
-      bentoCards.forEach(card => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
+  btnEnjoyWeird.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupWeird);
+  });
+
+  popupYesNext.addEventListener('click', () => {
+    popupYes.classList.remove('popup-visible');
+    setTimeout(() => { popupYes.classList.add('hidden'); goToStep(4); }, 300);
+  });
+
+  popupWeirdNext.addEventListener('click', () => {
+    popupWeird.classList.remove('popup-visible');
+    setTimeout(() => { popupWeird.classList.add('hidden'); goToStep(4); }, 300);
+  });
+
+  /* ------------------------------------------------------
+     Page 3 — reply & send email + Heart Burst Explosion
+  ------------------------------------------------------ */
+  function triggerHeartExplosion() {
+    const symbols = ['♡', '♥', '✨', '🌸', '💖'];
+    const count = 26;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'confetti-heart';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      const angle = (i / count) * 360 + (Math.random() * 20 - 10);
+      const distance = 80 + Math.random() * 130;
+      const rad = (angle * Math.PI) / 180;
+      const cx = Math.cos(rad) * distance + 'px';
+      const cy = Math.sin(rad) * distance - 35 + 'px';
+      const crot = (Math.random() * 360 - 180) + 'deg';
+
+      const rect = btnSend.getBoundingClientRect();
+      const startX = rect.left + rect.width / 2;
+      const startY = rect.top + rect.height / 2;
+
+      el.style.left = `${startX}px`;
+      el.style.top = `${startY}px`;
+      el.style.setProperty('--cx', cx);
+      el.style.setProperty('--cy', cy);
+      el.style.setProperty('--crot', crot);
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
+  }
+
+  btnSend.addEventListener('click', async () => {
+    const message = replyInput.value.trim();
+    const singer = singerInput ? singerInput.value.trim() : '';
+    const colour = getSelectedColor();
+    const harderChoice = getSelectedHarderOption();
+    const snoozeChoice = getSelectedSnoozeOption();
+    const skillChoice = getSelectedSkillOption();
+
+    btnSend.disabled = true;
+    btnSend.textContent = 'Sending...';
+
+    // Trigger visual heart burst effect!
+    triggerHeartExplosion();
+
+    try {
+      await fetch('https://formsubmit.co/ajax/nandhakumar8112005@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: 'New message from your website! ❤️',
+          _template: 'table',
+          _captcha: 'false',
+          'Favourite Colour': colour || 'Not specified',
+          'Favourite Singer': singer || 'Not specified',
+          'Whats Harder': harderChoice || 'Not specified',
+          'Snooze Habit': snoozeChoice || 'Not specified',
+          'Instant Skill Pick': skillChoice || 'Not specified',
+          'Her Message': message || '(No message written)'
+        })
       });
-    });
-  }
-
-  /* ==========================================================================
-     7. SPATIAL AUDIO SINE WAVE VISUALIZER
-     ========================================================================== */
-  const soundwaveCanvas = document.getElementById("soundwaveCanvas");
-  if (soundwaveCanvas) {
-    const swCtx = soundwaveCanvas.getContext("2d");
-    let waveStep = 0;
-
-    function drawSoundwave() {
-      const w = soundwaveCanvas.width;
-      const h = soundwaveCanvas.height;
-      swCtx.clearRect(0, 0, w, h);
-
-      swCtx.beginPath();
-      swCtx.moveTo(0, h / 2);
-
-      for (let x = 0; x < w; x++) {
-        const angle = (x * 0.04) + waveStep;
-        const y = h / 2 + Math.sin(angle) * 16 * Math.sin(x / w * Math.PI);
-        swCtx.lineTo(x, y);
+    } catch (err) {
+      console.error('Error sending email:', err);
+    } finally {
+      btnSend.textContent = 'Sent ❤️';
+      thankYouMsg.classList.add('visible');
+      replyInput.value = '';
+      replyInput.blur();
+      // Highlight the gift button
+      if (btnGoToGift) {
+        btnGoToGift.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-
-      swCtx.strokeStyle = "#2997ff";
-      swCtx.lineWidth = 2.5;
-      swCtx.shadowColor = "#2997ff";
-      swCtx.shadowBlur = 8;
-      swCtx.stroke();
-
-      waveStep += 0.06;
-      requestAnimationFrame(drawSoundwave);
     }
-    drawSoundwave();
-
-    // Audio mode buttons
-    const audioChips = document.querySelectorAll(".audio-chip");
-    audioChips.forEach(chip => {
-      chip.addEventListener("click", () => {
-        audioChips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-      });
-    });
-  }
-
-  /* ==========================================================================
-     8. ORDER & CONFIGURATION MODAL SIMULATOR
-     ========================================================================== */
-  const orderModal = document.getElementById("orderModal");
-  const modalClose = document.getElementById("modalClose");
-  const modalBackdrop = document.getElementById("modalBackdrop");
-  const buyTriggers = document.querySelectorAll(".buy-modal-trigger, #btnBuyNow, #heroBuyBtn");
-  const modelOpts = document.querySelectorAll(".config-opt[data-model]");
-  const storageOpts = document.querySelectorAll(".config-opt[data-storage]");
-  const modalTotal = document.getElementById("modalTotal");
-
-  let basePrice = 999;
-  let storageAddon = 0;
-
-  function updateTotal() {
-    if (modalTotal) {
-      modalTotal.textContent = `$${(basePrice + storageAddon).toLocaleString()}.00`;
-    }
-  }
-
-  function openModal() {
-    if (orderModal) {
-      orderModal.classList.add("modal-open");
-      document.body.style.overflow = "hidden";
-    }
-  }
-
-  function closeModal() {
-    if (orderModal) {
-      orderModal.classList.remove("modal-open");
-      document.body.style.overflow = "";
-    }
-  }
-
-  buyTriggers.forEach(btn => btn.addEventListener("click", openModal));
-  if (modalClose) modalClose.addEventListener("click", closeModal);
-  if (modalBackdrop) modalBackdrop.addEventListener("click", closeModal);
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
   });
 
-  modelOpts.forEach(opt => {
-    opt.addEventListener("click", () => {
-      modelOpts.forEach(o => o.classList.remove("active"));
-      opt.classList.add("active");
-      basePrice = parseInt(opt.dataset.price, 10) || 999;
-      updateTotal();
-    });
-  });
+  if (btnGoToGift) {
+    btnGoToGift.addEventListener('click', () => goToStep(5));
+  }
 
-  storageOpts.forEach(opt => {
-    opt.addEventListener("click", () => {
-      storageOpts.forEach(o => o.classList.remove("active"));
-      opt.classList.add("active");
-      storageAddon = parseInt(opt.dataset.addon, 10) || 0;
-      updateTotal();
-    });
-  });
+  /* ------------------------------------------------------
+     Page 5 — Luxury White & Pink Gift Box Interactions
+  ------------------------------------------------------ */
+  function triggerGiftSparkleExplosion(originEl) {
+    const symbols = ['✨', '🌸', '💖', '🤍', '⭐', '✨'];
+    const count = 30;
+    const rect = originEl.getBoundingClientRect();
+    const startX = rect.left + rect.width / 2;
+    const startY = rect.top + rect.height / 2;
 
-  const btnCheckout = document.getElementById("btnCheckout");
-  if (btnCheckout) {
-    btnCheckout.addEventListener("click", () => {
-      btnCheckout.textContent = "Added to Bag ✓";
-      btnCheckout.style.background = "#30d158";
-      setTimeout(() => {
-        closeModal();
-        btnCheckout.textContent = "Continue to Bag";
-        btnCheckout.style.background = "";
-      }, 1000);
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'confetti-heart';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      const angle = (i / count) * 360 + (Math.random() * 20 - 10);
+      const distance = 90 + Math.random() * 150;
+      const rad = (angle * Math.PI) / 180;
+      const cx = Math.cos(rad) * distance + 'px';
+      const cy = Math.sin(rad) * distance - 40 + 'px';
+      const crot = (Math.random() * 360 - 180) + 'deg';
+
+      el.style.left = `${startX}px`;
+      el.style.top = `${startY}px`;
+      el.style.setProperty('--cx', cx);
+      el.style.setProperty('--cy', cy);
+      el.style.setProperty('--crot', crot);
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
+  }
+
+  function openGiftBox() {
+    if (!luxuryBox) return;
+
+    // Trigger open state on box
+    luxuryBox.classList.add('is-open');
+    triggerGiftSparkleExplosion(giftBox);
+
+    // Show popup after slight opening delay
+    setTimeout(() => {
+      if (giftPopup) {
+        giftPopup.classList.remove('hidden');
+        requestAnimationFrame(() => giftPopup.classList.add('popup-visible'));
+      }
+    }, 450);
+  }
+
+  function closeGiftPopup() {
+    if (!giftPopup) return;
+    giftPopup.classList.remove('popup-visible');
+    setTimeout(() => {
+      giftPopup.classList.add('hidden');
+      if (luxuryBox) luxuryBox.classList.remove('is-open');
+    }, 350);
+  }
+
+  if (giftBox) {
+    giftBox.addEventListener('click', openGiftBox);
+    giftBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openGiftBox();
+      }
     });
   }
 
-  /* ==========================================================================
-     9. SCROLL HIGHLIGHT & SUBNAV ACTIVE LINK
-     ========================================================================== */
-  const subLinks = document.querySelectorAll(".sub-link");
-  const sections = document.querySelectorAll("main section");
+  if (giftPopupClose) {
+    giftPopupClose.addEventListener('click', closeGiftPopup);
+  }
 
-  window.addEventListener("scroll", () => {
-    let currentId = "";
-    sections.forEach(sec => {
-      const top = sec.offsetTop - 140;
-      if (window.scrollY >= top) {
-        currentId = sec.getAttribute("id");
-      }
+  if (giftPopupBackdrop) {
+    giftPopupBackdrop.addEventListener('click', closeGiftPopup);
+  }
+
+  /* ------------------------------------------------------
+     3D Parallax Tilt Effect on Cards
+  ------------------------------------------------------ */
+  document.querySelectorAll('.card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      const tiltX = (y / (rect.height / 2)) * -5;
+      const tiltY = (x / (rect.width / 2)) * 5;
+
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
     });
 
-    subLinks.forEach(link => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${currentId}`) {
-        link.classList.add("active");
-      }
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
     });
-  }, { passive: true });
+  });
 
-});
+
+
+  /* ------------------------------------------------------
+     Ambient floating hearts, notes & particles
+  ------------------------------------------------------ */
+  const SYMBOLS = ['♡', '♥', '♪', '♫', 'dot', 'dot'];
+  const MAX_FLOATIES = 16;
+
+  function spawnFloaty() {
+    if (floatiesLayer.childElementCount >= MAX_FLOATIES) return;
+
+    const symbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+    const el = document.createElement('span');
+
+    const isParticle = symbol === 'dot';
+    el.className = isParticle ? 'floaty particle' : `floaty${symbol === '♪' || symbol === '♫' ? ' note' : ''}`;
+
+    if (!isParticle) {
+      el.textContent = symbol;
+      el.style.fontSize = `${14 + Math.random() * 14}px`;
+    }
+
+    const leftPercent = 4 + Math.random() * 92;
+    const duration = 9 + Math.random() * 7;
+    const drift = (Math.random() * 80 - 40).toFixed(0) + 'px';
+    const spin = (Math.random() * 50 - 25).toFixed(0) + 'deg';
+
+    el.style.left = `${leftPercent}%`;
+    el.style.setProperty('--drift', drift);
+    el.style.setProperty('--spin', spin);
+    el.style.animationDuration = `${duration}s`;
+
+    el.addEventListener('animationend', () => el.remove());
+    floatiesLayer.appendChild(el);
+  }
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    for (let i = 0; i < 5; i += 1) {
+      window.setTimeout(spawnFloaty, i * 500);
+    }
+    window.setInterval(spawnFloaty, 1600);
+  }
+})();
