@@ -1012,86 +1012,49 @@ body {
   100% { transform: translateY(0px) rotate(-0.5deg); }
 }
 
-/* Sparkles around box */
-.gift-sparkles {
-  position: absolute;
-  inset: -25px -35px;
-  pointer-events: none;
-  z-index: 10;
-}
 
-.sparkle {
-  position: absolute;
-  font-size: 1.15rem;
-  user-select: none;
-  animation: sparkleTwinkle 2.8s infinite ease-in-out alternate;
-}
 
-.sp-1 { top: 0; left: 10%; animation-delay: 0s; font-size: 1.4rem; }
-.sp-2 { top: 25%; right: -5%; animation-delay: 0.7s; font-size: 1.1rem; }
-.sp-3 { bottom: 20%; left: -8%; animation-delay: 1.4s; font-size: 1.2rem; }
-.sp-4 { top: -10%; right: 15%; animation-delay: 1.9s; font-size: 1.3rem; }
-.sp-5 { bottom: 5%; right: 10%; animation-delay: 2.3s; font-size: 1.1rem; }
-
-@keyframes sparkleTwinkle {
-  0% { transform: scale(0.6) rotate(0deg); opacity: 0.3; }
-  50% { transform: scale(1.25) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 182, 206, 0.9)); }
-  100% { transform: scale(0.8) rotate(-10deg); opacity: 0.4; }
-}
-
-/* 3D Luxury Box Container */
+/* Simple Gift Box Container */
 .luxury-box {
   position: relative;
-  width: 170px;
-  height: 150px;
+  width: 160px;
+  height: 170px;
   margin: 0 auto;
-  transform-style: preserve-3d;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Box Body */
+
+/* Box Body — simple white & pink */
 .box-body {
   position: absolute;
   bottom: 0;
-  left: 10px;
+  left: 5px;
   width: 150px;
-  height: 120px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #ffffff 0%, #fff7fa 45%, #fbe8f0 100%);
-  border: 1.5px solid rgba(255, 192, 212, 0.7);
+  height: 112px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 2px solid #f7bfd0;
   box-shadow:
-    0 16px 36px rgba(224, 130, 168, 0.28),
-    inset 0 2px 5px rgba(255, 255, 255, 0.95),
-    inset 0 -6px 14px rgba(230, 160, 185, 0.2);
+    0 8px 24px rgba(224, 130, 168, 0.22),
+    inset 0 2px 4px rgba(255, 255, 255, 0.9);
   overflow: hidden;
   z-index: 1;
 }
 
-/* Satin Pink Ribbons on Box */
+/* Simple Pink Ribbon — Vertical */
 .box-ribbon-v {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 32px;
+  width: 28px;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #ffa8c5 0%, #f4729c 48%, #e85d88 100%);
-  box-shadow: 0 0 8px rgba(232, 93, 136, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.6);
-  border-left: 0.5px solid rgba(255, 220, 235, 0.8);
-  border-right: 0.5px solid rgba(255, 220, 235, 0.8);
+  background: #f9a8c0;
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.box-ribbon-v::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 4px;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 100%);
-}
-
+/* Simple Pink Ribbon — Horizontal */
 .box-ribbon-h {
   position: absolute;
   top: 50%;
@@ -1099,184 +1062,111 @@ body {
   right: 0;
   height: 28px;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #ffa8c5 0%, #f4729c 48%, #e85d88 100%);
-  box-shadow: 0 2px 8px rgba(232, 93, 136, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.6);
-  border-top: 0.5px solid rgba(255, 220, 235, 0.8);
-  border-bottom: 0.5px solid rgba(255, 220, 235, 0.8);
-}
-
-.box-sheen {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(115deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,0.3) 100%);
-  pointer-events: none;
+  background: #f9a8c0;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .box-interior-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 235, 170, 0.9) 0%, rgba(255, 180, 210, 0.5) 50%, transparent 80%);
+  background: radial-gradient(circle at 50% 30%, rgba(255, 235, 170, 0.85) 0%, rgba(255, 180, 210, 0.4) 55%, transparent 80%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
 }
 
-/* Box Lid */
+/* Simple Lid */
 .box-lid {
-  position: absolute;
-  top: 12px;
-  left: 0;
-  width: 170px;
-  height: 40px;
-  z-index: 3;
-  transform-origin: top left;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 6px 14px rgba(210, 120, 160, 0.3));
-}
-
-.lid-top {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 32px;
-  border-radius: 14px 14px 6px 6px;
-  background: linear-gradient(145deg, #ffffff 0%, #fff4f8 45%, #fbe4ed 100%);
-  border: 1.5px solid rgba(255, 190, 210, 0.8);
-  box-shadow:
-    0 4px 12px rgba(220, 130, 170, 0.2),
-    inset 0 2px 4px rgba(255, 255, 255, 1);
+  width: 160px;
+  height: 48px;
+  z-index: 3;
+  transform-origin: top center;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.lid-rim {
+.simple-lid {
   position: absolute;
-  bottom: 0;
-  left: 2px;
-  width: calc(100% - 4px);
-  height: 12px;
-  border-radius: 0 0 10px 10px;
-  background: linear-gradient(180deg, #fbe4ed 0%, #f6ccd9 100%);
-  border: 1px solid rgba(255, 185, 205, 0.6);
-  border-top: none;
+  inset: 0;
+  border-radius: 8px 8px 4px 4px;
+  background: #ffffff;
+  border: 2px solid #f7bfd0;
+  box-shadow:
+    0 4px 10px rgba(220, 130, 170, 0.18),
+    inset 0 2px 4px rgba(255, 255, 255, 1);
+  overflow: hidden;
 }
 
-.lid-ribbon-v {
+/* Lid Ribbon Strips */
+.simple-lid-ribbon-v {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 32px;
+  width: 28px;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #ffa8c5 0%, #f4729c 48%, #e85d88 100%);
-  box-shadow: 0 0 6px rgba(232, 93, 136, 0.3);
-  border-left: 0.5px solid rgba(255, 225, 238, 0.8);
-  border-right: 0.5px solid rgba(255, 225, 238, 0.8);
+  background: #f9a8c0;
 }
 
-.lid-ribbon-h {
+.simple-lid-ribbon-h {
   position: absolute;
   top: 50%;
   left: 0;
   right: 0;
-  height: 24px;
+  height: 28px;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, #ffa8c5 0%, #f4729c 48%, #e85d88 100%);
-  box-shadow: 0 0 6px rgba(232, 93, 136, 0.25);
-  border-top: 0.5px solid rgba(255, 225, 238, 0.8);
-  border-bottom: 0.5px solid rgba(255, 225, 238, 0.8);
+  background: #f9a8c0;
 }
 
-/* 3D Luxury Bow */
-.luxury-bow {
+/* Simple Bow */
+.simple-bow {
   position: absolute;
-  top: -26px;
+  top: -22px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 44px;
+  width: 64px;
+  height: 36px;
   z-index: 5;
   pointer-events: none;
 }
 
-/* Bow Loops */
-.bow-loop {
+.simple-bow-left,
+.simple-bow-right {
   position: absolute;
-  width: 32px;
-  height: 24px;
-  border-radius: 50% 50% 40% 40% / 60% 60% 30% 30%;
-  background: linear-gradient(140deg, #ffb3cc 0%, #f4729c 50%, #d84874 100%);
-  border: 1px solid rgba(255, 230, 240, 0.9);
-  box-shadow: 0 4px 10px rgba(190, 50, 95, 0.35), inset 0 2px 4px rgba(255, 255, 255, 0.7);
-}
-
-.bow-loop-left {
-  left: 8px;
+  width: 26px;
+  height: 20px;
+  border-radius: 50% 50% 40% 40% / 60% 60% 35% 35%;
+  background: #f9a8c0;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 6px rgba(200, 80, 130, 0.2), inset 0 1px 3px rgba(255,255,255,0.7);
   top: 4px;
-  transform: rotate(-28deg);
 }
 
-.bow-loop-right {
-  right: 8px;
-  top: 4px;
-  transform: rotate(28deg);
+.simple-bow-left {
+  left: 2px;
+  transform: rotate(-25deg);
 }
 
-.bow-loop-top-left {
-  left: 14px;
-  top: -4px;
-  width: 24px;
-  height: 18px;
-  transform: rotate(-12deg);
-  background: linear-gradient(140deg, #ffc2d5 0%, #f685aa 60%, #e05b88 100%);
-  box-shadow: 0 3px 8px rgba(190, 50, 95, 0.3), inset 0 2px 3px rgba(255, 255, 255, 0.8);
+.simple-bow-right {
+  right: 2px;
+  transform: rotate(25deg);
 }
 
-.bow-loop-top-right {
-  right: 14px;
-  top: -4px;
-  width: 24px;
-  height: 18px;
-  transform: rotate(12deg);
-  background: linear-gradient(140deg, #ffc2d5 0%, #f685aa 60%, #e05b88 100%);
-  box-shadow: 0 3px 8px rgba(190, 50, 95, 0.3), inset 0 2px 3px rgba(255, 255, 255, 0.8);
-}
-
-/* Center Jewel / Brooch */
-.bow-center {
+.simple-bow-center {
   position: absolute;
-  top: 6px;
+  top: 7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #fff9e6 0%, #fde047 30%, #eab308 65%, #92400e 100%);
-  border: 1.5px solid #fef08a;
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.6), 0 3px 6px rgba(0, 0, 0, 0.2);
-  z-index: 6;
-}
-
-/* Ribbon Tails */
-.bow-tail {
-  position: absolute;
-  top: 18px;
   width: 14px;
-  height: 28px;
-  background: linear-gradient(180deg, #f4729c 0%, #d84874 100%);
-  border-radius: 0 0 3px 3px;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 82%, 0% 100%);
-  box-shadow: 0 4px 8px rgba(180, 40, 85, 0.3);
-  z-index: 2;
-}
-
-.bow-tail-left {
-  left: 22px;
-  transform: rotate(18deg);
-}
-
-.bow-tail-right {
-  right: 22px;
-  transform: rotate(-18deg);
+  height: 14px;
+  border-radius: 50%;
+  background: #f9a8c0;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 6px rgba(200, 80, 130, 0.25);
+  z-index: 6;
 }
 
 /* Box Shadow on ground */
@@ -1295,8 +1185,7 @@ body {
 
 /* Open Animation State */
 .luxury-box.is-open .box-lid {
-  transform: translateY(-70px) rotate(-22deg) scale(1.05);
-  filter: drop-shadow(0 14px 22px rgba(210, 100, 150, 0.4));
+  transform: translateY(-80px) rotate(-15deg) scale(1.03);
 }
 
 .luxury-box.is-open .box-interior-glow {
