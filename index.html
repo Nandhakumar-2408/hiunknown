@@ -30,6 +30,7 @@
         <span class="dot" data-step="2"></span>
         <span class="dot" data-step="3"></span>
         <span class="dot" data-step="4"></span>
+        <span class="dot" data-step="5"></span>
       </div>
 
       <!-- PAGE 1 : INTRODUCTION -->
@@ -224,10 +225,89 @@
             <button class="btn btn-primary" id="btnSend" type="button">Send ❤️</button>
             <p class="thank-you hidden" id="thankYouMsg">Thank you for your message ❤️</p>
           </div>
+          <div class="next-gift-row">
+            <button class="btn btn-primary btn-gift-next" id="btnGoToGift" type="button">Open Your Gift 🎁 →</button>
+          </div>
         </div>
         <!-- Sticky note — outside the card, floating freely -->
         <div class="sticky-note" aria-label="Handwritten sticky note">
           <p class="sticky-text">hope you remeber that scrunchies</p>
+        </div>
+      </section>
+
+      <!-- PAGE 5 : LUXURY GIFT BOX -->
+      <section class="page" id="page5">
+        <div class="card gift-card">
+          <p class="eyebrow-gift">♡ ONE LAST SURPRISE ♡</p>
+          <h2 class="gift-heading">A Gift For You</h2>
+          <p class="gift-subtext">Touch the gift box to open it ✨</p>
+
+          <div class="luxury-gift-stage">
+            <div class="gift-box-wrapper" id="giftBox" role="button" tabindex="0" aria-label="Touch to open luxury gift box">
+              <!-- Floating sparkles around the box -->
+              <div class="gift-sparkles" aria-hidden="true">
+                <span class="sparkle sp-1">✨</span>
+                <span class="sparkle sp-2">🌸</span>
+                <span class="sparkle sp-3">💖</span>
+                <span class="sparkle sp-4">✨</span>
+                <span class="sparkle sp-5">🤍</span>
+              </div>
+
+              <!-- 3D Luxury White & Pink Box -->
+              <div class="luxury-box" id="luxuryBox">
+                <!-- Lid with 3D Luxury Bow -->
+                <div class="box-lid" id="boxLid">
+                  <div class="lid-top">
+                    <div class="lid-ribbon-v"></div>
+                    <div class="lid-ribbon-h"></div>
+                    <!-- 3D Luxury Bow -->
+                    <div class="luxury-bow">
+                      <div class="bow-loop bow-loop-left"></div>
+                      <div class="bow-loop bow-loop-right"></div>
+                      <div class="bow-loop bow-loop-top-left"></div>
+                      <div class="bow-loop bow-loop-top-right"></div>
+                      <div class="bow-center"></div>
+                      <div class="bow-tail bow-tail-left"></div>
+                      <div class="bow-tail bow-tail-right"></div>
+                    </div>
+                  </div>
+                  <div class="lid-rim"></div>
+                </div>
+
+                <!-- Box Body -->
+                <div class="box-body">
+                  <div class="box-ribbon-v"></div>
+                  <div class="box-ribbon-h"></div>
+                  <div class="box-sheen"></div>
+                  <div class="box-interior-glow"></div>
+                </div>
+
+                <!-- Box Shadow -->
+                <div class="box-shadow"></div>
+              </div>
+
+              <div class="gift-tap-hint">
+                <span class="pulse-hand">👆</span> Tap the gift box
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Surprise Image Popup Modal -->
+        <div class="gift-popup hidden" id="giftPopup" role="dialog" aria-modal="true" aria-label="Surprise Gift">
+          <div class="gift-popup-backdrop" id="giftPopupBackdrop"></div>
+          <div class="gift-popup-content" id="giftPopupContent">
+            <button class="gift-popup-close" id="giftPopupClose" type="button" aria-label="Close gift popup">✕</button>
+            <div class="gift-popup-frame">
+              <div class="gift-badge">✨ Special Surprise ✨</div>
+              <div class="gift-img-container">
+                <img src="gift_surprise.jpg" alt="Thanks for visiting!" class="gift-popup-img" id="giftPopupImg" />
+                <div class="gift-img-shine"></div>
+              </div>
+              <p class="gift-popup-title">Thanks for visiting! ❤️</p>
+              <p class="gift-popup-caption">Hope this brought a sweet smile to your face :)</p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -9,6 +9,7 @@
     2: document.getElementById('page2'),
     3: document.getElementById('page3'),
     4: document.getElementById('page4'),
+    5: document.getElementById('page5'),
   };
   const dots = document.querySelectorAll('.dot');
 
@@ -31,6 +32,13 @@
   const btnSend = document.getElementById('btnSend');
   const replyInput = document.getElementById('replyInput');
   const thankYouMsg = document.getElementById('thankYouMsg');
+  const btnGoToGift = document.getElementById('btnGoToGift');
+
+  const giftBox = document.getElementById('giftBox');
+  const luxuryBox = document.getElementById('luxuryBox');
+  const giftPopup = document.getElementById('giftPopup');
+  const giftPopupClose = document.getElementById('giftPopupClose');
+  const giftPopupBackdrop = document.getElementById('giftPopupBackdrop');
 
   const floatiesLayer = document.getElementById('floaties');
 
@@ -384,8 +392,92 @@
       thankYouMsg.classList.add('visible');
       replyInput.value = '';
       replyInput.blur();
+      // Highlight the gift button
+      if (btnGoToGift) {
+        btnGoToGift.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   });
+
+  if (btnGoToGift) {
+    btnGoToGift.addEventListener('click', () => goToStep(5));
+  }
+
+  /* ------------------------------------------------------
+     Page 5 — Luxury White & Pink Gift Box Interactions
+  ------------------------------------------------------ */
+  function triggerGiftSparkleExplosion(originEl) {
+    const symbols = ['✨', '🌸', '💖', '🤍', '⭐', '✨'];
+    const count = 30;
+    const rect = originEl.getBoundingClientRect();
+    const startX = rect.left + rect.width / 2;
+    const startY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'confetti-heart';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      const angle = (i / count) * 360 + (Math.random() * 20 - 10);
+      const distance = 90 + Math.random() * 150;
+      const rad = (angle * Math.PI) / 180;
+      const cx = Math.cos(rad) * distance + 'px';
+      const cy = Math.sin(rad) * distance - 40 + 'px';
+      const crot = (Math.random() * 360 - 180) + 'deg';
+
+      el.style.left = `${startX}px`;
+      el.style.top = `${startY}px`;
+      el.style.setProperty('--cx', cx);
+      el.style.setProperty('--cy', cy);
+      el.style.setProperty('--crot', crot);
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
+  }
+
+  function openGiftBox() {
+    if (!luxuryBox) return;
+
+    // Trigger open state on box
+    luxuryBox.classList.add('is-open');
+    triggerGiftSparkleExplosion(giftBox);
+
+    // Show popup after slight opening delay
+    setTimeout(() => {
+      if (giftPopup) {
+        giftPopup.classList.remove('hidden');
+        requestAnimationFrame(() => giftPopup.classList.add('popup-visible'));
+      }
+    }, 450);
+  }
+
+  function closeGiftPopup() {
+    if (!giftPopup) return;
+    giftPopup.classList.remove('popup-visible');
+    setTimeout(() => {
+      giftPopup.classList.add('hidden');
+      if (luxuryBox) luxuryBox.classList.remove('is-open');
+    }, 350);
+  }
+
+  if (giftBox) {
+    giftBox.addEventListener('click', openGiftBox);
+    giftBox.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openGiftBox();
+      }
+    });
+  }
+
+  if (giftPopupClose) {
+    giftPopupClose.addEventListener('click', closeGiftPopup);
+  }
+
+  if (giftPopupBackdrop) {
+    giftPopupBackdrop.addEventListener('click', closeGiftPopup);
+  }
 
   /* ------------------------------------------------------
      3D Parallax Tilt Effect on Cards
