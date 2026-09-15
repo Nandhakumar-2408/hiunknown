@@ -1014,188 +1014,185 @@ body {
 
 
 
-/* Simple Gift Box Container */
-.luxury-box {
+
+/* =========================================================
+   GIFT BOX — White & Pink, clearly recognizable
+   Structure: bow → lid → body (stacked top-to-bottom)
+   ========================================================= */
+
+/* Outer container — stacks bow, lid, body vertically */
+.giftbox {
   position: relative;
   width: 160px;
-  height: 170px;
-  margin: 0 auto;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 16px 32px rgba(200, 90, 140, 0.28));
 }
 
+/* ----- BOW ----- */
+.giftbox-bow {
+  position: relative;
+  width: 120px;
+  height: 60px;
+  z-index: 4;
+  margin-bottom: -4px; /* slightly overlap lid */
+}
 
-/* Box Body — simple white & pink */
-.box-body {
+/* Left and Right bow loops */
+.bow-loop-l,
+.bow-loop-r {
   position: absolute;
-  bottom: 0;
-  left: 5px;
-  width: 150px;
-  height: 112px;
-  border-radius: 8px;
-  background: #ffffff;
-  border: 2px solid #f7bfd0;
+  width: 52px;
+  height: 46px;
+  border-radius: 50% 50% 45% 45% / 55% 55% 40% 40%;
+  background: linear-gradient(140deg, #ffcfe0 0%, #f7a8c4 40%, #e87daa 100%);
+  border: 1.5px solid rgba(255,255,255,0.7);
   box-shadow:
-    0 8px 24px rgba(224, 130, 168, 0.22),
-    inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  overflow: hidden;
-  z-index: 1;
+    0 4px 10px rgba(190, 60, 110, 0.22),
+    inset 0 2px 5px rgba(255,255,255,0.6);
+  bottom: 14px;
+}
+/* sheen stripe inside each loop */
+.bow-loop-l::after,
+.bow-loop-r::after {
+  content: '';
+  position: absolute;
+  top: 6px; left: 8px;
+  width: 12px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: rotate(-20deg);
 }
 
-/* Simple Pink Ribbon — Vertical */
-.box-ribbon-v {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 28px;
-  transform: translateX(-50%);
-  background: #f9a8c0;
-  border-left: 1px solid rgba(255, 255, 255, 0.5);
-  border-right: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-/* Simple Pink Ribbon — Horizontal */
-.box-ribbon-h {
-  position: absolute;
-  top: 50%;
+.bow-loop-l {
   left: 0;
+  transform: rotate(-20deg);
+  transform-origin: right bottom;
+}
+.bow-loop-r {
   right: 0;
-  height: 28px;
-  transform: translateY(-50%);
-  background: #f9a8c0;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  transform: rotate(20deg);
+  transform-origin: left bottom;
 }
 
-.box-interior-glow {
+/* Bow tails (ribbon strips hanging below knot) */
+.bow-tail-l,
+.bow-tail-r {
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #f7a8c4 0%, #e87daa 100%);
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+}
+.bow-tail-l {
+  left: calc(50% - 18px);
+  transform: rotate(-12deg);
+  transform-origin: top right;
+}
+.bow-tail-r {
+  left: calc(50%);
+  transform: rotate(12deg);
+  transform-origin: top left;
+}
+
+/* Center knot */
+.bow-knot {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #ffdded 0%, #f7a8c4 45%, #d8608a 100%);
+  border: 1.5px solid rgba(255,255,255,0.8);
+  box-shadow: 0 2px 8px rgba(190,60,110,0.3);
+  z-index: 5;
+}
+
+/* ----- LID ----- */
+.giftbox-lid {
+  width: 168px;          /* slightly wider than body for 3D feel */
+  height: 44px;
+  background: #ffffff;
+  border: 2px solid #f2b3ca;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  z-index: 3;
+  box-shadow:
+    0 4px 12px rgba(200, 100, 145, 0.18),
+    inset 0 2px 5px rgba(255,255,255,0.9);
+  transform-origin: top center;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.4s ease;
+}
+
+/* Vertical ribbon stripe on lid */
+.lid-ribbon {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 30px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #ffb6cd 0%, #f0789e 50%, #e05b88 100%);
+  box-shadow: inset 2px 0 4px rgba(255,255,255,0.4),
+              inset -2px 0 4px rgba(255,255,255,0.4);
+}
+
+/* ----- BOX BODY ----- */
+.giftbox-body {
+  width: 160px;
+  height: 120px;
+  background: #ffffff;
+  border: 2px solid #f2b3ca;
+  border-top: none;           /* lid sits flush on top */
+  border-radius: 0 0 10px 10px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow:
+    0 12px 28px rgba(200, 100, 145, 0.2),
+    inset 0 2px 6px rgba(255,255,255,0.8);
+}
+
+/* Vertical ribbon stripe on body */
+.body-ribbon {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 30px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #ffb6cd 0%, #f0789e 50%, #e05b88 100%);
+  box-shadow: inset 2px 0 4px rgba(255,255,255,0.4),
+              inset -2px 0 4px rgba(255,255,255,0.4);
+}
+
+/* Warm glow inside box when opened */
+.body-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(255, 235, 170, 0.85) 0%, rgba(255, 180, 210, 0.4) 55%, transparent 80%);
+  background: radial-gradient(circle at 50% 30%,
+    rgba(255, 230, 150, 0.9) 0%,
+    rgba(255, 170, 200, 0.5) 55%,
+    transparent 80%);
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
 }
 
-/* Simple Lid */
-.box-lid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 160px;
-  height: 48px;
-  z-index: 3;
-  transform-origin: top center;
-  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+/* ----- OPEN STATE — lid flips up ----- */
+.giftbox.is-open .giftbox-lid {
+  transform: translateY(-90px) rotate(-18deg) scale(1.05);
+  opacity: 0.8;
 }
 
-.simple-lid {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px 8px 4px 4px;
-  background: #ffffff;
-  border: 2px solid #f7bfd0;
-  box-shadow:
-    0 4px 10px rgba(220, 130, 170, 0.18),
-    inset 0 2px 4px rgba(255, 255, 255, 1);
-  overflow: hidden;
-}
-
-/* Lid Ribbon Strips */
-.simple-lid-ribbon-v {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 28px;
-  transform: translateX(-50%);
-  background: #f9a8c0;
-}
-
-.simple-lid-ribbon-h {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 28px;
-  transform: translateY(-50%);
-  background: #f9a8c0;
-}
-
-/* Simple Bow */
-.simple-bow {
-  position: absolute;
-  top: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 64px;
-  height: 36px;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.simple-bow-left,
-.simple-bow-right {
-  position: absolute;
-  width: 26px;
-  height: 20px;
-  border-radius: 50% 50% 40% 40% / 60% 60% 35% 35%;
-  background: #f9a8c0;
-  border: 1.5px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 6px rgba(200, 80, 130, 0.2), inset 0 1px 3px rgba(255,255,255,0.7);
-  top: 4px;
-}
-
-.simple-bow-left {
-  left: 2px;
-  transform: rotate(-25deg);
-}
-
-.simple-bow-right {
-  right: 2px;
-  transform: rotate(25deg);
-}
-
-.simple-bow-center {
-  position: absolute;
-  top: 7px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #f9a8c0;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 6px rgba(200, 80, 130, 0.25);
-  z-index: 6;
-}
-
-/* Box Shadow on ground */
-.box-shadow {
-  position: absolute;
-  bottom: -16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 155px;
-  height: 18px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(180, 80, 120, 0.35) 0%, rgba(180, 80, 120, 0) 70%);
-  transition: all 0.4s ease;
-  z-index: 0;
-}
-
-/* Open Animation State */
-.luxury-box.is-open .box-lid {
-  transform: translateY(-80px) rotate(-15deg) scale(1.03);
-}
-
-.luxury-box.is-open .box-interior-glow {
+.giftbox.is-open .body-glow {
   opacity: 1;
 }
 
-.luxury-box.is-open .box-shadow {
-  width: 175px;
-  opacity: 0.6;
-}
 
 /* Tap Hint */
 .gift-tap-hint {
