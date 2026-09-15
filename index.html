@@ -1,314 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>A little something for Rudhra</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>A Private Dedication — For Rudhra</title>
+  <meta name="description" content="A curated, thoughtful space designed for Rudhra Devaraj." />
 
-  <!-- Animated background ambient gradient blobs -->
-  <div class="bg-blobs" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+  <!-- Luxury Editorial Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="luxury-theme">
+
+  <!-- Ambient Cinematic Glows -->
+  <div class="ambient-glows" aria-hidden="true">
+    <div class="glow-orb orb-gold"></div>
+    <div class="glow-orb orb-rose"></div>
+    <div class="glow-orb orb-noir"></div>
+    <div class="grain-overlay"></div>
   </div>
 
-  <!-- Ambient floating layer: hearts, notes, soft particles -->
-  <div class="floaties" id="floaties" aria-hidden="true"></div>
+  <!-- Floating subtle golden embers & stardust -->
+  <div class="stardust-layer" id="floaties" aria-hidden="true"></div>
 
-  <div class="stage">
-    <div class="app-shell">
+  <div class="experience-wrapper">
+    <div class="editorial-shell">
 
-      <!-- Progress indicator -->
-      <div class="progress" id="progress" aria-hidden="true">
-        <span class="dot active" data-step="1"></span>
-        <span class="dot" data-step="2"></span>
-        <span class="dot" data-step="3"></span>
-        <span class="dot" data-step="4"></span>
-        <span class="dot" data-step="5"></span>
-      </div>
+      <!-- Minimalist Progress Bar -->
+      <nav class="progress-bar-wrap" aria-label="Step Progress">
+        <div class="progress-pill-track">
+          <button class="step-dot active" data-step="1" aria-label="Step 1: Welcome"></button>
+          <button class="step-dot" data-step="2" aria-label="Step 2: Reflections"></button>
+          <button class="step-dot" data-step="3" aria-label="Step 3: Intermission"></button>
+          <button class="step-dot" data-step="4" aria-label="Step 4: A Note"></button>
+          <button class="step-dot" data-step="5" aria-label="Step 5: Keepsake"></button>
+        </div>
+      </nav>
 
-      <!-- PAGE 1 : INTRODUCTION -->
-      <section class="page active show" id="page1">
-        <div class="card intro-card">
-          <p class="eyebrow-heart">♡</p>
-          <h1 class="question">This is Rudhra Devaraj?</h1>
-          <div class="button-row">
-            <button class="btn btn-primary" id="btnYes" type="button">YES</button>
-            <button class="btn btn-ghost" id="btnNo" type="button">NO</button>
+      <!-- ================= PAGE 1 : WELCOME & VERIFICATION ================= -->
+      <section class="editorial-page active show" id="page1">
+        <div class="glass-card welcome-card">
+          <div class="card-monogram">✦</div>
+          <p class="eyebrow">A Curated Space</p>
+          <h1 class="serif-title">This is Rudhra Devaraj?</h1>
+          <p class="sub-lead">A quiet, bespoke corner crafted exclusively for you.</p>
+          
+          <div class="action-cluster">
+            <button class="btn-luxury-primary" id="btnYes" type="button">
+              <span>Yes, it’s me</span>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </button>
+            <button class="btn-luxury-ghost" id="btnNo" type="button">Not quite</button>
           </div>
-          <p class="playful-message" id="noMessage">
-            try again, you are not rudhra please pass it to her 🫡
+          
+          <p class="subtle-feedback" id="noMessage">
+            Please pass this along to Rudhra with care. ✨
           </p>
         </div>
       </section>
 
-      <!-- PAGE 2 : QUESTIONS -->
-      <section class="page" id="page2">
+      <!-- ================= PAGE 2 : QUIZ & COUNTDOWN ================= -->
+      <section class="editorial-page" id="page2">
 
-        <!-- Birthday Countdown — floating left side widget -->
-        <div class="bday-countdown" id="bdayCountdown">
-          <div class="bday-icon">✨</div>
-          <div class="bday-title">Special Day</div>
-          <div class="bday-date">24th March</div>
-          <div class="bday-timer">
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayDays">00</span>
-              <span class="timer-label">Days</span>
+        <!-- Luxury Minimalist Countdown Card -->
+        <div class="countdown-capsule" id="bdayCountdown">
+          <div class="capsule-header">
+            <span class="capsule-icon">✧</span>
+            <span class="capsule-tag">Special Milestone</span>
+            <span class="capsule-date">24th March</span>
+          </div>
+          <div class="capsule-timer">
+            <div class="timer-segment">
+              <span class="time-digit" id="bdayDays">00</span>
+              <span class="time-label">Days</span>
             </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayHours">00</span>
-              <span class="timer-label">Hours</span>
+            <span class="time-sep">:</span>
+            <div class="timer-segment">
+              <span class="time-digit" id="bdayHours">00</span>
+              <span class="time-label">Hours</span>
             </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayMins">00</span>
-              <span class="timer-label">Mins</span>
+            <span class="time-sep">:</span>
+            <div class="timer-segment">
+              <span class="time-digit" id="bdayMins">00</span>
+              <span class="time-label">Mins</span>
             </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdaySecs">00</span>
-              <span class="timer-label">Secs</span>
+            <span class="time-sep">:</span>
+            <div class="timer-segment">
+              <span class="time-digit" id="bdaySecs">00</span>
+              <span class="time-label">Secs</span>
             </div>
           </div>
         </div>
 
-        <div class="card question-card">
+        <div class="glass-card quiz-card">
+          <p class="eyebrow">A Few Questions</p>
+          <h2 class="serif-section-title">A little about what you love.</h2>
 
-          <div class="question-block">
-            <h2>What is your favourite colour?</h2>
-            <div class="color-options" id="colorOptions" role="group" aria-label="Favourite colour">
-              <button class="color-swatch" data-color="pink" type="button">
-                <span class="swatch-dot swatch-pink"></span>Pink
-              </button>
-              <button class="color-swatch" data-color="blue" type="button">
-                <span class="swatch-dot swatch-blue"></span>Blue
-              </button>
-              <button class="color-swatch" data-color="sandal" type="button">
-                <span class="swatch-dot swatch-sandal"></span>Sandal
-              </button>
-              <button class="color-swatch" data-color="other" type="button">
-                <span class="swatch-dot swatch-other"></span>Other
-              </button>
+          <div class="question-stream">
+            
+            <!-- Question 1: Colour Palette -->
+            <div class="question-tile">
+              <label class="tile-label">1. What is your favourite shade?</label>
+              <div class="swatch-cluster" id="colorOptions" role="radiogroup">
+                <button class="luxury-swatch" data-color="pink" type="button">
+                  <span class="swatch-orb swatch-rose"></span>
+                  <span class="swatch-name">Dusty Rose</span>
+                </button>
+                <button class="luxury-swatch" data-color="blue" type="button">
+                  <span class="swatch-orb swatch-celeste"></span>
+                  <span class="swatch-name">Celeste Azure</span>
+                </button>
+                <button class="luxury-swatch" data-color="sandal" type="button">
+                  <span class="swatch-orb swatch-sandal"></span>
+                  <span class="swatch-name">Sandalwood</span>
+                </button>
+                <button class="luxury-swatch" data-color="other" type="button">
+                  <span class="swatch-orb swatch-bespoke"></span>
+                  <span class="swatch-name">Bespoke</span>
+                </button>
+              </div>
+              <input
+                type="text"
+                id="customColorInput"
+                class="luxury-input custom-shade-input hidden"
+                placeholder="Enter your signature color (e.g., Lavender, Emerald, Wine)..."
+                autocomplete="off"
+              />
             </div>
-            <input
-              type="text"
-              id="customColorInput"
-              class="text-input custom-color-input hidden"
-              placeholder="Type a colour name or hex, like coral or #7c9a92"
-              autocomplete="off"
-            />
-          </div>
 
-          <div class="question-block">
-            <h2>You like to hear English songs, right?</h2>
-            <label for="singerInput">Which singer do you like most?</label>
-            <input
-              type="text"
-              id="singerInput"
-              class="text-input"
-              placeholder="Type your favourite singer..."
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="question-block">
-            <h2>What's harder?</h2>
-            <div class="harder-options" id="harderOptions" role="group" aria-label="What's harder">
-              <button class="harder-option" data-option="Studying" type="button">
-                📚 Studying
-              </button>
-              <button class="harder-option" data-option="Leaving the bed" type="button">
-                🛏️ Leaving the bed
-              </button>
-              <button class="harder-option" data-option="Leaving the phone" type="button">
-                📱 Leaving the phone
-              </button>
-              <button class="harder-option" data-option="Saying 'no' to snacks" type="button">
-                😂 Saying 'no' to snacks
-              </button>
+            <!-- Question 2: Favourite Singer -->
+            <div class="question-tile">
+              <label class="tile-label" for="singerInput">2. Who is your favourite singer or voice?</label>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  id="singerInput"
+                  class="luxury-input"
+                  placeholder="e.g. A.R. Rahman, Taylor Swift, Anirudh..."
+                  autocomplete="off"
+                />
+              </div>
             </div>
-          </div>
 
-          <div class="question-block">
-            <h2>Be honest… how often do you say '5 more minutes' and then sleep for 2 hours? 😂</h2>
-            <div class="harder-options" id="snoozeOptions" role="group" aria-label="Snooze habit">
-              <button class="harder-option" data-option="Never 😇" type="button">
-                😇 Never
-              </button>
-              <button class="harder-option" data-option="Sometimes" type="button">
-                🙈 Sometimes
-              </button>
-              <button class="harder-option" data-option="Frequently" type="button">
-                😅 Frequently
-              </button>
-              <button class="harder-option" data-option="It's a lifestyle 😴" type="button">
-                😴 It's a lifestyle
-              </button>
+            <!-- Question 3: What's harder? -->
+            <div class="question-tile">
+              <label class="tile-label">3. What feels genuinely harder to you?</label>
+              <div class="choice-group" id="harderOptions">
+                <button class="luxury-choice harder-option" data-option="Letting go of anger" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Letting go of anger</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="Letting go of feelings" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Letting go of feelings</span>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div class="question-block">
-            <h2>If you could instantly become really good at one thing, what would you pick?</h2>
-            <div class="harder-options" id="skillOptions" role="group" aria-label="Instant skill">
-              <button class="harder-option" data-option="A new skill 🧠" type="button">
-                🧠 A new skill
-              </button>
-              <button class="harder-option" data-option="Something creative 🎨" type="button">
-                🎨 Something creative
-              </button>
-              <button class="harder-option" data-option="Something technical 💻" type="button">
-                💻 Something technical
-              </button>
-              <button class="harder-option" data-option="Music 🎵" type="button">
-                🎵 Music
-              </button>
-              <button class="harder-option" data-option="Something else ✨" type="button">
-                ✨ Something else
-              </button>
+            <!-- Question 4: Snooze Habit -->
+            <div class="question-tile">
+              <label class="tile-label">4. Your honest morning routine:</label>
+              <div class="choice-group" id="snoozeOptions">
+                <button class="luxury-choice harder-option" data-option="Never snooze (Up immediately)" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Up immediately on the first chime</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="Just 5 more mins (Once or twice)" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Just five more quiet minutes</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="5 alarms minimum (Olympic snoozer)" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Multiple alarms set with determination</span>
+                </button>
+              </div>
             </div>
+
+            <!-- Question 5: Instant Skill -->
+            <div class="question-tile">
+              <label class="tile-label">5. If you could instantly master one gift:</label>
+              <div class="choice-group" id="skillOptions">
+                <button class="luxury-choice harder-option" data-option="Playing an instrument effortlessly" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Playing an instrument effortlessly</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="Speaking every language in the world" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Speaking any language fluently</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="Reading minds (or at least knowing truths)" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Understanding anyone's true thoughts</span>
+                </button>
+                <button class="luxury-choice harder-option" data-option="Singing flawlessly" type="button">
+                  <span class="choice-radio"></span>
+                  <span>Singing with effortless beauty</span>
+                </button>
+              </div>
+            </div>
+
           </div>
 
-          <button class="btn btn-primary continue-btn" id="btnContinue" type="button" disabled>
-            Continue →
-          </button>
-        </div>
-      </section>
-
-      <!-- PAGE 3 : ENJOYMENT QUESTION -->
-      <section class="page" id="page3">
-        <div class="card enjoy-card">
-          <p class="eyebrow-text">Okay… you've answered enough questions.</p>
-          <h2 class="enjoy-question">I have one last one.</h2>
-          <p class="enjoy-sub">&ldquo;Did you enjoy this little quiz?&rdquo;</p>
-          <div class="enjoy-options">
-            <button class="btn btn-primary enjoy-btn" id="btnEnjoyYes" type="button">✨ Yes</button>
-            <button class="btn btn-ghost enjoy-btn" id="btnEnjoyWeird" type="button">🙈 It was weird</button>
+          <div class="tile-footer">
+            <button class="btn-luxury-primary" id="btnContinue" type="button" disabled>
+              <span>Continue</span>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </button>
           </div>
-        </div>
 
-        <!-- Popup: Yes response -->
-        <div class="enjoy-popup hidden" id="popupYes">
-          <div class="popup-box">
-            <span class="popup-icon">🥹</span>
-            <p class="popup-msg">Good. That&rsquo;s all I wanted. :)</p>
-            <button class="btn btn-primary popup-next-btn" id="popupYesNext" type="button">Continue →</button>
-          </div>
-        </div>
-
-        <!-- Popup: Weird response -->
-        <div class="enjoy-popup hidden" id="popupWeird">
-          <div class="popup-box">
-            <span class="popup-icon">😂</span>
-            <p class="popup-msg">I'll accept that.<br>Maybe a little weird was necessary to make it memorable.</p>
-            <button class="btn btn-primary popup-next-btn" id="popupWeirdNext" type="button">Continue →</button>
-          </div>
         </div>
       </section>
 
-      <!-- PAGE 4 : MESSAGE -->
-      <section class="page" id="page4">
-        <div class="card message-card">
-          <p class="message-text">Rudhra,<br><br>There's actually a reason I made this little website. I hope you are doing well and that your classes are going well. I guess you know who I am. I really don't want to make this weird or anything, I promise! There is something about you that makes me feel like we've known each other before. One day, I'll come talk to you about it. Thank you, bye! (Sorry if this feels a bit weird!)</p>
+      <!-- ================= PAGE 3 : INTERMISSION ================= -->
+      <section class="editorial-page" id="page3">
+        <div class="glass-card intermission-card">
+          <div class="card-monogram">✧</div>
+          <p class="eyebrow">A Gentle Intermission</p>
+          <h2 class="serif-title">Thank you for sharing your thoughts.</h2>
+          <p class="sub-lead">Before we continue to the next chapter, tell me:</p>
+          <p class="intermission-prompt">“Did you enjoy this little reflection?”</p>
 
-          <div class="reply-block">
-            <p class="reply-label">If you feel like saying something, leave me a little message.<br>It can be anything. Seriously. :)</p>
+          <div class="action-cluster">
+            <button class="btn-luxury-primary" id="btnEnjoyYes" type="button">
+              <span>Yes, it was lovely</span>
+            </button>
+            <button class="btn-luxury-ghost" id="btnEnjoyWeird" type="button">
+              <span>It was pleasantly unusual</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback Modals -->
+        <div class="luxury-modal hidden" id="popupYes" role="dialog" aria-modal="true">
+          <div class="modal-backdrop"></div>
+          <div class="modal-plate">
+            <div class="plate-monogram">✨</div>
+            <h3 class="serif-modal-title">That brings a smile.</h3>
+            <p class="modal-text">I'm so glad. That is truly all I wished for.</p>
+            <button class="btn-luxury-primary" id="popupYesNext" type="button">
+              <span>Continue</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="luxury-modal hidden" id="popupWeird" role="dialog" aria-modal="true">
+          <div class="modal-backdrop"></div>
+          <div class="modal-plate">
+            <div class="plate-monogram">✨</div>
+            <h3 class="serif-modal-title">Fair enough.</h3>
+            <p class="modal-text">Perhaps a touch of the unusual is what makes it memorable.</p>
+            <button class="btn-luxury-primary" id="popupWeirdNext" type="button">
+              <span>Continue</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= PAGE 4 : PRIVATE NOTE ================= -->
+      <section class="editorial-page" id="page4">
+        <div class="glass-card letter-card">
+          <div class="letterhead">
+            <span class="letter-seal">✦</span>
+            <p class="eyebrow">Personal Correspondence</p>
+            <h2 class="serif-title letter-salutation">Rudhra,</h2>
+          </div>
+
+          <div class="letter-body">
+            <p class="letter-paragraph">
+              There is a genuine, quiet reason I designed this space for you.
+            </p>
+            <p class="letter-paragraph">
+              If you feel like leaving a few words, thoughts, or anything that comes to mind — please feel free to share it below. It will reach me safely.
+            </p>
+          </div>
+
+          <div class="message-composer">
+            <label class="sr-only" for="replyInput">Your personal message</label>
             <textarea
               id="replyInput"
-              class="reply-textarea"
-              placeholder="Type your message here..."
+              class="luxury-textarea"
               rows="4"
+              placeholder="Write a message here, if you feel like it..."
             ></textarea>
-            <button class="btn btn-primary" id="btnSend" type="button">Send ❤️</button>
-            <p class="thank-you hidden" id="thankYouMsg">Thank you for your message ❤️</p>
+
+            <div class="composer-actions">
+              <button class="btn-luxury-primary" id="btnSend" type="button">
+                <span>Send Note</span>
+                <svg viewBox="0 0 20 20" width="15" height="15" fill="currentColor">
+                  <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="next-gift-row">
-            <button class="btn btn-primary btn-gift-next" id="btnGoToGift" type="button">Open Your Gift 🎁 →</button>
+
+          <div class="thank-you-banner" id="thankYouMsg">
+            <div class="banner-icon">✓</div>
+            <div class="banner-copy">
+              <strong>Your note has been sent.</strong>
+              <span>Thank you for taking the time to write.</span>
+            </div>
+            <button class="btn-luxury-ghost" id="btnGoToGift" type="button">
+              <span>View Keepsake →</span>
+            </button>
           </div>
-        </div>
-        <!-- Sticky note — outside the card, floating freely -->
-        <div class="sticky-note" aria-label="Handwritten sticky note">
-          <p class="sticky-text">hope you remeber that scrunchies</p>
+
         </div>
       </section>
 
-      <!-- PAGE 5 : LUXURY GIFT BOX -->
-      <section class="page" id="page5">
-        <div class="card gift-card">
-          <p class="eyebrow-gift">♡ ONE LAST SURPRISE ♡</p>
-          <h2 class="gift-heading">A Gift For You</h2>
-          <p class="gift-subtext">Touch the gift box to open it ✨</p>
+      <!-- ================= PAGE 5 : THE LUXURY KEEPSAKE ================= -->
+      <section class="editorial-page" id="page5">
+        <div class="glass-card keepsake-card">
+          <div class="card-monogram">✧</div>
+          <p class="eyebrow">A Special Keepsake</p>
+          <h2 class="serif-title">One last piece for you.</h2>
+          <p class="sub-lead">Touch the keepsake box below to reveal what’s inside.</p>
 
-          <div class="luxury-gift-stage">
-            <div class="gift-box-wrapper" id="giftBox" role="button" tabindex="0" aria-label="Touch to open luxury gift box">
-              <!-- Floating sparkles around the box -->
-              <div class="gift-sparkles" aria-hidden="true">
-                <span class="sparkle sp-1">✨</span>
-                <span class="sparkle sp-2">🌸</span>
-                <span class="sparkle sp-3">💖</span>
-                <span class="sparkle sp-4">✨</span>
-                <span class="sparkle sp-5">🤍</span>
-              </div>
-
-              <!-- 3D Luxury White & Pink Box -->
+          <!-- Luxury Velvet & Gold Keepsake Box -->
+          <div class="luxury-keepsake-stage">
+            <div
+              class="luxury-box-container"
+              id="giftBox"
+              role="button"
+              tabindex="0"
+              aria-label="Open Luxury Keepsake Box"
+            >
               <div class="luxury-box" id="luxuryBox">
-                <!-- Lid with 3D Luxury Bow -->
-                <div class="box-lid" id="boxLid">
+                <!-- Lid -->
+                <div class="box-lid">
                   <div class="lid-top">
-                    <div class="lid-ribbon-v"></div>
-                    <div class="lid-ribbon-h"></div>
-                    <!-- 3D Luxury Bow -->
-                    <div class="luxury-bow">
-                      <div class="bow-loop bow-loop-left"></div>
-                      <div class="bow-loop bow-loop-right"></div>
-                      <div class="bow-loop bow-loop-top-left"></div>
-                      <div class="bow-loop bow-loop-top-right"></div>
-                      <div class="bow-center"></div>
-                      <div class="bow-tail bow-tail-left"></div>
-                      <div class="bow-tail bow-tail-right"></div>
-                    </div>
+                    <div class="satin-ribbon-h"></div>
+                    <div class="satin-ribbon-v"></div>
+                    <div class="gold-seal-crest">✦</div>
                   </div>
                   <div class="lid-rim"></div>
                 </div>
-
-                <!-- Box Body -->
-                <div class="box-body">
-                  <div class="box-ribbon-v"></div>
-                  <div class="box-ribbon-h"></div>
-                  <div class="box-sheen"></div>
-                  <div class="box-interior-glow"></div>
+                <!-- Box Base -->
+                <div class="box-base">
+                  <div class="base-ribbon-h"></div>
+                  <div class="base-ribbon-v"></div>
+                  <div class="velvet-interior-glow"></div>
                 </div>
-
-                <!-- Box Shadow -->
-                <div class="box-shadow"></div>
               </div>
+            </div>
+            <p class="tap-hint">Tap gently to open</p>
+          </div>
 
-              <div class="gift-tap-hint">
-                <span class="pulse-hand">👆</span> Tap the gift box
-              </div>
+        </div>
+
+        <!-- Keepsake Reveal Modal -->
+        <div class="luxury-modal hidden" id="giftPopup" role="dialog" aria-modal="true">
+          <div class="modal-backdrop" id="giftPopupBackdrop"></div>
+          <div class="modal-plate gift-reveal-plate">
+            <button class="modal-dismiss" id="giftPopupClose" aria-label="Close Keepsake">✕</button>
+            
+            <div class="reveal-frame">
+              <img
+                src="gift_surprise.jpg"
+                alt="A special surprise for Rudhra"
+                class="keepsake-image"
+                id="giftPopupImg"
+                loading="lazy"
+              />
+              <div class="frame-ambient-glow"></div>
+            </div>
+
+            <div class="reveal-content">
+              <p class="eyebrow">A Moment Captured</p>
+              <h3 class="serif-modal-title">Happy Birthday in advance, Rudhra.</h3>
+              <p class="modal-text">
+                Wishing you elegance, serenity, and joy in every step ahead. ✨
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Surprise Image Popup Modal -->
-        <div class="gift-popup hidden" id="giftPopup" role="dialog" aria-modal="true" aria-label="Surprise Gift">
-          <div class="gift-popup-backdrop" id="giftPopupBackdrop"></div>
-          <div class="gift-popup-content" id="giftPopupContent">
-            <button class="gift-popup-close" id="giftPopupClose" type="button" aria-label="Close gift popup">✕</button>
-            <div class="gift-popup-frame">
-              <div class="gift-badge">✨ Special Surprise ✨</div>
-              <div class="gift-img-container">
-                <img src="gift_surprise.jpg" alt="Thanks for visiting!" class="gift-popup-img" id="giftPopupImg" />
-                <div class="gift-img-shine"></div>
-              </div>
-              <p class="gift-popup-title">Thanks for visiting! ❤️</p>
-              <p class="gift-popup-caption">Hope this brought a sweet smile to your face :)</p>
-            </div>
-          </div>
-        </div>
       </section>
 
     </div>
