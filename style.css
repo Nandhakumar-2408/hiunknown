@@ -664,11 +664,11 @@ body {
 
 .sticky-note {
   position: absolute;
-  bottom: -38px;
-  right: -18px;
-  width: 112px;
-  min-height: 90px;
-  background: linear-gradient(145deg, #e8799a 0%, #d45e82 100%);
+  bottom: -45px;
+  right: -25px;
+  width: 140px;
+  min-height: 110px;
+  background: linear-gradient(145deg, #d85c80 0%, #b83a5a 100%);
   border-radius: 3px;
   padding: 10px 10px 14px 10px;
   box-shadow:
@@ -718,7 +718,7 @@ body {
 .sticky-text {
   font-family: 'Caveat', cursive;
   font-weight: 600;
-  font-size: 0.98rem;
+  font-size: 0.85rem;
   line-height: 1.45;
   color: #fff;
   text-shadow: 0 1px 2px rgba(120, 30, 60, 0.3);
