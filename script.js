@@ -501,45 +501,4 @@
 
 
 
-  /* ------------------------------------------------------
-     Ambient floating hearts, notes & particles
-  ------------------------------------------------------ */
-  const SYMBOLS = ['♡', '♥', '♪', '♫', 'dot', 'dot'];
-  const MAX_FLOATIES = 16;
-
-  function spawnFloaty() {
-    if (floatiesLayer.childElementCount >= MAX_FLOATIES) return;
-
-    const symbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-    const el = document.createElement('span');
-
-    const isParticle = symbol === 'dot';
-    el.className = isParticle ? 'floaty particle' : `floaty${symbol === '♪' || symbol === '♫' ? ' note' : ''}`;
-
-    if (!isParticle) {
-      el.textContent = symbol;
-      el.style.fontSize = `${14 + Math.random() * 14}px`;
-    }
-
-    const leftPercent = 4 + Math.random() * 92;
-    const duration = 9 + Math.random() * 7;
-    const drift = (Math.random() * 80 - 40).toFixed(0) + 'px';
-    const spin = (Math.random() * 50 - 25).toFixed(0) + 'deg';
-
-    el.style.left = `${leftPercent}%`;
-    el.style.setProperty('--drift', drift);
-    el.style.setProperty('--spin', spin);
-    el.style.animationDuration = `${duration}s`;
-
-    el.addEventListener('animationend', () => el.remove());
-    floatiesLayer.appendChild(el);
-  }
-
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    for (let i = 0; i < 5; i += 1) {
-      window.setTimeout(spawnFloaty, i * 500);
-    }
-    window.setInterval(spawnFloaty, 1600);
-  }
 })();
