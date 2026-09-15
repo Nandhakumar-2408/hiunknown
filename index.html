@@ -1,318 +1,748 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>A little something for Rudhra</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,500&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>iPhone 16 Pro and iPhone 16 Pro Max - Apple</title>
+  <meta name="description" content="iPhone 16 Pro and iPhone 16 Pro Max. Built for Apple Intelligence. Featuring Grade 5 Titanium design, Camera Control, 4K 120 fps Dolby Vision, and the A18 Pro chip." />
+  
+  <!-- Apple-grade Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="apple-dark">
 
-  <!-- Animated background ambient gradient blobs -->
-  <div class="bg-blobs" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
+  <!-- Apple Global Navigation Bar -->
+  <header class="global-nav" id="globalNav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" aria-label="Apple">
+        <svg viewBox="0 0 170 170" width="16" height="16" fill="currentColor">
+          <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.85-11.88-14.43-6.8-10.59-12.18-22.61-16.14-36.08-3.95-13.47-5.93-25.96-5.93-37.49 0-14.65 3.63-26.65 10.89-36 7.26-9.35 16.42-14.15 27.48-14.4 5.37-.1 11.24 1.44 17.62 4.62 6.38 3.18 10.63 4.86 12.75 5.04 1.76-.23 6.3-2.02 13.62-5.37 7.32-3.35 13.53-4.8 18.63-4.35 14.15 1.13 25.13 6.64 32.94 16.54-12.44 7.55-18.52 17.88-18.25 31 0 10.58 4.09 19.64 12.28 27.18 8.19 7.54 18.01 11.83 29.46 12.87-2.61 7.73-5.77 15.54-9.48 23.45zM119.22 31.84c0-7.39 2.68-14.49 8.04-21.31 5.36-6.82 12.13-11.28 20.31-13.38 1.18 7.39-.77 14.46-5.85 21.21-5.08 6.75-11.96 11.16-20.65 13.23-.29-2.04-.58-3.96-.85-5.75z"/>
+        </svg>
+      </a>
 
-  <!-- Ambient floating layer: hearts, notes, soft particles -->
-  <div class="floaties" id="floaties" aria-hidden="true"></div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero">Store</a>
+        <a href="#hero">Mac</a>
+        <a href="#hero">iPad</a>
+        <a href="#hero" class="active">iPhone</a>
+        <a href="#dynamic-island">Watch</a>
+        <a href="#dynamic-island">Vision</a>
+        <a href="#specs">AirPods</a>
+        <a href="#specs">TV &amp; Home</a>
+        <a href="#specs">Entertainment</a>
+        <a href="#specs">Support</a>
+      </nav>
 
-  <div class="stage">
-    <div class="app-shell">
-
-      <!-- Progress indicator -->
-      <div class="progress" id="progress" aria-hidden="true">
-        <span class="dot active" data-step="1"></span>
-        <span class="dot" data-step="2"></span>
-        <span class="dot" data-step="3"></span>
-        <span class="dot" data-step="4"></span>
-        <span class="dot" data-step="5"></span>
+      <div class="nav-actions">
+        <button class="nav-icon-btn" id="searchBtn" aria-label="Search apple.com">
+          <svg viewBox="0 0 18 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="8" cy="8" r="5.5"></circle>
+            <line x1="12" y1="12" x2="16" y2="16"></line>
+          </svg>
+        </button>
+        <button class="nav-icon-btn" id="bagBtn" aria-label="Shopping Bag">
+          <svg viewBox="0 0 17 18" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M4 5.5V4a4.5 4.5 0 0 1 9 0v1.5"></path>
+            <path d="M2.5 5.5h12l1 11H1.5l1-11z"></path>
+          </svg>
+        </button>
+        <button class="nav-menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+          <span></span>
+          <span></span>
+        </button>
       </div>
+    </div>
+  </header>
 
-      <!-- PAGE 1 : INTRODUCTION -->
-      <section class="page active show" id="page1">
-        <div class="card intro-card">
-          <p class="eyebrow-heart">♡</p>
-          <h1 class="question">This is Rudhra Devaraj?</h1>
-          <div class="button-row">
-            <button class="btn btn-primary" id="btnYes" type="button">YES</button>
-            <button class="btn btn-ghost" id="btnNo" type="button">NO</button>
-          </div>
-          <p class="playful-message" id="noMessage">
-            try again, you are not rudhra please pass it to her 🫡
-          </p>
-        </div>
-      </section>
-
-      <!-- PAGE 2 : QUESTIONS -->
-      <section class="page" id="page2">
-
-        <!-- Birthday Countdown — floating left side widget -->
-        <div class="bday-countdown" id="bdayCountdown">
-          <div class="bday-icon">✨</div>
-          <div class="bday-title">Special Day</div>
-          <div class="bday-date">24th March</div>
-          <div class="bday-timer">
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayDays">00</span>
-              <span class="timer-label">Days</span>
-            </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayHours">00</span>
-              <span class="timer-label">Hours</span>
-            </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdayMins">00</span>
-              <span class="timer-label">Mins</span>
-            </div>
-            <div class="timer-unit">
-              <span class="timer-value" id="bdaySecs">00</span>
-              <span class="timer-label">Secs</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card question-card">
-
-          <div class="question-block">
-            <h2>What is your favourite colour?</h2>
-            <div class="color-options" id="colorOptions" role="group" aria-label="Favourite colour">
-              <button class="color-swatch" data-color="pink" type="button">
-                <span class="swatch-dot swatch-pink"></span>Pink
-              </button>
-              <button class="color-swatch" data-color="blue" type="button">
-                <span class="swatch-dot swatch-blue"></span>Blue
-              </button>
-              <button class="color-swatch" data-color="sandal" type="button">
-                <span class="swatch-dot swatch-sandal"></span>Sandal
-              </button>
-              <button class="color-swatch" data-color="other" type="button">
-                <span class="swatch-dot swatch-other"></span>Other
-              </button>
-            </div>
-            <input
-              type="text"
-              id="customColorInput"
-              class="text-input custom-color-input hidden"
-              placeholder="Type a colour name or hex, like coral or #7c9a92"
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="question-block">
-            <h2>You like to hear English songs, right?</h2>
-            <label for="singerInput">Which singer do you like most?</label>
-            <input
-              type="text"
-              id="singerInput"
-              class="text-input"
-              placeholder="Type your favourite singer..."
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="question-block">
-            <h2>What's harder?</h2>
-            <div class="harder-options" id="harderOptions" role="group" aria-label="What's harder">
-              <button class="harder-option" data-option="Studying" type="button">
-                📚 Studying
-              </button>
-              <button class="harder-option" data-option="Leaving the bed" type="button">
-                🛏️ Leaving the bed
-              </button>
-              <button class="harder-option" data-option="Leaving the phone" type="button">
-                📱 Leaving the phone
-              </button>
-              <button class="harder-option" data-option="Saying 'no' to snacks" type="button">
-                😂 Saying 'no' to snacks
-              </button>
-            </div>
-          </div>
-
-          <div class="question-block">
-            <h2>Be honest… how often do you say '5 more minutes' and then sleep for 2 hours? 😂</h2>
-            <div class="harder-options" id="snoozeOptions" role="group" aria-label="Snooze habit">
-              <button class="harder-option" data-option="Never 😇" type="button">
-                😇 Never
-              </button>
-              <button class="harder-option" data-option="Sometimes" type="button">
-                🙈 Sometimes
-              </button>
-              <button class="harder-option" data-option="Frequently" type="button">
-                😅 Frequently
-              </button>
-              <button class="harder-option" data-option="It's a lifestyle 😴" type="button">
-                😴 It's a lifestyle
-              </button>
-            </div>
-          </div>
-
-          <div class="question-block">
-            <h2>If you could instantly become really good at one thing, what would you pick?</h2>
-            <div class="harder-options" id="skillOptions" role="group" aria-label="Instant skill">
-              <button class="harder-option" data-option="A new skill 🧠" type="button">
-                🧠 A new skill
-              </button>
-              <button class="harder-option" data-option="Something creative 🎨" type="button">
-                🎨 Something creative
-              </button>
-              <button class="harder-option" data-option="Something technical 💻" type="button">
-                💻 Something technical
-              </button>
-              <button class="harder-option" data-option="Music 🎵" type="button">
-                🎵 Music
-              </button>
-              <button class="harder-option" data-option="Something else ✨" type="button">
-                ✨ Something else
-              </button>
-            </div>
-          </div>
-
-          <button class="btn btn-primary continue-btn" id="btnContinue" type="button" disabled>
-            Continue →
-          </button>
-        </div>
-      </section>
-
-      <!-- PAGE 3 : ENJOYMENT QUESTION -->
-      <section class="page" id="page3">
-        <div class="card enjoy-card">
-          <p class="eyebrow-text">Okay… you've answered enough questions.</p>
-          <h2 class="enjoy-question">I have one last one.</h2>
-          <p class="enjoy-sub">&ldquo;Did you enjoy this little quiz?&rdquo;</p>
-          <div class="enjoy-options">
-            <button class="btn btn-primary enjoy-btn" id="btnEnjoyYes" type="button">✨ Yes</button>
-            <button class="btn btn-ghost enjoy-btn" id="btnEnjoyWeird" type="button">🙈 It was weird</button>
-          </div>
-        </div>
-
-        <!-- Popup: Yes response -->
-        <div class="enjoy-popup hidden" id="popupYes">
-          <div class="popup-box">
-            <span class="popup-icon">🥹</span>
-            <p class="popup-msg">Good. That&rsquo;s all I wanted. :)</p>
-            <button class="btn btn-primary popup-next-btn" id="popupYesNext" type="button">Continue →</button>
-          </div>
-        </div>
-
-        <!-- Popup: Weird response -->
-        <div class="enjoy-popup hidden" id="popupWeird">
-          <div class="popup-box">
-            <span class="popup-icon">😂</span>
-            <p class="popup-msg">I'll accept that.<br>Maybe a little weird was necessary to make it memorable.</p>
-            <button class="btn btn-primary popup-next-btn" id="popupWeirdNext" type="button">Continue →</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- PAGE 4 : MESSAGE -->
-      <section class="page" id="page4">
-        <div class="card message-card">
-          <p class="message-text">Rudhra,<br><br>There's actually a reason I made this little website. I hope you are doing well and that your classes are going well. I guess you know who I am. I really don't want to make this weird or anything, I promise! There is something about you that makes me feel like we've known each other before. One day, I'll come talk to you about it. Thank you, bye! (Sorry if this feels a bit weird!)</p>
-
-          <div class="reply-block">
-            <p class="reply-label">If you feel like saying something, leave me a little message.<br>It can be anything. Seriously. :)</p>
-            <textarea
-              id="replyInput"
-              class="reply-textarea"
-              placeholder="Type your message here..."
-              rows="4"
-            ></textarea>
-            <button class="btn btn-primary" id="btnSend" type="button">Send ❤️</button>
-            <p class="thank-you hidden" id="thankYouMsg">Thank you for your message ❤️</p>
-          </div>
-          <div class="next-gift-row">
-            <button class="btn btn-primary btn-gift-next" id="btnGoToGift" type="button">Open Your Gift 🎁 →</button>
-          </div>
-        </div>
-        <!-- Sticky note — outside the card, floating freely -->
-        <div class="sticky-note" aria-label="Handwritten sticky note">
-          <p class="sticky-text">hope you remeber that scrunchies</p>
-        </div>
-      </section>
-
-      <!-- PAGE 5 : LUXURY GIFT BOX -->
-      <section class="page" id="page5">
-        <div class="card gift-card">
-          <p class="eyebrow-gift">♡ ONE LAST SURPRISE ♡</p>
-          <h2 class="gift-heading">A Gift For You</h2>
-          <p class="gift-subtext">Touch the gift box to open it ✨</p>
-
-          <div class="luxury-gift-stage">
-            <div class="gift-box-wrapper" id="giftBox" role="button" tabindex="0" aria-label="Touch to open luxury gift box">
-              <!-- Floating sparkles around the box -->
-              <div class="gift-sparkles" aria-hidden="true">
-                <span class="sparkle sp-1">✨</span>
-                <span class="sparkle sp-2">🌸</span>
-                <span class="sparkle sp-3">💖</span>
-                <span class="sparkle sp-4">✨</span>
-                <span class="sparkle sp-5">🤍</span>
-              </div>
-
-              <!-- 3D Luxury White & Pink Box -->
-              <div class="luxury-box" id="luxuryBox">
-                <!-- Lid with 3D Luxury Bow -->
-                <div class="box-lid" id="boxLid">
-                  <div class="lid-top">
-                    <div class="lid-ribbon-v"></div>
-                    <div class="lid-ribbon-h"></div>
-                    <!-- 3D Luxury Bow -->
-                    <div class="luxury-bow">
-                      <div class="bow-loop bow-loop-left"></div>
-                      <div class="bow-loop bow-loop-right"></div>
-                      <div class="bow-loop bow-loop-top-left"></div>
-                      <div class="bow-loop bow-loop-top-right"></div>
-                      <div class="bow-center"></div>
-                      <div class="bow-tail bow-tail-left"></div>
-                      <div class="bow-tail bow-tail-right"></div>
-                    </div>
-                  </div>
-                  <div class="lid-rim"></div>
-                </div>
-
-                <!-- Box Body -->
-                <div class="box-body">
-                  <div class="box-ribbon-v"></div>
-                  <div class="box-ribbon-h"></div>
-                  <div class="box-sheen"></div>
-                  <div class="box-interior-glow"></div>
-                </div>
-
-                <!-- Box Shadow -->
-                <div class="box-shadow"></div>
-              </div>
-
-              <div class="gift-tap-hint">
-                <span class="pulse-hand">👆</span> Tap the gift box
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Surprise Image Popup Modal -->
-        <div class="gift-popup hidden" id="giftPopup" role="dialog" aria-modal="true" aria-label="Surprise Gift">
-          <div class="gift-popup-backdrop" id="giftPopupBackdrop"></div>
-          <div class="gift-popup-content" id="giftPopupContent">
-            <button class="gift-popup-close" id="giftPopupClose" type="button" aria-label="Close gift popup">✕</button>
-            <div class="gift-popup-frame">
-              <div class="gift-badge">✨ Special Surprise ✨</div>
-              <div class="gift-img-container">
-                <img src="gift_surprise.jpg" alt="Thanks for visiting!" class="gift-popup-img" id="giftPopupImg" />
-                <div class="gift-img-shine"></div>
-              </div>
-              <p class="gift-popup-title">Thanks for visiting! ❤️</p>
-              <p class="gift-popup-caption">Hope this brought a sweet smile to your face :)</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
+  <!-- Sticky Product Ribbon -->
+  <div class="sub-nav" id="subNav">
+    <div class="sub-nav-container">
+      <div class="sub-nav-title">
+        <span class="product-title">iPhone 16 Pro</span>
+      </div>
+      <div class="sub-nav-items">
+        <a href="#hero" class="sub-link active">Overview</a>
+        <a href="#dynamic-island" class="sub-link">Dynamic Island</a>
+        <a href="#camera" class="sub-link">Camera Control</a>
+        <a href="#bento" class="sub-link">A18 Pro</a>
+        <a href="#specs" class="sub-link">Tech Specs</a>
+        <button class="btn-buy" id="btnBuyNow">Buy</button>
+      </div>
     </div>
   </div>
+
+  <!-- Main Content Container -->
+  <main>
+
+    <!-- SECTION 1: HERO SHOWCASE -->
+    <section class="hero-section" id="hero">
+      <div class="hero-glow-blob glow-1"></div>
+      <div class="hero-glow-blob glow-2"></div>
+      
+      <div class="hero-header">
+        <p class="hero-eyebrow fade-in">iPhone 16 Pro</p>
+        <h1 class="hero-title gradient-text fade-in-delay-1">
+          Hello, Apple Intelligence.
+        </h1>
+        <p class="hero-subtext fade-in-delay-2">
+          Forged in titanium. Powered by the groundbreaking A18 Pro chip. Introducing Camera Control.
+        </p>
+      </div>
+
+      <!-- 3D Canvas Stage -->
+      <div class="canvas-viewport" id="canvasViewport">
+        <canvas id="phoneCanvas" width="900" height="900"></canvas>
+        
+        <!-- Interactive 3D drag hint -->
+        <div class="canvas-badge">
+          <span class="badge-dot"></span>
+          <span>Drag to rotate 360°</span>
+        </div>
+      </div>
+
+      <!-- Color Studio Finish Selector -->
+      <div class="color-studio">
+        <p class="studio-label">Finish: <span id="finishName">Desert Titanium</span></p>
+        <div class="finish-palette" role="radiogroup" aria-label="Select iPhone 16 Pro Finish">
+          <button class="swatch-btn active" data-finish="desert" aria-label="Desert Titanium" title="Desert Titanium">
+            <span class="swatch-color swatch-desert"></span>
+          </button>
+          <button class="swatch-btn" data-finish="natural" aria-label="Natural Titanium" title="Natural Titanium">
+            <span class="swatch-color swatch-natural"></span>
+          </button>
+          <button class="swatch-btn" data-finish="white" aria-label="White Titanium" title="White Titanium">
+            <span class="swatch-color swatch-white"></span>
+          </button>
+          <button class="swatch-btn" data-finish="black" aria-label="Black Titanium" title="Black Titanium">
+            <span class="swatch-color swatch-black"></span>
+          </button>
+        </div>
+
+        <div class="hero-pricing-cta">
+          <p class="pricing-text">From $999 or $41.62/mo. for 24 mo. with Apple Card</p>
+          <div class="hero-cta-buttons">
+            <button class="apple-primary-btn" id="heroBuyBtn">Buy iPhone 16 Pro</button>
+            <button class="apple-secondary-btn" id="heroFilmBtn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              Watch the launch film
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: DYNAMIC ISLAND INTERACTIVE PLAYGROUND -->
+    <section class="island-section" id="dynamic-island">
+      <div class="section-container">
+        <p class="section-eyebrow">Smart. Fluid. Magical.</p>
+        <h2 class="section-title">Dynamic Island.<br>Always ready for what’s next.</h2>
+        <p class="section-desc">
+          Live activities, alerts, music, and timers seamlessly bubble up without taking you away from what you’re doing.
+        </p>
+
+        <!-- Dynamic Island Phone Mockup -->
+        <div class="phone-screen-mock">
+          <div class="notch-area">
+            <!-- Morphing Dynamic Island -->
+            <div class="dynamic-island-pill state-music" id="dynamicIsland" role="button" tabindex="0" title="Click to cycle states">
+              
+              <!-- State: Music (Now Playing) -->
+              <div class="island-view view-music">
+                <div class="music-left">
+                  <div class="album-thumb">
+                    <span class="album-art-emoji">⚡</span>
+                  </div>
+                  <div class="track-info">
+                    <span class="track-title">Timeless</span>
+                    <span class="track-artist">The Weeknd, Playboi Carti</span>
+                  </div>
+                </div>
+                <div class="music-right">
+                  <div class="audio-waveform">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    <span class="bar bar-4"></span>
+                    <span class="bar bar-5"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- State: Timer -->
+              <div class="island-view view-timer">
+                <div class="timer-left">
+                  <div class="timer-icon">⏱️</div>
+                  <span class="timer-tag">Tea Steeping</span>
+                </div>
+                <div class="timer-right">
+                  <span class="timer-display" id="islandTimerText">04:58</span>
+                </div>
+              </div>
+
+              <!-- State: Call -->
+              <div class="island-view view-call">
+                <div class="call-left">
+                  <div class="caller-avatar">👤</div>
+                  <div class="call-meta">
+                    <span class="caller-name">Craig Federighi</span>
+                    <span class="call-status">iPhone audio...</span>
+                  </div>
+                </div>
+                <div class="call-actions">
+                  <button class="call-btn btn-decline" aria-label="Decline">✕</button>
+                  <button class="call-btn btn-accept" aria-label="Accept">✓</button>
+                </div>
+              </div>
+
+              <!-- State: Face ID -->
+              <div class="island-view view-faceid">
+                <div class="faceid-wrap">
+                  <svg class="faceid-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                    <path d="M8 8h.01M16 8h.01M9 16c1.5 1 4.5 1 6 0M12 11v2"></path>
+                  </svg>
+                  <span class="faceid-text">Face ID Authenticated</span>
+                  <span class="checkmark-badge">✓</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Inside the Screen wallpaper with apps -->
+          <div class="screen-wallpaper">
+            <div class="mock-status-bar">
+              <span class="mock-time">9:41</span>
+              <div class="mock-icons">
+                <span>5G</span>
+                <span>100%</span>
+              </div>
+            </div>
+            <div class="mock-hero-text">
+              <span class="ios-date">Tuesday, September 15</span>
+              <span class="ios-welcome">Tap the Dynamic Island above</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Switcher Controls -->
+        <div class="island-controls">
+          <button class="ctrl-chip active" data-state="music">
+            <span class="chip-dot"></span> 🎵 Music Player
+          </button>
+          <button class="ctrl-chip" data-state="timer">
+            <span class="chip-dot"></span> ⏱️ Timer
+          </button>
+          <button class="ctrl-chip" data-state="call">
+            <span class="chip-dot"></span> 📞 Phone Call
+          </button>
+          <button class="ctrl-chip" data-state="faceid">
+            <span class="chip-dot"></span> 🪪 Face ID
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: SCROLL-DRIVEN TITANIUM STORYTELLING -->
+    <section class="titanium-section" id="titanium">
+      <div class="section-container">
+        <p class="section-eyebrow">Grade 5 Titanium</p>
+        <h2 class="section-title">Strength. Lightness.<br>Pro proportions.</h2>
+        
+        <div class="titanium-story-grid">
+          <div class="story-card highlight-card">
+            <div class="stat-number gradient-text">0.8<span class="unit">mm</span></div>
+            <p class="stat-heading">Thinnest borders ever on any Apple product</p>
+            <p class="stat-desc">
+              Accomplished through border reduction structure (BRS) technology, driving display data under the active pixels with zero signal distortion.
+            </p>
+          </div>
+
+          <div class="story-card highlight-card">
+            <div class="stat-number gradient-text">Grade 5</div>
+            <p class="stat-heading">Aerospace-grade titanium alloy</p>
+            <p class="stat-desc">
+              One of the highest strength-to-weight ratios of any metal, creating models that are unbelievably durable yet remarkably light in hand.
+            </p>
+          </div>
+
+          <div class="story-card highlight-card">
+            <div class="stat-number gradient-text">100%</div>
+            <p class="stat-heading">Recycled aluminum thermal substructure</p>
+            <p class="stat-desc">
+              Solid-state diffusion bonds the titanium exterior to an internal aluminum frame, delivering up to 20% better sustained gaming performance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CAMERA CONTROL PLAYGROUND -->
+    <section class="camera-section" id="camera">
+      <div class="section-container">
+        <p class="section-eyebrow">Camera Control</p>
+        <h2 class="section-title">Take the shot.<br>Never miss the moment.</h2>
+        <p class="section-desc">
+          A tactile, sapphire crystal button with a precision force sensor and capacitive interface. Slide to zoom, switch styles, and adjust exposure instantly.
+        </p>
+
+        <!-- Interactive Camera Viewfinder Simulation -->
+        <div class="camera-stage">
+          <div class="viewfinder" id="viewfinder">
+            <!-- Simulated Viewfinder Scene with Parallax Zoom -->
+            <div class="viewfinder-scene" id="viewfinderScene">
+              <div class="scene-layer scene-landscape">
+                <div class="golden-hour-sun"></div>
+                <div class="mountain-silhouette"></div>
+                <div class="city-skyline">
+                  <div class="skyscraper s1"></div>
+                  <div class="skyscraper s2"></div>
+                  <div class="skyscraper s3"></div>
+                  <div class="skyscraper s4"></div>
+                  <div class="skyscraper s5"></div>
+                </div>
+                <div class="scene-subject" id="sceneSubject">
+                  <span class="subject-tag">48MP Pro Fusion Focus</span>
+                  <div class="focus-bracket bracket-tl"></div>
+                  <div class="focus-bracket bracket-tr"></div>
+                  <div class="focus-bracket bracket-bl"></div>
+                  <div class="focus-bracket bracket-br"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Viewfinder Overlay Heads-Up Display (HUD) -->
+            <div class="viewfinder-hud">
+              <div class="hud-top">
+                <span class="hud-badge">RAW MAX</span>
+                <span class="hud-badge">4K 120 FPS</span>
+                <span class="hud-badge" id="hudStyle">VIBRANT STYLE</span>
+              </div>
+
+              <!-- Optical Zoom Ring Selector -->
+              <div class="hud-zoom-dial">
+                <button class="zoom-btn" data-zoom="0.5" data-mm="13mm">.5<span class="zoom-sub">13mm</span></button>
+                <button class="zoom-btn active" data-zoom="1" data-mm="24mm">1x<span class="zoom-sub">24mm</span></button>
+                <button class="zoom-btn" data-zoom="2" data-mm="48mm">2x<span class="zoom-sub">48mm</span></button>
+                <button class="zoom-btn" data-zoom="5" data-mm="120mm">5x<span class="zoom-sub">120mm</span></button>
+              </div>
+
+              <div class="hud-bottom">
+                <div class="hud-stat">
+                  <span class="stat-name">SHUTTER</span>
+                  <span class="stat-val">1/2000s</span>
+                </div>
+                <div class="shutter-trigger" id="shutterBtn" role="button" aria-label="Trigger Shutter">
+                  <span class="shutter-inner"></span>
+                </div>
+                <div class="hud-stat">
+                  <span class="stat-name">ISO</span>
+                  <span class="stat-val">64</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Simulated Camera Flash Overlay -->
+            <div class="camera-flash" id="cameraFlash"></div>
+          </div>
+
+          <!-- Camera Control Slider Bar -->
+          <div class="camera-control-interface">
+            <div class="cc-pill">
+              <span class="cc-icon">🔘</span>
+              <div class="cc-track-wrap">
+                <span class="cc-label">Slide to zoom:</span>
+                <input type="range" min="0.5" max="5.0" step="0.1" value="1.0" class="cc-slider" id="zoomSlider" />
+                <span class="cc-value" id="zoomValue">1.0x (24 mm)</span>
+              </div>
+            </div>
+            
+            <div class="styles-selector">
+              <span class="styles-label">Tone:</span>
+              <button class="style-chip active" data-style="vibrant">Vibrant</button>
+              <button class="style-chip" data-style="warm">Warm Amber</button>
+              <button class="style-chip" data-style="cool">Cool Blue</button>
+              <button class="style-chip" data-style="mono">Dramatic B&amp;W</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: A18 PRO & BENTO GRID -->
+    <section class="bento-section" id="bento">
+      <div class="section-container">
+        <p class="section-eyebrow">A18 Pro Chip</p>
+        <h2 class="section-title">Monster performance.<br>Monster efficiency.</h2>
+        <p class="section-desc">
+          Engineered for Apple Intelligence. Up to 15% faster 6-core CPU, 20% faster 6-core GPU with 2x faster hardware-accelerated ray tracing.
+        </p>
+
+        <!-- Bento Grid with Interactive Cursor Spotlight -->
+        <div class="bento-grid" id="bentoGrid">
+
+          <!-- Bento Card 1: Ray Tracing -->
+          <div class="bento-card bento-wide" data-card="raytracing">
+            <div class="bento-content">
+              <span class="card-tag">Hardware-Accelerated</span>
+              <h3 class="card-title">2x Faster Ray Tracing</h3>
+              <p class="card-desc">
+                Realistic light reflections, complex shadows, and console-quality rendering in AAA games like Assassin's Creed Shadows and Death Stranding.
+              </p>
+              <div class="bento-meter-wrap">
+                <div class="meter-label">
+                  <span>Ray Tracing Speed</span>
+                  <span class="meter-val">+100% vs A16 Bionic</span>
+                </div>
+                <div class="meter-bar">
+                  <div class="meter-fill fill-glow" style="width: 92%;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="bento-visual">
+              <div class="ray-tracing-sim">
+                <div class="light-ray ray-1"></div>
+                <div class="light-ray ray-2"></div>
+                <div class="light-ray ray-3"></div>
+                <div class="crystal-prism">💎</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento Card 2: Neural Engine -->
+          <div class="bento-card" data-card="neural">
+            <div class="bento-content">
+              <span class="card-tag">16-Core Neural Engine</span>
+              <h3 class="card-title">35 Trillion</h3>
+              <p class="card-desc">Operations per second running private on-device foundation models seamlessly.</p>
+              <div class="neural-pulse">
+                <span class="pulse-ring"></span>
+                <span class="pulse-ring delay-1"></span>
+                <span class="pulse-core">🧠</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento Card 3: Battery Life -->
+          <div class="bento-card" data-card="battery">
+            <div class="bento-content">
+              <span class="card-tag">Power Efficiency</span>
+              <h3 class="card-title">Up to 33 hrs</h3>
+              <p class="card-desc">Video playback on iPhone 16 Pro Max. The best battery life ever on an iPhone.</p>
+              <div class="battery-graphic">
+                <div class="battery-shell">
+                  <div class="battery-level" style="width: 85%;"></div>
+                </div>
+                <span class="battery-pct">85% charged</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento Card 4: Audio & Mics -->
+          <div class="bento-card bento-wide" data-card="audio">
+            <div class="bento-content">
+              <span class="card-tag">Spatial Audio Capture</span>
+              <h3 class="card-title">4 Studio-Quality Mics</h3>
+              <p class="card-desc">
+                Audio Mix lets you adjust the way voices sound in your video using three distinct voice options: In-Frame, Studio, and Cinematic.
+              </p>
+              <div class="audio-interactive-preview">
+                <div class="audio-modes">
+                  <button class="audio-chip active" data-mode="inframe">In-Frame</button>
+                  <button class="audio-chip" data-mode="studio">Studio</button>
+                  <button class="audio-chip" data-mode="cinematic">Cinematic</button>
+                </div>
+                <canvas id="soundwaveCanvas" width="360" height="70"></canvas>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: SPECS & MODEL COMPARISON -->
+    <section class="specs-section" id="specs">
+      <div class="section-container">
+        <p class="section-eyebrow">Compare Models</p>
+        <h2 class="section-title">Which iPhone is right for you?</h2>
+
+        <!-- Model Comparison Cards Grid -->
+        <div class="comparison-grid">
+
+          <!-- iPhone 16 Pro -->
+          <div class="compare-card featured-compare">
+            <div class="compare-badge">Pro Flagship</div>
+            <div class="compare-icon">📱</div>
+            <h3 class="compare-name">iPhone 16 Pro</h3>
+            <p class="compare-tagline">The ultimate iPhone.</p>
+            <p class="compare-price">From $999</p>
+            
+            <hr class="compare-divider">
+
+            <div class="spec-row">
+              <span class="spec-label">Display</span>
+              <span class="spec-val">6.3″ or 6.9″ Super Retina XDR with ProMotion 120Hz</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Material</span>
+              <span class="spec-val">Titanium with textured matte glass back</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Camera</span>
+              <span class="spec-val">Pro camera system: 48MP Fusion, 48MP Ultra Wide, 5x Telephoto</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Chip</span>
+              <span class="spec-val">A18 Pro chip with 6-core GPU</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Battery</span>
+              <span class="spec-val">Up to 33 hours video playback</span>
+            </div>
+
+            <button class="apple-primary-btn w-full buy-modal-trigger">Buy iPhone 16 Pro</button>
+          </div>
+
+          <!-- iPhone 16 -->
+          <div class="compare-card">
+            <div class="compare-icon">📱</div>
+            <h3 class="compare-name">iPhone 16</h3>
+            <p class="compare-tagline">Total powerhouse.</p>
+            <p class="compare-price">From $799</p>
+            
+            <hr class="compare-divider">
+
+            <div class="spec-row">
+              <span class="spec-label">Display</span>
+              <span class="spec-val">6.1″ or 6.7″ Super Retina XDR display</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Material</span>
+              <span class="spec-val">Aluminum with color-infused glass back</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Camera</span>
+              <span class="spec-val">Advanced dual-camera: 48MP Fusion, 12MP Ultra Wide</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Chip</span>
+              <span class="spec-val">A18 chip with 5-core GPU</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Battery</span>
+              <span class="spec-val">Up to 27 hours video playback</span>
+            </div>
+
+            <button class="apple-secondary-btn w-full buy-modal-trigger">Buy iPhone 16</button>
+          </div>
+
+          <!-- iPhone 15 -->
+          <div class="compare-card">
+            <div class="compare-icon">📱</div>
+            <h3 class="compare-name">iPhone 15</h3>
+            <p class="compare-tagline">As impressive as ever.</p>
+            <p class="compare-price">From $699</p>
+            
+            <hr class="compare-divider">
+
+            <div class="spec-row">
+              <span class="spec-label">Display</span>
+              <span class="spec-val">6.1″ or 6.7″ Super Retina XDR display</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Material</span>
+              <span class="spec-val">Aluminum with color-infused glass back</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Camera</span>
+              <span class="spec-val">Advanced dual-camera: 48MP Main, 12MP Ultra Wide</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Chip</span>
+              <span class="spec-val">A16 Bionic chip with 5-core GPU</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-label">Battery</span>
+              <span class="spec-val">Up to 26 hours video playback</span>
+            </div>
+
+            <button class="apple-secondary-btn w-full buy-modal-trigger">Buy iPhone 15</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Interactive Modal: Order / Trade-in Simulator -->
+  <div class="apple-modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
+      <div class="modal-header">
+        <span class="modal-apple-icon"></span>
+        <h2>Reserve your iPhone 16 Pro</h2>
+        <p>Select your configuration, storage, and Apple Trade In.</p>
+      </div>
+
+      <div class="config-section">
+        <label class="config-label">1. Select Model</label>
+        <div class="config-row">
+          <button class="config-opt active" data-model="pro" data-price="999">iPhone 16 Pro (6.3″) - $999</button>
+          <button class="config-opt" data-model="promax" data-price="1199">iPhone 16 Pro Max (6.9″) - $1,199</button>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <label class="config-label">2. Storage Capacity</label>
+        <div class="config-row storage-grid">
+          <button class="config-opt active" data-storage="128" data-addon="0">128GB</button>
+          <button class="config-opt" data-storage="256" data-addon="100">256GB</button>
+          <button class="config-opt" data-storage="512" data-addon="300">512GB</button>
+          <button class="config-opt" data-storage="1tb" data-addon="500">1TB</button>
+        </div>
+      </div>
+
+      <div class="modal-summary">
+        <div class="summary-line">
+          <span>Estimated Total:</span>
+          <span class="summary-price" id="modalTotal">$999.00</span>
+        </div>
+        <p class="summary-sub">Includes free shipping, 14-day free returns, and AppleCare+ eligibility.</p>
+      </div>
+
+      <button class="apple-primary-btn w-full" id="btnCheckout">Continue to Bag</button>
+    </div>
+  </div>
+
+  <!-- Authentic Apple Footer -->
+  <footer class="apple-footer">
+    <div class="footer-container">
+      
+      <!-- Footnotes -->
+      <div class="footer-footnotes">
+        <ol>
+          <li>Apple Intelligence is available in beta on all iPhone 16 models, iPhone 15 Pro, and iPhone 15 Pro Max, with Siri and device language set to U.S. English, as part of an iOS update.</li>
+          <li>Display has rounded corners that follow a beautiful curved design, and these corners are within a standard rectangle. When measured as a standard rectangular shape, the screen is 6.27 inches (iPhone 16 Pro) or 6.86 inches (iPhone 16 Pro Max) diagonally. Actual viewable area is less.</li>
+          <li>Battery life claim refers to larger models. All battery claims depend on network configuration and many other factors; actual results will vary.</li>
+          <li>Trade-in values will vary based on the condition, year, and configuration of your eligible trade-in device. Not all devices are eligible for credit.</li>
+        </ol>
+      </div>
+
+      <div class="footer-breadcrumbs">
+        <a href="#" class="breadcrumb-item"></a>
+        <span class="breadcrumb-sep">&gt;</span>
+        <a href="#" class="breadcrumb-item">iPhone</a>
+        <span class="breadcrumb-sep">&gt;</span>
+        <span class="breadcrumb-current">iPhone 16 Pro</span>
+      </div>
+
+      <!-- Navigation Directory Columns -->
+      <div class="footer-directory">
+        <div class="directory-col">
+          <h4>Shop and Learn</h4>
+          <ul>
+            <li><a href="#">Store</a></li>
+            <li><a href="#">Mac</a></li>
+            <li><a href="#">iPad</a></li>
+            <li><a href="#">iPhone</a></li>
+            <li><a href="#">Apple Watch</a></li>
+            <li><a href="#">Apple Vision Pro</a></li>
+            <li><a href="#">AirPods</a></li>
+            <li><a href="#">AirTag</a></li>
+          </ul>
+        </div>
+
+        <div class="directory-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="#">Manage Your Apple Account</a></li>
+            <li><a href="#">Apple Store Account</a></li>
+            <li><a href="#">iCloud.com</a></li>
+          </ul>
+          <h4>Entertainment</h4>
+          <ul>
+            <li><a href="#">Apple One</a></li>
+            <li><a href="#">Apple TV+</a></li>
+            <li><a href="#">Apple Music</a></li>
+            <li><a href="#">Apple Arcade</a></li>
+          </ul>
+        </div>
+
+        <div class="directory-col">
+          <h4>Apple Store</h4>
+          <ul>
+            <li><a href="#">Find a Store</a></li>
+            <li><a href="#">Genius Bar</a></li>
+            <li><a href="#">Today at Apple</a></li>
+            <li><a href="#">Apple Camp</a></li>
+            <li><a href="#">Apple Trade In</a></li>
+            <li><a href="#">Order Status</a></li>
+          </ul>
+        </div>
+
+        <div class="directory-col">
+          <h4>For Business</h4>
+          <ul>
+            <li><a href="#">Apple and Business</a></li>
+            <li><a href="#">Shop for Business</a></li>
+          </ul>
+          <h4>For Education</h4>
+          <ul>
+            <li><a href="#">Apple and Education</a></li>
+            <li><a href="#">Shop for K-12</a></li>
+            <li><a href="#">Shop for College</a></li>
+          </ul>
+        </div>
+
+        <div class="directory-col">
+          <h4>Apple Values</h4>
+          <ul>
+            <li><a href="#">Accessibility</a></li>
+            <li><a href="#">Education</a></li>
+            <li><a href="#">Environment</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Supply Chain</a></li>
+          </ul>
+          <h4>About Apple</h4>
+          <ul>
+            <li><a href="#">Newsroom</a></li>
+            <li><a href="#">Apple Leadership</a></li>
+            <li><a href="#">Career Opportunities</a></li>
+            <li><a href="#">Investors</a></li>
+            <li><a href="#">Ethics &amp; Compliance</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="footer-legal">
+          <p class="copyright">Copyright © 2026 Apple Inc. All rights reserved.</p>
+          <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Sales Policy</a>
+            <a href="#">Legal</a>
+            <a href="#">Site Map</a>
+          </div>
+        </div>
+        <div class="footer-locale">
+          <a href="#">United States</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
