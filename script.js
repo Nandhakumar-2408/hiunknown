@@ -1,9 +1,9 @@
 (() => {
   'use strict';
 
-  /* ==========================================================================
-     DOM ELEMENTS
-     ========================================================================== */
+  /* ------------------------------------------------------
+     Elements
+  ------------------------------------------------------ */
   const pages = {
     1: document.getElementById('page1'),
     2: document.getElementById('page2'),
@@ -11,14 +11,12 @@
     4: document.getElementById('page4'),
     5: document.getElementById('page5'),
   };
-  const dots = document.querySelectorAll('.step-dot');
+  const dots = document.querySelectorAll('.dot');
 
-  // Page 1
   const btnYes = document.getElementById('btnYes');
   const btnNo = document.getElementById('btnNo');
   const noMessage = document.getElementById('noMessage');
 
-  // Page 2
   const singerInput = document.getElementById('singerInput');
   const harderOptions = document.getElementById('harderOptions');
   const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
@@ -27,25 +25,15 @@
   const skillOptions = document.getElementById('skillOptions');
   const skillOptionBtns = skillOptions ? skillOptions.querySelectorAll('.harder-option') : [];
   const colorOptions = document.getElementById('colorOptions');
-  const swatches = colorOptions ? colorOptions.querySelectorAll('.luxury-swatch') : [];
+  const swatches = colorOptions.querySelectorAll('.color-swatch');
   const customColorInput = document.getElementById('customColorInput');
   const btnContinue = document.getElementById('btnContinue');
 
-  // Page 3
-  const btnEnjoyYes = document.getElementById('btnEnjoyYes');
-  const btnEnjoyWeird = document.getElementById('btnEnjoyWeird');
-  const popupYes = document.getElementById('popupYes');
-  const popupWeird = document.getElementById('popupWeird');
-  const popupYesNext = document.getElementById('popupYesNext');
-  const popupWeirdNext = document.getElementById('popupWeirdNext');
-
-  // Page 4
   const btnSend = document.getElementById('btnSend');
   const replyInput = document.getElementById('replyInput');
   const thankYouMsg = document.getElementById('thankYouMsg');
   const btnGoToGift = document.getElementById('btnGoToGift');
 
-  // Page 5
   const giftBox = document.getElementById('giftBox');
   const luxuryBox = document.getElementById('luxuryBox');
   const giftPopup = document.getElementById('giftPopup');
@@ -54,112 +42,22 @@
 
   const floatiesLayer = document.getElementById('floaties');
 
+  const btnEnjoyYes   = document.getElementById('btnEnjoyYes');
+  const btnEnjoyWeird = document.getElementById('btnEnjoyWeird');
+  const popupYes      = document.getElementById('popupYes');
+  const popupWeird    = document.getElementById('popupWeird');
+  const popupYesNext  = document.getElementById('popupYesNext');
+  const popupWeirdNext= document.getElementById('popupWeirdNext');
+
   let currentStep = 1;
+  let themeChosen = false;
 
-  /* ==========================================================================
-     STEP NAVIGATION
-     ========================================================================== */
-  function goToStep(stepNumber) {
-    const current = pages[currentStep];
-    const next = pages[stepNumber];
-    if (!next || next === current) return;
-
-    current.classList.remove('show');
-
-    window.setTimeout(() => {
-      current.classList.remove('active');
-      next.classList.add('active');
-      void next.offsetWidth; // Force reflow
-      requestAnimationFrame(() => next.classList.add('show'));
-      currentStep = stepNumber;
-      updateProgress(stepNumber);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 400);
-  }
-
-  function updateProgress(stepNumber) {
-    dots.forEach((dot) => {
-      dot.classList.toggle('active', Number(dot.dataset.step) === stepNumber);
-    });
-  }
-
-  // Clickable progress dots
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      const step = Number(dot.dataset.step);
-      if (step <= currentStep) {
-        goToStep(step);
-      }
-    });
-  });
-
-  /* ==========================================================================
-     PAGE 1: VERIFICATION
-     ========================================================================== */
-  if (btnYes) {
-    btnYes.addEventListener('click', () => goToStep(2));
-  }
-
-  if (btnNo) {
-    btnNo.addEventListener('click', () => {
-      if (noMessage) {
-        noMessage.classList.add('visible');
-      }
-    });
-  }
-
-  /* ==========================================================================
-     PAGE 2: COUNTDOWN & QUIZ
-     ========================================================================== */
-  const bdayDaysEl = document.getElementById('bdayDays');
-  const bdayHoursEl = document.getElementById('bdayHours');
-  const bdayMinsEl = document.getElementById('bdayMins');
-  const bdaySecsEl = document.getElementById('bdaySecs');
-
-  function getNextBirthday() {
-    const now = new Date();
-    let year = now.getFullYear();
-    let bday = new Date(year, 2, 24, 0, 0, 0); // March 24
-    if (now >= bday) {
-      bday = new Date(year + 1, 2, 24, 0, 0, 0);
-    }
-    return bday;
-  }
-
-  function updateBdayCountdown() {
-    const now = new Date();
-    const target = getNextBirthday();
-    const diff = target - now;
-
-    if (diff <= 0) {
-      if (bdayDaysEl) bdayDaysEl.textContent = '✧';
-      if (bdayHoursEl) bdayHoursEl.textContent = '00';
-      if (bdayMinsEl) bdayMinsEl.textContent = '00';
-      if (bdaySecsEl) bdaySecsEl.textContent = '00';
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    if (bdayDaysEl) bdayDaysEl.textContent = String(days).padStart(2, '0');
-    if (bdayHoursEl) bdayHoursEl.textContent = String(hours).padStart(2, '0');
-    if (bdayMinsEl) bdayMinsEl.textContent = String(mins).padStart(2, '0');
-    if (bdaySecsEl) bdaySecsEl.textContent = String(secs).padStart(2, '0');
-  }
-
-  updateBdayCountdown();
-  setInterval(updateBdayCountdown, 1000);
-
-  // Form selections
   function getSelectedColor() {
-    const selected = colorOptions ? colorOptions.querySelector('.luxury-swatch.selected') : null;
-    if (!selected) return null;
-    const key = selected.dataset.color;
+    const selectedSwatch = colorOptions.querySelector('.color-swatch.selected');
+    if (!selectedSwatch) return null;
+    const key = selectedSwatch.dataset.color;
     if (key === 'other') {
-      const val = customColorInput ? customColorInput.value.trim() : '';
+      const val = customColorInput.value.trim();
       return val || null;
     }
     return key;
@@ -183,128 +81,348 @@
     return selected ? selected.dataset.option : null;
   }
 
+  /* Check that every question on page 2 has been answered */
   function allAnswered() {
-    const colour = getSelectedColor();
-    const singer = singerInput ? singerInput.value.trim() : null;
-    const harder = getSelectedHarderOption();
-    const snooze = getSelectedSnoozeOption();
-    const skill = getSelectedSkillOption();
+    const colour   = getSelectedColor();
+    const singer   = singerInput ? singerInput.value.trim() : null;
+    const harder   = getSelectedHarderOption();
+    const snooze   = getSelectedSnoozeOption();
+    const skill    = getSelectedSkillOption();
     return Boolean(colour && singer && harder && snooze && skill);
   }
 
   function refreshContinueBtn() {
-    if (btnContinue) {
-      btnContinue.disabled = !allAnswered();
-    }
+    btnContinue.disabled = !allAnswered();
   }
 
-  // Radio button choice groups
-  function setupChoiceGroup(btnList) {
-    btnList.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        btnList.forEach((b) => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        refreshContinueBtn();
-      });
+  /* ------------------------------------------------------
+     Birthday Countdown — counts down to March 24
+  ------------------------------------------------------ */
+  const bdayDaysEl = document.getElementById('bdayDays');
+  const bdayHoursEl = document.getElementById('bdayHours');
+  const bdayMinsEl = document.getElementById('bdayMins');
+  const bdaySecsEl = document.getElementById('bdaySecs');
+
+  function getNextBirthday() {
+    const now = new Date();
+    let year = now.getFullYear();
+    // March is month 2 (0-indexed)
+    let bday = new Date(year, 2, 24, 0, 0, 0);
+    if (now >= bday) {
+      bday = new Date(year + 1, 2, 24, 0, 0, 0);
+    }
+    return bday;
+  }
+
+  function updateBdayCountdown() {
+    const now = new Date();
+    const target = getNextBirthday();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      if (bdayDaysEl) bdayDaysEl.textContent = '🎉';
+      if (bdayHoursEl) bdayHoursEl.textContent = '00';
+      if (bdayMinsEl) bdayMinsEl.textContent = '00';
+      if (bdaySecsEl) bdaySecsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    if (bdayDaysEl) bdayDaysEl.textContent = String(days).padStart(2, '0');
+    if (bdayHoursEl) bdayHoursEl.textContent = String(hours).padStart(2, '0');
+    if (bdayMinsEl) bdayMinsEl.textContent = String(mins).padStart(2, '0');
+    if (bdaySecsEl) bdaySecsEl.textContent = String(secs).padStart(2, '0');
+  }
+
+  updateBdayCountdown();
+  setInterval(updateBdayCountdown, 1000);
+
+  /* ------------------------------------------------------
+     Step navigation — sequential fade & spring animation
+  ------------------------------------------------------ */
+  function goToStep(stepNumber) {
+    const current = pages[currentStep];
+    const next = pages[stepNumber];
+    if (!next || next === current) return;
+
+    current.classList.remove('show');
+
+    window.setTimeout(() => {
+      current.classList.remove('active');
+      next.classList.add('active');
+      // force reflow so the transition below actually animates
+      void next.offsetWidth;
+      requestAnimationFrame(() => next.classList.add('show'));
+      currentStep = stepNumber;
+      updateProgress(stepNumber);
+    }, 400);
+  }
+
+  function updateProgress(stepNumber) {
+    dots.forEach((dot) => {
+      dot.classList.toggle('active', Number(dot.dataset.step) === stepNumber);
     });
   }
 
-  setupChoiceGroup(harderOptionBtns);
-  setupChoiceGroup(snoozeOptionBtns);
-  setupChoiceGroup(skillOptionBtns);
+  /* ------------------------------------------------------
+     Page 1 — Yes / No with Dodging Physics
+  ------------------------------------------------------ */
+  let noClickCount = 0;
 
-  if (singerInput) {
-    singerInput.addEventListener('input', refreshContinueBtn);
+  function moveNoButton() {
+    const positions = [
+      { x: -95, y: -45, rot: -8 },
+      { x: 95, y: 45, rot: 8 },
+      { x: -80, y: 55, rot: -12 },
+      { x: 85, y: -50, rot: 10 },
+      { x: -115, y: 25, rot: -15 },
+      { x: 110, y: -35, rot: 12 }
+    ];
+    const pos = positions[noClickCount % positions.length];
+
+    btnNo.style.position = 'relative';
+    btnNo.style.transition = 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    btnNo.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${pos.rot}deg)`;
   }
 
-  // Swatches
-  swatches.forEach((swatch) => {
-    swatch.addEventListener('click', () => {
-      swatches.forEach((s) => s.classList.remove('selected'));
-      swatch.classList.add('selected');
+  btnYes.addEventListener('click', () => goToStep(2));
 
-      const colorKey = swatch.dataset.color;
-      if (colorKey === 'other') {
-        if (customColorInput) {
-          customColorInput.classList.remove('hidden');
-          customColorInput.focus();
-        }
-      } else {
-        if (customColorInput) {
-          customColorInput.classList.add('hidden');
-        }
-      }
+  btnNo.addEventListener('click', () => {
+    noClickCount++;
+
+    btnNo.classList.remove('shake');
+    void btnNo.offsetWidth;
+    btnNo.classList.add('shake');
+
+    moveNoButton();
+
+    if (noClickCount >= 2) {
+      noMessage.textContent = 'try again, you are not rudhra please pass it to her 🫡';
+      noMessage.classList.add('visible');
+    }
+  });
+
+  btnNo.addEventListener('animationend', () => btnNo.classList.remove('shake'));
+
+  /* ------------------------------------------------------
+     Page 2 — What's harder & favourite colour
+  ------------------------------------------------------ */
+  harderOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      harderOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
       refreshContinueBtn();
     });
   });
 
-  if (customColorInput) {
-    customColorInput.addEventListener('input', refreshContinueBtn);
-  }
-
-  if (btnContinue) {
-    btnContinue.addEventListener('click', () => {
-      if (!btnContinue.disabled) {
-        goToStep(3);
-      }
+  snoozeOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      snoozeOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      refreshContinueBtn();
     });
+  });
+
+  skillOptionBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      skillOptionBtns.forEach((b) => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      refreshContinueBtn();
+    });
+  });
+
+  // Also re-check when singer text changes
+  if (singerInput) {
+    singerInput.addEventListener('input', refreshContinueBtn);
   }
 
-  /* ==========================================================================
-     PAGE 3: INTERMISSION MODALS
-     ========================================================================== */
-  function showModal(modal) {
-    if (!modal) return;
-    modal.classList.remove('hidden');
-    requestAnimationFrame(() => modal.classList.add('popup-visible'));
+  const presetColors = {
+    pink: '#e2a3b8',
+    blue: '#93b7dc',
+    sandal: '#cbab7c',
+  };
+
+  function isValidColor(value) {
+    return Boolean(value) && CSS.supports('color', value);
   }
 
-  function hideModal(modal, andGoToStep) {
-    if (!modal) return;
-    modal.classList.remove('popup-visible');
-    setTimeout(() => {
-      modal.classList.add('hidden');
-      if (andGoToStep) goToStep(andGoToStep);
-    }, 300);
+  function setAccent(value) {
+    document.documentElement.style.setProperty('--accent', value);
   }
 
-  if (btnEnjoyYes) {
-    btnEnjoyYes.addEventListener('click', () => showModal(popupYes));
+  function selectSwatch(target) {
+    swatches.forEach((s) => s.classList.remove('selected'));
+    target.classList.add('selected');
   }
 
-  if (btnEnjoyWeird) {
-    btnEnjoyWeird.addEventListener('click', () => showModal(popupWeird));
+  swatches.forEach((swatch) => {
+    swatch.addEventListener('click', () => {
+      const key = swatch.dataset.color;
+      selectSwatch(swatch);
+
+      if (key === 'other') {
+        customColorInput.classList.remove('hidden');
+        customColorInput.focus();
+        const typed = customColorInput.value.trim();
+        if (isValidColor(typed)) setAccent(typed);
+      } else {
+        customColorInput.classList.add('hidden');
+        setAccent(presetColors[key]);
+      }
+
+      refreshContinueBtn();
+    });
+  });
+
+  customColorInput.addEventListener('input', () => {
+    const value = customColorInput.value.trim();
+    if (isValidColor(value)) setAccent(value);
+    refreshContinueBtn();
+  });
+
+  btnContinue.addEventListener('click', () => {
+    if (!btnContinue.disabled) goToStep(3);
+  });
+
+  /* ------------------------------------------------------
+     Page 3 — Enjoyment question popups
+  ------------------------------------------------------ */
+  function showPopup(popup) {
+    popup.classList.remove('hidden');
+    // slight delay so CSS transition fires
+    requestAnimationFrame(() => popup.classList.add('popup-visible'));
   }
 
-  if (popupYesNext) {
-    popupYesNext.addEventListener('click', () => hideModal(popupYes, 4));
+  btnEnjoyYes.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupYes);
+  });
+
+  btnEnjoyWeird.addEventListener('click', () => {
+    btnEnjoyYes.disabled   = true;
+    btnEnjoyWeird.disabled = true;
+    showPopup(popupWeird);
+  });
+
+  popupYesNext.addEventListener('click', () => {
+    popupYes.classList.remove('popup-visible');
+    setTimeout(() => { popupYes.classList.add('hidden'); goToStep(4); }, 300);
+  });
+
+  popupWeirdNext.addEventListener('click', () => {
+    popupWeird.classList.remove('popup-visible');
+    setTimeout(() => { popupWeird.classList.add('hidden'); goToStep(4); }, 300);
+  });
+
+  /* ------------------------------------------------------
+     Page 3 — reply & send email + Heart Burst Explosion
+  ------------------------------------------------------ */
+  function triggerHeartExplosion() {
+    const symbols = ['♡', '♥', '✨', '🌸', '💖'];
+    const count = 26;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'confetti-heart';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+      const angle = (i / count) * 360 + (Math.random() * 20 - 10);
+      const distance = 80 + Math.random() * 130;
+      const rad = (angle * Math.PI) / 180;
+      const cx = Math.cos(rad) * distance + 'px';
+      const cy = Math.sin(rad) * distance - 35 + 'px';
+      const crot = (Math.random() * 360 - 180) + 'deg';
+
+      const rect = btnSend.getBoundingClientRect();
+      const startX = rect.left + rect.width / 2;
+      const startY = rect.top + rect.height / 2;
+
+      el.style.left = `${startX}px`;
+      el.style.top = `${startY}px`;
+      el.style.setProperty('--cx', cx);
+      el.style.setProperty('--cy', cy);
+      el.style.setProperty('--crot', crot);
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1400);
+    }
   }
 
-  if (popupWeirdNext) {
-    popupWeirdNext.addEventListener('click', () => hideModal(popupWeird, 4));
+  btnSend.addEventListener('click', async () => {
+    const message = replyInput.value.trim();
+    const singer = singerInput ? singerInput.value.trim() : '';
+    const colour = getSelectedColor();
+    const harderChoice = getSelectedHarderOption();
+    const snoozeChoice = getSelectedSnoozeOption();
+    const skillChoice = getSelectedSkillOption();
+
+    btnSend.disabled = true;
+    btnSend.textContent = 'Sending...';
+
+    // Trigger visual heart burst effect!
+    triggerHeartExplosion();
+
+    try {
+      await fetch('https://formsubmit.co/ajax/nandhakumar8112005@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: 'New message from your website! ❤️',
+          _template: 'table',
+          _captcha: 'false',
+          'Favourite Colour': colour || 'Not specified',
+          'Favourite Singer': singer || 'Not specified',
+          'Whats Harder': harderChoice || 'Not specified',
+          'Snooze Habit': snoozeChoice || 'Not specified',
+          'Instant Skill Pick': skillChoice || 'Not specified',
+          'Her Message': message || '(No message written)'
+        })
+      });
+    } catch (err) {
+      console.error('Error sending email:', err);
+    } finally {
+      btnSend.textContent = 'Sent ❤️';
+      thankYouMsg.classList.add('visible');
+      replyInput.value = '';
+      replyInput.blur();
+      // Highlight the gift button
+      if (btnGoToGift) {
+        btnGoToGift.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  });
+
+  if (btnGoToGift) {
+    btnGoToGift.addEventListener('click', () => goToStep(5));
   }
 
-  /* ==========================================================================
-     PAGE 4: NOTE DISPATCH & PARTICLES
-     ========================================================================== */
-  function triggerGoldParticleBurst(originEl) {
-    const symbols = ['✦', '✧', '✨', '•', '✧'];
-    const count = 24;
+  /* ------------------------------------------------------
+     Page 5 — Luxury White & Pink Gift Box Interactions
+  ------------------------------------------------------ */
+  function triggerGiftSparkleExplosion(originEl) {
+    const symbols = ['✨', '🌸', '💖', '🤍', '⭐', '✨'];
+    const count = 30;
     const rect = originEl.getBoundingClientRect();
     const startX = rect.left + rect.width / 2;
     const startY = rect.top + rect.height / 2;
 
     for (let i = 0; i < count; i++) {
       const el = document.createElement('span');
-      el.className = 'confetti-ember';
+      el.className = 'confetti-heart';
       el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      el.style.color = Math.random() > 0.4 ? '#dfb76c' : '#f5f2eb';
 
       const angle = (i / count) * 360 + (Math.random() * 20 - 10);
-      const distance = 60 + Math.random() * 120;
+      const distance = 90 + Math.random() * 150;
       const rad = (angle * Math.PI) / 180;
       const cx = Math.cos(rad) * distance + 'px';
-      const cy = Math.sin(rad) * distance - 30 + 'px';
+      const cy = Math.sin(rad) * distance - 40 + 'px';
       const crot = (Math.random() * 360 - 180) + 'deg';
 
       el.style.left = `${startX}px`;
@@ -318,65 +436,14 @@
     }
   }
 
-  if (btnSend) {
-    btnSend.addEventListener('click', async () => {
-      const message = replyInput ? replyInput.value.trim() : '';
-      const singer = singerInput ? singerInput.value.trim() : '';
-      const colour = getSelectedColor();
-      const harderChoice = getSelectedHarderOption();
-      const snoozeChoice = getSelectedSnoozeOption();
-      const skillChoice = getSelectedSkillOption();
-
-      btnSend.disabled = true;
-      btnSend.innerHTML = '<span>Sending...</span>';
-
-      triggerGoldParticleBurst(btnSend);
-
-      try {
-        await fetch('https://formsubmit.co/ajax/nandhakumar8112005@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            _subject: 'New letter from Rudhra ✨',
-            _template: 'table',
-            _captcha: 'false',
-            'Signature Shade': colour || 'Not specified',
-            'Favourite Singer': singer || 'Not specified',
-            'Harder Choice': harderChoice || 'Not specified',
-            'Morning Habit': snoozeChoice || 'Not specified',
-            'Gifted Skill Pick': skillChoice || 'Not specified',
-            'Her Personal Message': message || '(No message written)'
-          })
-        });
-      } catch (err) {
-        console.error('Error sending message:', err);
-      } finally {
-        btnSend.innerHTML = '<span>Sent ✦</span>';
-        if (thankYouMsg) thankYouMsg.classList.add('visible');
-        if (replyInput) replyInput.value = '';
-        if (btnGoToGift) {
-          btnGoToGift.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
-    });
-  }
-
-  if (btnGoToGift) {
-    btnGoToGift.addEventListener('click', () => goToStep(5));
-  }
-
-  /* ==========================================================================
-     PAGE 5: LUXURY KEEPSAKE BOX
-     ========================================================================== */
-  function openKeepsake() {
+  function openGiftBox() {
     if (!luxuryBox) return;
 
+    // Trigger open state on box
     luxuryBox.classList.add('is-open');
-    if (giftBox) triggerGoldParticleBurst(giftBox);
+    triggerGiftSparkleExplosion(giftBox);
 
+    // Show popup after slight opening delay
     setTimeout(() => {
       if (giftPopup) {
         giftPopup.classList.remove('hidden');
@@ -385,7 +452,7 @@
     }, 450);
   }
 
-  function closeKeepsake() {
+  function closeGiftPopup() {
     if (!giftPopup) return;
     giftPopup.classList.remove('popup-visible');
     setTimeout(() => {
@@ -395,36 +462,36 @@
   }
 
   if (giftBox) {
-    giftBox.addEventListener('click', openKeepsake);
+    giftBox.addEventListener('click', openGiftBox);
     giftBox.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        openKeepsake();
+        openGiftBox();
       }
     });
   }
 
   if (giftPopupClose) {
-    giftPopupClose.addEventListener('click', closeKeepsake);
+    giftPopupClose.addEventListener('click', closeGiftPopup);
   }
 
   if (giftPopupBackdrop) {
-    giftPopupBackdrop.addEventListener('click', closeKeepsake);
+    giftPopupBackdrop.addEventListener('click', closeGiftPopup);
   }
 
-  /* ==========================================================================
-     PHYSICAL 3D TILT EFFECT ON CARDS
-     ========================================================================== */
-  document.querySelectorAll('.glass-card').forEach((card) => {
+  /* ------------------------------------------------------
+     3D Parallax Tilt Effect on Cards
+  ------------------------------------------------------ */
+  document.querySelectorAll('.card').forEach((card) => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      const tiltX = (y / (rect.height / 2)) * -3.5;
-      const tiltY = (x / (rect.width / 2)) * 3.5;
+      const tiltX = (y / (rect.height / 2)) * -5;
+      const tiltY = (x / (rect.width / 2)) * 5;
 
-      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-2px)`;
+      card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-4px)`;
     });
 
     card.addEventListener('mouseleave', () => {
@@ -432,25 +499,37 @@
     });
   });
 
-  /* ==========================================================================
-     AMBIENT DRIFTING GOLDEN EMBERS
-     ========================================================================== */
-  const MAX_EMBERS = 14;
 
-  function spawnEmber() {
-    if (!floatiesLayer || floatiesLayer.childElementCount >= MAX_EMBERS) return;
 
+  /* ------------------------------------------------------
+     Ambient floating hearts, notes & particles
+  ------------------------------------------------------ */
+  const SYMBOLS = ['♡', '♥', '♪', '♫', 'dot', 'dot'];
+  const MAX_FLOATIES = 16;
+
+  function spawnFloaty() {
+    if (floatiesLayer.childElementCount >= MAX_FLOATIES) return;
+
+    const symbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
     const el = document.createElement('span');
-    el.className = 'stardust-ember';
+
+    const isParticle = symbol === 'dot';
+    el.className = isParticle ? 'floaty particle' : `floaty${symbol === '♪' || symbol === '♫' ? ' note' : ''}`;
+
+    if (!isParticle) {
+      el.textContent = symbol;
+      el.style.fontSize = `${14 + Math.random() * 14}px`;
+    }
 
     const leftPercent = 4 + Math.random() * 92;
-    const duration = 7 + Math.random() * 6;
-    const drift = (Math.random() * 60 - 30).toFixed(0) + 'px';
+    const duration = 9 + Math.random() * 7;
+    const drift = (Math.random() * 80 - 40).toFixed(0) + 'px';
+    const spin = (Math.random() * 50 - 25).toFixed(0) + 'deg';
 
     el.style.left = `${leftPercent}%`;
-    el.style.bottom = '10%';
     el.style.setProperty('--drift', drift);
-    el.style.setProperty('--duration', `${duration}s`);
+    el.style.setProperty('--spin', spin);
+    el.style.animationDuration = `${duration}s`;
 
     el.addEventListener('animationend', () => el.remove());
     floatiesLayer.appendChild(el);
@@ -458,10 +537,9 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!prefersReducedMotion) {
-    for (let i = 0; i < 4; i++) {
-      setTimeout(spawnEmber, i * 600);
+    for (let i = 0; i < 5; i += 1) {
+      window.setTimeout(spawnFloaty, i * 500);
     }
-    setInterval(spawnEmber, 1800);
+    window.setInterval(spawnFloaty, 1600);
   }
-
 })();
