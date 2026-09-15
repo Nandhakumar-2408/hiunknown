@@ -715,6 +715,18 @@ body {
     0 2px 6px rgba(0,0,0,0.15);
 }
 
+.sticky-note-2 {
+  bottom: auto;
+  top: -25px;
+  right: auto;
+  left: -20px;
+  transform: rotate(-3.5deg);
+}
+
+.sticky-note-2:hover {
+  transform: rotate(-1.5deg) translateY(-3px) scale(1.04);
+}
+
 .sticky-text {
   font-family: 'Caveat', cursive;
   font-weight: 600;
