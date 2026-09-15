@@ -18,6 +18,7 @@
   const noMessage = document.getElementById('noMessage');
 
   const singerInput = document.getElementById('singerInput');
+  const movieInput = document.getElementById('movieInput');
   const harderOptions = document.getElementById('harderOptions');
   const harderOptionBtns = harderOptions ? harderOptions.querySelectorAll('.harder-option') : [];
   const snoozeOptions = document.getElementById('snoozeOptions');
@@ -85,10 +86,11 @@
   function allAnswered() {
     const colour   = getSelectedColor();
     const singer   = singerInput ? singerInput.value.trim() : null;
+    const movie    = movieInput ? movieInput.value.trim() : null;
     const harder   = getSelectedHarderOption();
     const snooze   = getSelectedSnoozeOption();
     const skill    = getSelectedSkillOption();
-    return Boolean(colour && singer && harder && snooze && skill);
+    return Boolean(colour && singer && movie && harder && snooze && skill);
   }
 
   function refreshContinueBtn() {
@@ -235,9 +237,12 @@
     });
   });
 
-  // Also re-check when singer text changes
+  // Also re-check when singer or movie text changes
   if (singerInput) {
     singerInput.addEventListener('input', refreshContinueBtn);
+  }
+  if (movieInput) {
+    movieInput.addEventListener('input', refreshContinueBtn);
   }
 
   const presetColors = {
@@ -355,6 +360,7 @@
   btnSend.addEventListener('click', async () => {
     const message = replyInput.value.trim();
     const singer = singerInput ? singerInput.value.trim() : '';
+    const movie = movieInput ? movieInput.value.trim() : '';
     const colour = getSelectedColor();
     const harderChoice = getSelectedHarderOption();
     const snoozeChoice = getSelectedSnoozeOption();
@@ -379,6 +385,7 @@
           _captcha: 'false',
           'Favourite Colour': colour || 'Not specified',
           'Favourite Singer': singer || 'Not specified',
+          'Favourite Movie/Series': movie || 'Not specified',
           'Whats Harder': harderChoice || 'Not specified',
           'Snooze Habit': snoozeChoice || 'Not specified',
           'Instant Skill Pick': skillChoice || 'Not specified',
